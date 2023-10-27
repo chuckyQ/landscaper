@@ -10,6 +10,7 @@ import { JobsComponent } from './components/jobs/jobs.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { CrewsComponent } from './components/crews/crews.component';
 import { UsersComponent } from './components/users/users.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { UsersComponent } from './components/users/users.component';
     JobsComponent,
     TasksComponent,
     CrewsComponent,
-    UsersComponent
+    UsersComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
