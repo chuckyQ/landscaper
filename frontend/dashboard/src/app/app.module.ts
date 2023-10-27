@@ -11,6 +11,11 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { CrewsComponent } from './components/crews/crews.component';
 import { UsersComponent } from './components/users/users.component';
 import { HomeComponent } from './components/home/home.component';
+import { CrewComponent } from './components/crew/crew.component';
+import { JobComponent } from './components/job/job.component';
+import { TaskComponent } from './components/task/task.component';
+import { UserComponent } from './components/user/user.component';
+import { CustomerComponent } from './components/customer/customer.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,12 @@ import { HomeComponent } from './components/home/home.component';
     TasksComponent,
     CrewsComponent,
     UsersComponent,
-    HomeComponent
+    HomeComponent,
+    CrewComponent,
+    JobComponent,
+    TaskComponent,
+    UserComponent,
+    CustomerComponent
   ],
   imports: [
     BrowserModule,
