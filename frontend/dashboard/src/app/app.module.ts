@@ -16,6 +16,8 @@ import { JobComponent } from './components/job/job.component';
 import { TaskComponent } from './components/task/task.component';
 import { UserComponent } from './components/user/user.component';
 import { CustomerComponent } from './components/customer/customer.component';
+import { GroupsComponent } from './components/groups/groups.component';
+import { GroupComponent } from './components/group/group.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { CustomerComponent } from './components/customer/customer.component';
     JobComponent,
     TaskComponent,
     UserComponent,
-    CustomerComponent
+    CustomerComponent,
+    GroupsComponent,
+    GroupComponent
   ],
   imports: [
     BrowserModule,

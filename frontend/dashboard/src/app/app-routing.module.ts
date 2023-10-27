@@ -13,12 +13,16 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { TaskComponent } from './components/task/task.component';
 import { UserComponent } from './components/user/user.component';
 import { UsersComponent } from './components/users/users.component';
+import { GroupsComponent } from './components/groups/groups.component';
+import { GroupComponent } from './components/group/group.component';
 
 const routes: Routes = [
   {path: "crews/:crewID", component: CrewComponent},
   {path: "crews", component: CrewsComponent},
   {path: "customers/:customerID", component: CustomerComponent},
   {path: "customers", component: CustomersComponent},
+  {path: "groups", component: GroupsComponent},
+  {path: "groups/:groupID", component: GroupComponent},
   {path: "", component: HomeComponent},
   {path: "jobs/:jobID", component: JobComponent},
   {path: "jobs", component: JobsComponent},
