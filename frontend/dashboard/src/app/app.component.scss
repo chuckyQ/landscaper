@@ -6,7 +6,9 @@
   font-size: 14pt;
   border-top: var(--bdr);
   border-bottom: var(--bdr);
-  padding: 0.2rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  padding-left: 3rem;
   position: sticky;
   & li {
     padding: 0.35rem;
