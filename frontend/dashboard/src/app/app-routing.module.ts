@@ -24,9 +24,9 @@ const routes: Routes = [
   {path: "jobs", component: JobsComponent},
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
-  {path: "tasks/taskID", component: TaskComponent},
+  {path: "tasks/:taskID", component: TaskComponent},
   {path: "tasks", component: TasksComponent},
-  {path: "users/userID", component: UserComponent},
+  {path: "users/:userID", component: UserComponent},
   {path: "users", component: UsersComponent},
 ];
 
