@@ -2,7 +2,13 @@
 
     <div class="week" *ngFor="let week of weeks">
         <div class="day" *ngFor="let day of week">
-            {{ day | date }}
+            <ng-container *ngIf="day.getDate() === 1">
+                <strong>{{ day | date : 'MMM d' }}</strong>
+            </ng-container>
+            <ng-container *ngIf="day.getDate() !== 1">
+                {{ day.getDate() }}
+            </ng-container>
+
         </div>
     </div>
 </div>
