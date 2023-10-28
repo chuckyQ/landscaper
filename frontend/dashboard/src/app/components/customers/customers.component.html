@@ -1,1 +1,34 @@
-<p>customers works!</p>
+<h1>Customers</h1>
+<div class="create-widget">
+    <input type="button" (click)="createCustomer()" value="Add Customer">
+</div>
+<table class="table">
+    <thead>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Phone Number</th>
+        <th>
+            <!-- Empty -->
+        </th>
+        <th>
+            <!-- Empty -->
+        </th>
+        <th>
+            <!-- Empty -->
+        </th>
+    </thead>
+    <tr *ngFor="let customer of customers">
+        <td>{{ customer.contactName }}</td>
+        <td>{{ customer.address }}</td>
+        <td>{{ customer.phoneNumber }}</td>
+        <td>
+            <!-- Empty -->
+        </td>
+        <td>
+            <!-- Empty -->
+        </td>
+        <td>
+            <!-- Empty -->
+        </td>
+    </tr>
+</table>
