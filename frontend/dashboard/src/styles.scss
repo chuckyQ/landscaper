@@ -78,3 +78,35 @@ textarea:not([rows]) {
 :target {
   scroll-margin-block: 5ex;
 }
+
+// end css reset
+
+h1 {
+
+    font-family: "Segoe UI", "Roboto", "Helvetica Neue";
+    font-weight: 600;
+}
+
+// Common button for creating a widget (Job, Customer, etc.)
+.create-widget {
+  margin-top: 0.2rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  & input {
+      background-color: rgba(0, 0, 255, 0.953);
+      padding: 0.25rem;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      border-radius: 10px;
+      color: white;
+
+      &:hover {
+          background-color: rgba(0, 0, 255, 0.791);
+      }
+
+  }
+
+}
