@@ -1,24 +1,34 @@
 .calendar-area {
     width: 100%;
+    height: 100%;
+    min-height: 100rem;
 }
 
 .week {
     display: grid;
+    --bdr: 1px solid black;
     grid-template-columns: repeat(7, 1fr);
+    border-left: var(--bdr);
+    border-top: var(--bdr);
+    border-right: var(--bdr);
+    height: 8rem;
 
     &:last-of-type {
-        border-bottom: 1px solid black;
+        border-right: var(--bdr);
+        border-bottom: var(--bdr);
     }
 }
 
 .day {
     height: 4rem;
-    width: 4rem;
+    width: 6rem;
     width: 100%;
-    --bdr: 1px solid black;
-    border-left: var(--bdr);
-    border-top: var(--bdr);
+    height: 100%;
+    padding: 0.1rem;
+
+    border-right: var(--bdr);
+
     &:last-of-type {
-        border-right: var(--bdr);
+        border-right: none;
     }
 }
