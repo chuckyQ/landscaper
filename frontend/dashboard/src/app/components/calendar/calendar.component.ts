@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 
 let DAY = 24 * 60 * 60 * 1000 // Milliseconds in a day
 
@@ -53,10 +54,25 @@ function generateDates2() {
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
 
+  movies = [
+    'Episode I - The Phantom Menace',
+    'Episode II - Attack of the Clones',
+    'Episode III - Revenge of the Sith',
+    'Episode IV - A New Hope',
+    'Episode V - The Empire Strikes Back',
+    'Episode VI - Return of the Jedi',
+    'Episode VII - The Force Awakens',
+    'Episode VIII - The Last Jedi',
+    'Episode IX – The Rise of Skywalker',
+  ];
+
+  drop(event: any) {
+    moveItemInArray(this.movies, event.previousIndex, event.currentIndex);
+  }
 
   weeks: Date[][]
   weekdayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]

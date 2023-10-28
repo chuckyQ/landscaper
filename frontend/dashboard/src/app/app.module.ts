@@ -22,6 +22,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';
 import { AddGroupModalComponent } from './components/add-group-modal/add-group-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    CdkDropList,
+    CdkDrag
   ],
   providers: [],
   bootstrap: [AppComponent]
