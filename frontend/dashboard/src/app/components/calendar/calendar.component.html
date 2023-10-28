@@ -8,13 +8,17 @@
 
     <div class="week" *ngFor="let week of weeks">
         <div class="day" *ngFor="let day of week">
-            <ng-container *ngIf="day.getDate() === 1">
+            <!-- <ng-container *ngIf="day.getDate() === 1">
                 <strong>{{ day | date : 'MMM d' }}</strong>
             </ng-container>
             <ng-container *ngIf="day.getDate() !== 1">
                 {{ day.getDate() }}
-            </ng-container>
-
+            </ng-container> -->
+            <div *ngFor="let item of jobMap | keyvalue">
+                <div *ngFor="let job of item.value">
+                    {{ job }}
+                </div>
+              </div>
         </div>
     </div>
 </div>

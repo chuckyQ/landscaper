@@ -61,7 +61,12 @@ export class CalendarComponent implements OnInit {
   weeks: Date[][]
   weekdayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
+  jobMap: Map<string, string[]>
+
   constructor() {
+
+    this.jobMap = new Map<string, string[]>;
+    this.jobMap.set("Oct 23, 2023", ["a", "b", "c"])
 
     this.weeks = generateDates2()
 
