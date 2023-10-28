@@ -1,0 +1,24 @@
+.calendar-area {
+    width: 100%;
+}
+
+.week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+    &:last-of-type {
+        border-bottom: 1px solid black;
+    }
+}
+
+.day {
+    height: 4rem;
+    width: 4rem;
+    width: 100%;
+    --bdr: 1px solid black;
+    border-left: var(--bdr);
+    border-top: var(--bdr);
+    &:last-of-type {
+        border-right: var(--bdr);
+    }
+}
