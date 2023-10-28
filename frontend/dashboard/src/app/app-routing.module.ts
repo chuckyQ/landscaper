@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { CustomersComponent } from './components/customers/customers.component';
 import { CustomerComponent } from './components/customer/customer.component';
-import { CrewComponent } from './components/crew/crew.component';
-import { CrewsComponent } from './components/crews/crews.component';
 import { JobComponent } from './components/job/job.component';
 import { JobsComponent } from './components/jobs/jobs.component';
 import { LoginComponent } from './components/login/login.component';
@@ -17,8 +15,6 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { GroupComponent } from './components/group/group.component';
 
 const routes: Routes = [
-  {path: "crews/:crewID", component: CrewComponent},
-  {path: "crews", component: CrewsComponent},
   {path: "customers/:customerID", component: CustomerComponent},
   {path: "customers", component: CustomersComponent},
   {path: "groups", component: GroupsComponent},
