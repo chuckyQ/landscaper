@@ -110,3 +110,35 @@ h1 {
   }
 
 }
+
+// Field entries for various modals
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-create-btn {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.modal-close-btn {
+  color: red;
+  font-size: 20pt;
+  font-weight: 500;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
