@@ -59,9 +59,9 @@ export class CalendarComponent implements OnInit {
 
 
   weeks: Date[][]
+  weekdayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
   constructor() {
-
 
     this.weeks = generateDates2()
 

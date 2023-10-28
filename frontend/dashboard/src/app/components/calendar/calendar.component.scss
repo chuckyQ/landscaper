@@ -24,11 +24,21 @@
     width: 6rem;
     width: 100%;
     height: 100%;
-    padding: 0.1rem;
+    padding: 0.2rem;
 
     border-right: var(--bdr);
 
     &:last-of-type {
         border-right: none;
     }
+}
+
+.weekday-names {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 0.5rem;
+}
+
+.weekday-name {
+    text-align: center;
 }
