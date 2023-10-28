@@ -20,6 +20,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddCustomerModalComponent } from './components/add-customer-modal/add-customer-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';
+import { AddGroupModalComponent } from './components/add-group-modal/add-group-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AddUserModalComponent } from './components/add-user-modal/add-user-moda
     GroupComponent,
     CalendarComponent,
     AddCustomerModalComponent,
-    AddUserModalComponent
+    AddUserModalComponent,
+    AddGroupModalComponent
   ],
   imports: [
     BrowserModule,
