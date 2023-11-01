@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CreateJobModalComponent } from '../create-job-modal/create-job-modal.component';
 
 @Component({
   selector: 'app-jobs',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JobsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public modal: NgbModal) {
+
+  }
 
   ngOnInit(): void {
+  }
+
+  modalOpen() {
+    this.modal.open(CreateJobModalComponent)
   }
 
 }

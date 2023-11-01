@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 import { CalendarCreateJobModalComponent } from './components/calendar-create-job-modal/calendar-create-job-modal.component';
+import { CreateJobModalComponent } from './components/create-job-modal/create-job-modal.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CalendarCreateJobModalComponent } from './components/calendar-create-jo
     AddUserModalComponent,
     AddGroupModalComponent,
     CalendarDayComponent,
-    CalendarCreateJobModalComponent
+    CalendarCreateJobModalComponent,
+    CreateJobModalComponent
   ],
   imports: [
     BrowserModule,
