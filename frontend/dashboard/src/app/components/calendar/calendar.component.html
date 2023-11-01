@@ -1,4 +1,5 @@
-<div class="calendar-area">
+<!-- See here for info about connecting all lists together -->
+<div cdkDropListGroup class="calendar-area">
 
     <div class="weekday-names">
         <div class="weekday-name" *ngFor="let weekdayName of weekdayNames">
@@ -6,8 +7,16 @@
         </div>
     </div>
 
-    <div class="week" *ngFor="let week of weeks">
-        <div class="day" *ngFor="let day of week">
+    <div class="days">
+        <ng-container *ngFor="let day of days">
+
+        <div class="day"
+            (dragstart)="startDragging($event, day, ''); dragging = true;"
+            (dragover)="dragOver($event, day); dragging = true;"
+            (dragend)="dragDrop($event, day); dragging = false;"
+            (mouseenter)="hoverOver($event, day)"
+            [attr.date]="day.toISOString().split('T')[0]"
+            >
             <div class="day-date">
                 <ng-container *ngIf="day.getDate() === 1">
                     <strong>{{ day | date : 'MMM d' }}</strong>
@@ -16,11 +25,17 @@
                     {{ day.getDate() }}
                 </ng-container>
             </div>
-            <div class="day-jobs">
-                <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-                    <div class="example-box" *ngFor="let movie of movies" cdkDrag>{{movie}}</div>
+            <ng-container *ngFor="let job of getJobs(day);">
+                <div
+                    draggable="true"
+                    [attr.date]="day.toISOString().split('T')[0]"
+                    [attr.jobID]="job"
+                    class="example-box"
+                    >
+                    {{ day.toISOString() }}
                 </div>
-            </div>
+        </ng-container>
         </div>
+        </ng-container>
     </div>
 </div>

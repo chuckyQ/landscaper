@@ -4,42 +4,53 @@
     min-height: 100rem;
 }
 
-.week {
+.days {
     display: grid;
+    grid-auto-flow: row;
     --bdr: 1px solid black;
     grid-template-columns: repeat(7, 1fr);
     border-left: var(--bdr);
     border-top: var(--bdr);
     border-right: var(--bdr);
-    height: 8rem;
+    min-height: 100vh;
 
-    &:last-of-type {
-        border-right: var(--bdr);
-        border-bottom: var(--bdr);
-    }
+
 }
 
 .day {
     width: 100%;
-    height: 100%;
+    min-height: 4rem;
     border-right: var(--bdr);
     overflow: hidden;
+    border-bottom: var(--bdr);
 
     &:last-of-type {
         border-right: none;
     }
+
+    &:hover {
+      background-color: rgba(0, 0, 255, 0.178);
+    }
+
+    &:last-of-type {
+      border-right: var(--bdr);
+      border-bottom: var(--bdr);
+  }
 }
 
 .day-date {
   height: 30%;
+  margin-top: 0.25rem;
+  margin-left: 0.5rem;
 }
 
 .day-jobs {
-  overflow-y: hidden;
+  overflow-y: scroll;
   height: 70%;
   width: 100%;
   display: flex;
   flex-direction: column;
+
 }
 
 .weekday-names {
@@ -60,8 +71,8 @@
     padding: 0;
     background: white;
     border-radius: 4px;
-    overflow: scroll;
     height: 6rem;
+
   }
 
   .example-box {
@@ -76,7 +87,11 @@
     cursor: move;
     background: white;
     font-size: 10px;
-    width: 100%;
+    width: 12.5rem;
+    position: relative;
+    overflow-x: none;
+    background-color: blue;
+
   }
 
   .cdk-drag-preview {
