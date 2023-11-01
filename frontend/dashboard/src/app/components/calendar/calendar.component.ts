@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { from } from 'rxjs';
 import { CalendarCreateJobModalComponent } from '../calendar-create-job-modal/calendar-create-job-modal.component';
 
 
