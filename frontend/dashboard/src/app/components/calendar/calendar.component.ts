@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { from } from 'rxjs';
+import { CalendarCreateJobModalComponent } from '../calendar-create-job-modal/calendar-create-job-modal.component';
 
 
 function generateDates2() {
@@ -50,7 +52,7 @@ export class CalendarComponent implements OnInit {
 
   dragging: boolean
 
-  constructor() {
+  constructor(public modal: NgbModal) {
 
     this.jobMap = new Map<string, string[]>;
     this.jobIDs = new Map<string, string>;
@@ -86,6 +88,14 @@ export class CalendarComponent implements OnInit {
 
   swapJob(toDate: string, fromDate: string, jobID: string) {
 
+    if(!this.dragging) {
+      return
+    }
+
+    if(jobID === null) {
+      return
+    }
+
     // Add to the new date and check if it has an array already
     if(this.jobMap.has(toDate)) {
       let arr = this.jobMap.get(toDate)
@@ -98,7 +108,6 @@ export class CalendarComponent implements OnInit {
     // Remove from the previous date array
     let arr = this.jobMap.get(fromDate)
     arr!.splice(arr!.indexOf(jobID), 1)
-    console.log(arr)
     this.jobMap.set(fromDate, arr as string[])
 
   }
@@ -117,6 +126,10 @@ export class CalendarComponent implements OnInit {
   }
 
   dragDrop(event: any, dt: Date) {
+
+    if(!this.dragging) {
+      return
+    }
 
     if(this.clickedDate === null) {
       return
@@ -141,6 +154,8 @@ export class CalendarComponent implements OnInit {
 
   stopHover(event: any, dt: Date) {
     this.clickedDate = null
+    this.destinationDate = null
+    this.dragging = false
   }
 
   getJobs(dt: Date) {
@@ -220,5 +235,18 @@ export class CalendarComponent implements OnInit {
     this.destinationDate = event.getAttribute("date")
 
   }
+
+  openModal(dt: Date, jobs: string[] | undefined) {
+    let m = this.modal.open(CalendarCreateJobModalComponent)
+    m.componentInstance.dt = dt
+
+    if(jobs === undefined) {
+      jobs = []
+    }
+
+    m.componentInstance.jobs = jobs
+  }
+
+
 
 }
