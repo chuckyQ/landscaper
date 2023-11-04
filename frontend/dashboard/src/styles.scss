@@ -144,3 +144,10 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+// Used for showing the user profile image
+.user-img {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+}
