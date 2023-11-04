@@ -28,10 +28,6 @@
     background-color: rgba(24, 166, 255, 0.375);
     padding-bottom: 1rem;
 
-    &:last-of-type {
-
-    }
-
     grid-column: 1 / 2;
 }
 
@@ -41,6 +37,12 @@
     border-top: var(--bdr);
     border-left: var(--bdr);
     border-right: var(--bdr);
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(241, 241, 241);
+    }
+
     &:first-of-type {
         border-top: none;
     }
