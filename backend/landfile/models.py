@@ -297,50 +297,6 @@ class Task(db.Model):
         }
 
 
-class Note(db.Model):
-
-    id: int = db.Column(db.Integer)
-    note_id: str = db.Column(db.String)
-    text: str = db.Column(db.String)
-
-    timestamp: float = db.Column(db.Float)
-
-    # User attributes
-    written_by: str = db.Column(db.String)
-    written_by_id: int = db.Column(db.Integer)
-
-    job_id: int = db.Column(db.Integer, db.ForeignKey('jobs.id'))
-    job: Job = db.relationship('Job', backref='notes')
-
-
-    def __init__(self, text: str, written_by: str, written_by_id: int, job_id: int):
-
-        self.note_id = 'note_' + gen_id()
-        self.text = text
-        self.written_by = written_by
-        self.written_by_id = written_by_id
-        self.job_id = job_id
-        self.timestamp = time()
-
-
-    def json(self):
-
-        return {
-            'id' : self.id,
-            'text' : self.text,
-            'writtenBy' : self.written_by,
-            'writtenById' : self.written_by_id,
-            'timestamp' : self.timestamp,
-            'jobId' : self.job_id,
-        }
-
-
-    def save(self):
-
-        db.session.add(self)
-        db.session.commit()
-
-
 def create_account(username: str, password: str, email: str):
 
     a = Account(primary_email=email)
