@@ -1,10 +1,17 @@
-<!-- See here for info about connecting all lists together -->
-<div class="angle-btns">
-    <!-- Icons found here: https://www.toptal.com/designers/htmlarrows/ -->
-   <input type="button" class="angle" (click)="shiftBack()" value="&#8249;"><input type="button" (click)="shiftForward()" class="angle" value="&#8250;">
-</div>
-<div cdkDropListGroup class="calendar-area">
-
+<div class="calendar-area">
+    <div class="angle-btns">
+        <!-- Icons found here: https://www.toptal.com/designers/htmlarrows/ -->
+       <input
+            type="button"
+            class="angle"
+            (click)="shiftBack()"
+            value="&#8249;">
+        <input
+            type="button"
+            (click)="shiftForward()"
+            class="angle"
+            value="&#8250;">
+    </div>
     <div class="current-year">
        {{displayedMonth | date: 'MMM' }} {{ currentYear }}
     </div>
