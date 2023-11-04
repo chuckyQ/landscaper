@@ -3,3 +3,14 @@
 <div class="create-widget">
     <input type="button" (click)="addGroup()" value="Add Group">
 </div>
+
+<table class="table">
+    <thead>
+        <th>Name</th>
+        <th>Description</th>
+    </thead>
+    <tr class="group" *ngFor="let group of groups">
+        <td>{{ group.name }}</td>
+        <td>{{ group.description }}</td>
+    </tr>
+</table>
