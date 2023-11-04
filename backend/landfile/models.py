@@ -126,7 +126,7 @@ class Customer(db.Model):
     __tablename__ = 'customers'
 
     id: int = db.Column(db.Integer, primary_key=True)
-    cust_id: str = db.Column(db.String)
+    cust_id: str = db.Column(db.String, unique=True)
 
     # An address is unique, but it could be used
     # across multiple accounts
