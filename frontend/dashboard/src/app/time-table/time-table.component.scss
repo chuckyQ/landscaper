@@ -1,0 +1,63 @@
+* {
+    // https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                            supported by Chrome, Edge, Opera and Firefox */
+}
+
+.timeslots {
+
+    display: grid;
+    border-left: 1px solid black;
+    grid-template-columns: repeat(20, 1fr);
+    grid-auto-flow: column;
+}
+
+.timeslot {
+    width: 100%;
+    min-width: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-bottom: none;
+    background-color: rgba(24, 166, 255, 0.375);
+    padding-bottom: 1rem;
+
+    &:last-of-type {
+
+    }
+
+    grid-column: 1 / 2;
+}
+
+.event {
+    --bdr: 1px solid black;
+    background-color: rgba(157, 157, 157, 0.506);
+    border-top: var(--bdr);
+    border-left: var(--bdr);
+    border-right: var(--bdr);
+    &:first-of-type {
+        border-top: none;
+    }
+
+    &:last-of-type {
+        border-bottom: var(--bdr);
+    }
+
+    grid-column: 2 / 20;
+}
+
+// .timeslot, .event{
+//     height: 2rem;
+// }
+
+.event-created {
+    color: white;
+    border: 3px solid blue;
+    height: 100%;
+}

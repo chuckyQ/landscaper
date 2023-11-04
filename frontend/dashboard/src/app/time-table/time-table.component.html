@@ -1,0 +1,17 @@
+<div class="timeslots">
+    <ng-container *ngFor="let timeslot of timeslots">
+
+        <div class="timeslot">
+            {{ timeslot.time }}
+        </div>
+        <div [id]="timeslot.time"
+            [style.grid-row]=""
+            class="event"
+            (mousedown)="createEvent($event, timeslot)"
+            (mouseup)="stretchEvent($event)"
+            [class.event-created]="timeslot.hasEvent">
+            Text
+        </div>
+
+    </ng-container>
+</div>
