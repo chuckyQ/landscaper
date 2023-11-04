@@ -3,20 +3,16 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarCreateJobModalComponent } from '../calendar-create-job-modal/calendar-create-job-modal.component';
 
 
-function generateDates2() {
+function generateDates2(startYear: number, startMonth: number) {
 
-  // Get first day of month (day of week)
-  let today = new Date()
-  let startYear = today.getFullYear()
-  let startMonth = today.getMonth()
   let monthStartDate = new Date(startYear, startMonth, 1)
 
   let dates: Date[] = []
   let monthStartDay = monthStartDate.getDay()
   // Add in the previous month's days to fill the first week
   let numOfPrevMonthDays = monthStartDay
-  for(let i = numOfPrevMonthDays - 1; i > 0; i--) {
-    let d = new Date(startYear, startMonth, numOfPrevMonthDays - i)
+  for(let i = numOfPrevMonthDays - 1; i >= 0; i--) {
+    let d = new Date(startYear, startMonth, - i)
     dates.push(d)
   }
 
@@ -48,7 +44,10 @@ export class CalendarComponent implements OnInit {
 
   destinationDate: string | null
   days: Date[]
+  displayedMonth: Date
 
+  currentMonth: number
+  currentYear: number
   dragging: boolean
 
   constructor(public modal: NgbModal) {
@@ -60,6 +59,11 @@ export class CalendarComponent implements OnInit {
     this.clickedDate = null
     this.destinationDate = null
 
+    let today = new Date()
+    this.currentMonth = today.getMonth()
+    this.currentYear = today.getFullYear()
+    this.displayedMonth = today
+
     this.jobIDs.set("a", "123456")
     this.jobIDs.set("b", "10203040")
 
@@ -67,11 +71,15 @@ export class CalendarComponent implements OnInit {
     this.jobMap.set("2023-10-24", [])
     this.jobMap.set("2023-10-25", [])
 
-    this.days = generateDates2()
+    this.days = generateDates2(today.getFullYear(), today.getMonth())
 
     this.dragging = false
   }
 
+
+  ngOnInit(): void {
+
+  }
 
   getJobList(dt: Date) {
     let d = dt.toISOString()
@@ -111,8 +119,6 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-  }
 
   startDragging(event: any, dt: Date, jobID: string) {
     event.target.style.position = "absolute"
@@ -246,6 +252,34 @@ export class CalendarComponent implements OnInit {
     m.componentInstance.jobs = jobs
   }
 
+  shiftBack() {
+    this.currentMonth -= 1
 
+    if(this.currentMonth === 0) {
+      this.currentMonth = 11
+      this.currentYear -= 1
+    }
+
+    this.days = generateDates2(this.currentYear, this.currentMonth)
+
+    let d = this.days[15]
+    this.currentYear = d.getFullYear()
+    this.displayedMonth = d
+
+  }
+
+  shiftForward() {
+    this.currentMonth += 1
+
+    if(this.currentMonth > 11) {
+      this.currentMonth = 1
+      this.currentYear += 1
+    }
+
+    this.days = generateDates2(this.currentYear, this.currentMonth)
+    let d = this.days[15]
+    this.currentYear = d.getFullYear()
+    this.displayedMonth = d
+  }
 
 }

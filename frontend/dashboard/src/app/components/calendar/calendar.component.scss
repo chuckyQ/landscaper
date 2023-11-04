@@ -117,3 +117,21 @@
   .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
+
+.angle {
+  background-color: white;
+  border: none;
+  font-size: 28pt;
+  padding: 0.5rem;
+}
+
+.angle-btns {
+  display: flex;
+  gap: 1rem;
+}
+
+.current-year {
+  text-align: center;
+  font-size: 25pt;
+  margin-bottom: 2rem;
+}
