@@ -14,14 +14,14 @@ group_table = db.Table(
     db.Column('group_id', db.Integer, db.ForeignKey('groups.id')),
 )
 
-crew_lead = db.Table(
-    'crew_leads',
+group_lead = db.Table(
+    'group_leads',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
     db.Column('group_id', db.Integer(), db.ForeignKey('groups.id')),
 )
 
 job_table = db.Table(
-    'crew_jobs',
+    'group_jobs',
     db.Column('group_id', db.Integer(), db.ForeignKey('groups.id')),
     db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
 )
@@ -167,8 +167,8 @@ class User(db.Model):
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
 
     account: Account = db.relationship('Account', backref='members')
-    crew_leads: t.List['Group'] = db.relationship('Group', secondary=group_table, back_populates='leads')
-    groups: t.List['Group']  = db.relationship('Group', secondary=crew_lead, back_populates='members')
+    group_leads: t.List['Group'] = db.relationship('Group', secondary=group_table, back_populates='leads')
+    groups: t.List['Group']  = db.relationship('Group', secondary=group_lead, back_populates='members')
     _account: Account = db.relationship('Account', backref='admins')
 
 
@@ -209,7 +209,7 @@ class Group(db.Model):
 
     account: Account = db.relationship('Account', backref='groups')
     jobs: t.List['Job'] = db.relationship('Group', secondary=job_table, back_populates='groups')
-    leads: t.List['User'] = db.relationship('User', secondary=crew_lead, back_populates='crew_leads')
+    leads: t.List['User'] = db.relationship('User', secondary=group_lead, back_populates='group_leads')
     members: t.List['User'] = db.relationship('User', secondary=group_table, back_populates='groups')
 
 
@@ -217,7 +217,7 @@ class Group(db.Model):
 
         self.name = name
         self.account_id = account_id
-        self.user_id = 'crew_' + gen_id()
+        self.user_id = 'group_' + gen_id()
 
 
     def save(self):
