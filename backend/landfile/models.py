@@ -8,21 +8,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-crew_table = db.Table(
-    'crew_members',
+group_table = db.Table(
+    'group_members',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('crew_id', db.Integer, db.ForeignKey('crews.id')),
+    db.Column('group_id', db.Integer, db.ForeignKey('groups.id')),
 )
 
 crew_lead = db.Table(
     'crew_leads',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
-    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
+    db.Column('group_id', db.Integer(), db.ForeignKey('groups.id')),
 )
 
 job_table = db.Table(
     'crew_jobs',
-    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
+    db.Column('group_id', db.Integer(), db.ForeignKey('groups.id')),
     db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
 )
 
@@ -99,9 +99,9 @@ class Account(db.Model):
         return u
 
 
-    def add_crew(self, name: str):
+    def add_group(self, name: str):
 
-        c = Crew(name=name, account_id=self.id)
+        c = Group(name=name, account_id=self.id)
         c.save()
         return c
 
@@ -167,8 +167,8 @@ class User(db.Model):
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
 
     account: Account = db.relationship('Account', backref='members')
-    crew_leads: t.List['Crew'] = db.relationship('Crew', secondary=crew_table, back_populates='leads')
-    crews: t.List['Crew']  = db.relationship('Crew', secondary=crew_lead, back_populates='members')
+    crew_leads: t.List['Group'] = db.relationship('Group', secondary=group_table, back_populates='leads')
+    groups: t.List['Group']  = db.relationship('Group', secondary=crew_lead, back_populates='members')
     _account: Account = db.relationship('Account', backref='admins')
 
 
@@ -197,20 +197,20 @@ class User(db.Model):
         return self in self.account.admins
 
 
-class Crew(db.Model):
+class Group(db.Model):
 
-    __tablename__ = 'crews'
+    __tablename__ = 'groups'
 
     id: int = db.Column(db.Integer, primary_key=True)
-    crew_id: str = db.Column(db.String, index=True)
+    group_id: str = db.Column(db.String, index=True)
 
     name: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer)
 
-    account: Account = db.relationship('Account', backref='crews')
-    jobs: t.List['Job'] = db.relationship('Crew', secondary=job_table, back_populates='crews')
+    account: Account = db.relationship('Account', backref='groups')
+    jobs: t.List['Job'] = db.relationship('Group', secondary=job_table, back_populates='groups')
     leads: t.List['User'] = db.relationship('User', secondary=crew_lead, back_populates='crew_leads')
-    members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crews')
+    members: t.List['User'] = db.relationship('User', secondary=group_table, back_populates='groups')
 
 
     def __init__(self, name: str, account_id: int):
@@ -240,7 +240,7 @@ class Job(db.Model):
     last_updated_timestamp: float = db.Column(db.Float)
 
     account = db.relationship('Account', backref='jobs')
-    crews: t.List[Crew] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
+    groups: t.List[Group] = db.relationship('Group', secondary=job_table, back_populates='jobs')
 
 
     def __init__(self, name: str, account_id: int, work_date_timestamp: float):
