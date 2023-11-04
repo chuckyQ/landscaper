@@ -23,7 +23,6 @@ import { AddUserModalComponent } from './components/add-user-modal/add-user-moda
 import { AddGroupModalComponent } from './components/add-group-modal/add-group-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
-import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 import { CalendarCreateJobModalComponent } from './components/calendar-create-job-modal/calendar-create-job-modal.component';
 import { CreateJobModalComponent } from './components/create-job-modal/create-job-modal.component';
 
@@ -47,7 +46,6 @@ import { CreateJobModalComponent } from './components/create-job-modal/create-jo
     AddCustomerModalComponent,
     AddUserModalComponent,
     AddGroupModalComponent,
-    CalendarDayComponent,
     CalendarCreateJobModalComponent,
     CreateJobModalComponent
   ],
