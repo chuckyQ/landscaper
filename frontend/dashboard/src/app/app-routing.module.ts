@@ -11,7 +11,7 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { TaskComponent } from './components/task/task.component';
 import { UserComponent } from './components/user/user.component';
 import { UsersComponent } from './components/users/users.component';
-import { GroupsComponent } from './components/groups/groups.component';
+import { CrewsComponent } from './components/crews/crews.component';
 import { GroupComponent } from './components/group/group.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
@@ -21,8 +21,8 @@ const routes: Routes = [
   {path: "calendar/:year/:month/:day", component: CalendarDayComponent},
   {path: "customers/:customerID", component: CustomerComponent},
   {path: "customers", component: CustomersComponent},
-  {path: "groups", component: GroupsComponent},
-  {path: "groups/:groupID", component: GroupComponent},
+  {path: "crews", component: CrewsComponent},
+  {path: "crews/:groupID", component: GroupComponent},
   {path: "", component: HomeComponent},
   {path: "jobs/:jobID", component: JobComponent},
   {path: "jobs", component: JobsComponent},

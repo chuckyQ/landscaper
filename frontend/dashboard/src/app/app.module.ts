@@ -14,13 +14,13 @@ import { JobComponent } from './components/job/job.component';
 import { TaskComponent } from './components/task/task.component';
 import { UserComponent } from './components/user/user.component';
 import { CustomerComponent } from './components/customer/customer.component';
-import { GroupsComponent } from './components/groups/groups.component';
+import { CrewsComponent } from './components/crews/crews.component';
 import { GroupComponent } from './components/group/group.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddCustomerModalComponent } from './components/add-customer-modal/add-customer-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';
-import { AddGroupModalComponent } from './components/add-group-modal/add-group-modal.component';
+import { AddCrewModalComponent } from './components/add-crew-modal/add-crew-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { CalendarCreateJobModalComponent } from './components/calendar-create-job-modal/calendar-create-job-modal.component';
@@ -42,12 +42,12 @@ import { CalendarDayComponent } from './components/calendar-day/calendar-day.com
     TaskComponent,
     UserComponent,
     CustomerComponent,
-    GroupsComponent,
+    CrewsComponent,
     GroupComponent,
     CalendarComponent,
     AddCustomerModalComponent,
     AddUserModalComponent,
-    AddGroupModalComponent,
+    AddCrewModalComponent,
     CalendarCreateJobModalComponent,
     CreateJobModalComponent,
     TimeTableModalComponent,

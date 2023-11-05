@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddGroupModalComponent } from '../add-group-modal/add-group-modal.component';
+import { AddCrewModalComponent } from '../add-crew-modal/add-crew-modal.component';
 
 interface Member {
   id: number
@@ -9,7 +9,7 @@ interface Member {
   email: string
 }
 
-interface Group {
+interface Crew {
   id: number
   groupID: string
   name: string
@@ -18,17 +18,17 @@ interface Group {
 }
 
 @Component({
-  selector: 'app-groups',
-  templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss']
+  selector: 'app-crews',
+  templateUrl: './crews.component.html',
+  styleUrls: ['./crews.component.scss']
 })
-export class GroupsComponent implements OnInit {
+export class CrewsComponent implements OnInit {
 
-  groups: Group[]
+  groups: Crew[]
 
   constructor(public modal: NgbModal) {
 
-    let g: Group = {
+    let g: Crew = {
       id: 1,
       groupID: "group_asdfjasdfadsf",
       name: "Tree Trimming",
@@ -82,7 +82,7 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addGroup() {
-    this.modal.open(AddGroupModalComponent)
+  addCrew() {
+    this.modal.open(AddCrewModalComponent)
   }
 }
