@@ -7,11 +7,9 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { CustomersComponent } from './components/customers/customers.component';
 import { JobsComponent } from './components/jobs/jobs.component';
-import { TasksComponent } from './components/tasks/tasks.component';
 import { UsersComponent } from './components/users/users.component';
 import { HomeComponent } from './components/home/home.component';
 import { JobComponent } from './components/job/job.component';
-import { TaskComponent } from './components/task/task.component';
 import { UserComponent } from './components/user/user.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { CrewsComponent } from './components/crews/crews.component';
@@ -35,11 +33,9 @@ import { CalendarDayComponent } from './components/calendar-day/calendar-day.com
     RegisterComponent,
     CustomersComponent,
     JobsComponent,
-    TasksComponent,
     UsersComponent,
     HomeComponent,
     JobComponent,
-    TaskComponent,
     UserComponent,
     CustomerComponent,
     CrewsComponent,
