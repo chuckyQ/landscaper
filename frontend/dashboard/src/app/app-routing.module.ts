@@ -13,6 +13,7 @@ import { CrewsComponent } from './components/crews/crews.component';
 import { GroupComponent } from './components/group/group.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
+import { WorkImagesComponent } from './components/work-images/work-images.component';
 
 const routes: Routes = [
   {path: "calendar", component: CalendarComponent},
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: "register", component: RegisterComponent},
   {path: "users/:userID", component: UserComponent},
   {path: "users", component: UsersComponent},
+  {path: "work", component: WorkImagesComponent},
 ];
 
 @NgModule({

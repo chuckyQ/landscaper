@@ -24,6 +24,7 @@ import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { CreateJobModalComponent } from './components/create-job-modal/create-job-modal.component';
 import { TimeTableModalComponent } from './time-table-modal/time-table-modal.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
+import { WorkImagesComponent } from './components/work-images/work-images.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { CalendarDayComponent } from './components/calendar-day/calendar-day.com
     AddCrewModalComponent,
     CreateJobModalComponent,
     TimeTableModalComponent,
-    CalendarDayComponent
+    CalendarDayComponent,
+    WorkImagesComponent
   ],
   imports: [
     BrowserModule,
