@@ -31,7 +31,7 @@
             (dragend)="dragDrop($event, day); dragging = false;"
             (mouseenter)="hoverOver($event, day)"
             (mouseleave)="stopHover($event, day)"
-            (dblclick)="openModal(day, getJobs(day))"
+            (dblclick)="goToDay(day)"
             [attr.date]="day.toISOString().split('T')[0]"
             >
             <div class="day-date">

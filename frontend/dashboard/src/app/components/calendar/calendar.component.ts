@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarCreateJobModalComponent } from '../calendar-create-job-modal/calendar-create-job-modal.component';
+import { Router } from '@angular/router';
 
 
 function generateDates2(startYear: number, startMonth: number) {
@@ -50,7 +51,7 @@ export class CalendarComponent implements OnInit {
   currentYear: number
   dragging: boolean
 
-  constructor(public modal: NgbModal) {
+  constructor(public modal: NgbModal, public router: Router) {
 
     this.jobMap = new Map<string, string[]>;
     this.jobIDs = new Map<string, string>;
@@ -280,6 +281,12 @@ export class CalendarComponent implements OnInit {
     let d = this.days[15]
     this.currentYear = d.getFullYear()
     this.displayedMonth = d
+  }
+
+  goToDay(dt: Date) {
+    // Months are zero-based and we want to be one based
+    let month = dt.getMonth() + 1
+    this.router.navigate(['calendar', dt.getFullYear(), month, dt.getDate()])
   }
 
 }
