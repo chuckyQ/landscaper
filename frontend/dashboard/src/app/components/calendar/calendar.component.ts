@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarCreateJobModalComponent } from '../calendar-create-job-modal/calendar-create-job-modal.component';
 import { Router } from '@angular/router';
 
 
@@ -242,16 +241,6 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  openModal(dt: Date, jobs: string[] | undefined) {
-    let m = this.modal.open(CalendarCreateJobModalComponent)
-    m.componentInstance.dt = dt
-
-    if(jobs === undefined) {
-      jobs = []
-    }
-
-    m.componentInstance.jobs = jobs
-  }
 
   shiftBack() {
     this.currentMonth -= 1
