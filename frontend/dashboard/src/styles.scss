@@ -151,3 +151,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   height: 5rem;
   border-radius: 50%;
 }
+
+// Used for all of the red X's on the modals
+.red-x {
+  color: red;
+  font-size: 22pt;
+  &:hover {
+    cursor: pointer;
+  }
+}
