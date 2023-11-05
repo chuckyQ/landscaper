@@ -10,11 +10,12 @@
 }
 
 .timeslots {
-
     display: grid;
     border-left: 1px solid black;
     grid-template-columns: repeat(20, 1fr);
     grid-auto-flow: column;
+    overflow-y: scroll;
+    max-height: 50vh;
 }
 
 .timeslot {
@@ -51,7 +52,7 @@
         border-bottom: var(--bdr);
     }
 
-    grid-column: 2 / 20;
+    grid-column: 2 / 21;
 }
 
 // .timeslot, .event{
