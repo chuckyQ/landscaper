@@ -34,12 +34,14 @@ export class CalendarDayComponent {
   year: number | null
   month: number | null
   day: number | null
+  date: string
 
   constructor(public modal: NgbModal, public ar: ActivatedRoute) {
 
     this.dragStartSlot = -1
     this.dragEndSlot = -1
     this.timeslots = []
+    this.date = ""
 
     this.timeArray = [
         "00:00",
@@ -108,8 +110,8 @@ export class CalendarDayComponent {
     this.month = +month
     this.day = +day
 
+    this.date = `${year}-${zfill(this.month)}-${zfill(this.day)}T00:00:00`
 
-    var dayString = ""
     for(let i = 0; i < this.timeArray.length; i++) {
 
       let d = zfill(this.day)
@@ -146,7 +148,8 @@ export class CalendarDayComponent {
   scheduleTask(time: string) {
 
     let m = this.modal.open(TimeTableModalComponent)
-    m.componentInstance.date = `${this.year}-${this.month}-${this.day}`
+    let dt = `${this.year}-${zfill(this.month as number)}-${zfill(this.day as number)}T00:00:00`
+    m.componentInstance.date = dt
     m.componentInstance.time = time
   }
 
