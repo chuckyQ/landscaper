@@ -1,2 +1,18 @@
-<input type="file" accept="image/*;capture=camera">
-<video id="video"></video>
+<div class="layout">
+    <video id="video"></video>
+    <div class="inputs">
+        <input (click)="takePicture()" type="button" value="">
+    </div>
+    <canvas  id="canvas" style="width: 1px; height: 1px;" class="canvas"></canvas>
+    <div class="image-area">
+        <ng-container *ngFor="let image of images; index as i">
+            <div class="img-area">
+                <img  [src]="image.data">
+                <div (click)="removeImage(i)" class="red-x">
+                    x
+                </div>
+            </div>
+
+        </ng-container>
+    </div>
+</div>
