@@ -13,8 +13,12 @@ import { UserComponent } from './components/user/user.component';
 import { UsersComponent } from './components/users/users.component';
 import { GroupsComponent } from './components/groups/groups.component';
 import { GroupComponent } from './components/group/group.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 
 const routes: Routes = [
+  {path: "calendar", component: CalendarComponent},
+  {path: "calendar/:year/:month/:day", component: CalendarDayComponent},
   {path: "customers/:customerID", component: CustomerComponent},
   {path: "customers", component: CustomersComponent},
   {path: "groups", component: GroupsComponent},

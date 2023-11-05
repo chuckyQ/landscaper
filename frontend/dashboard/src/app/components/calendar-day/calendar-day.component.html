@@ -5,12 +5,10 @@
             {{ timeslot.time }}
         </div>
         <div [id]="timeslot.time"
-            [style.grid-row]=""
             class="event"
-            (mousedown)="createEvent($event, timeslot)"
-            (mouseup)="stretchEvent($event)"
+            (dblclick)="scheduleTask(timeslot.time, '2023-11-04')"
             [class.event-created]="timeslot.hasEvent">
-            Text
+
         </div>
 
     </ng-container>
