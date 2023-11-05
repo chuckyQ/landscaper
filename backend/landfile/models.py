@@ -26,12 +26,6 @@ job_table = db.Table(
     db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
 )
 
-task_table = db.Table(
-    'task_table',
-    db.Column('task_id', db.Integer(), db.ForeignKey('tasks.id')),
-    db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
-)
-
 def gen_id(size=14, chars=string.ascii_letters + string.digits):
     # https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
     return ''.join(random.choice(chars) for _ in range(size))
@@ -56,7 +50,6 @@ class Account(db.Model):
     admins: t.List['User']
     members: t.List['User']
     jobs: t.List['Job']
-    tasks: t.List['Task']
 
     def __init__(self, username: str):
 
@@ -76,13 +69,6 @@ class Account(db.Model):
 
         c.save()
         return c
-
-
-    def add_task(self, name: str, description: str):
-
-        t = Task(name=name, description=description, account_id=self.id)
-        t.save()
-        return t
 
 
     def add_user(self, username: str, password: str, email: str):
@@ -258,43 +244,6 @@ class Job(db.Model):
 
         db.session.add(self)
         db.session.commit()
-
-
-class Task(db.Model):
-
-    __tablename__ = 'tasks'
-
-    id: int = db.Column(db.Integer, primary_key=True)
-    task_id: str = db.Column(db.String)
-
-    name: str = db.Column(db.String)
-    description: str = db.Column(db.String)
-    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
-
-    account: Account = db.relationship('Account', backref='tasks')
-
-    def __init__(self, name: str, description: str, account_id: str):
-
-        self.name = name
-        self.description = description
-        self.account_id = account_id
-        self.task_id = 'task_' + gen_id()
-
-
-    def save(self):
-
-        db.session.add(self)
-        db.session.commit()
-
-
-    def json(self):
-
-        return {
-            'id' : self.id,
-            'name' : self.name,
-            'taskId' : self.task_id,
-            'description' : self.description,
-        }
 
 
 def create_account(username: str, password: str, email: str):
