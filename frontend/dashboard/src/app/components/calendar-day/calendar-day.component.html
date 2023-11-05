@@ -2,13 +2,12 @@
     <ng-container *ngFor="let timeslot of timeslots">
 
         <div class="timeslot">
-            {{ timeslot.time }}
+            {{ timeslot.date | date: 'shortTime' }}
         </div>
         <div [id]="timeslot.time"
             class="event"
-            (dblclick)="scheduleTask(timeslot.time, '2023-11-04')"
+            (dblclick)="scheduleTask(timeslot.time)"
             [class.event-created]="timeslot.hasEvent">
-
         </div>
 
     </ng-container>

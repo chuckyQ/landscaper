@@ -7,6 +7,17 @@ interface Timeslot {
   time: string
   hasEvent: boolean
   length: number // Number of rows to span
+  date: string
+}
+
+function zfill(n: number) {
+
+  if(n < 10) {
+    return `0${n}`
+  }
+
+  return n.toString()
+
 }
 
 @Component({
@@ -28,6 +39,7 @@ export class CalendarDayComponent {
 
     this.dragStartSlot = -1
     this.dragEndSlot = -1
+    this.timeslots = []
 
     this.timeArray = [
         "00:00",
@@ -80,18 +92,6 @@ export class CalendarDayComponent {
         "23:30",
     ]
 
-    this.timeslots = []
-
-    for(let i = 0; i < this.timeArray.length; i++) {
-      this.timeslots.push(
-        {
-          time: this.timeArray[i],
-          hasEvent: false,
-          length: 2,
-        }
-      )
-    }
-
     this.year = null
     this.month = null
     this.day = null
@@ -105,8 +105,24 @@ export class CalendarDayComponent {
     }
 
     this.year = +year
-    this.month = +month - 1 // Month is coming in 1-indexed and for dates to work, we need 0-indexed
+    this.month = +month
     this.day = +day
+
+
+    var dayString = ""
+    for(let i = 0; i < this.timeArray.length; i++) {
+
+      let d = zfill(this.day)
+      let m = zfill(this.month)
+      this.timeslots.push(
+        {
+          time: this.timeArray[i],
+          hasEvent: false,
+          length: 2,
+          date: `${this.year}-${m}-${d}T${this.timeArray[i]}:00`
+        }
+      )
+    }
 
   }
 
@@ -127,10 +143,10 @@ export class CalendarDayComponent {
 
   }
 
-  scheduleTask(time: string, date: string) {
+  scheduleTask(time: string) {
 
     let m = this.modal.open(TimeTableModalComponent)
-    m.componentInstance.date = date
+    m.componentInstance.date = `${this.year}-${this.month}-${this.day}`
     m.componentInstance.time = time
   }
 
