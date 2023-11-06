@@ -1,0 +1,25 @@
+.group-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    grid-auto-flow: column;
+
+}
+
+.group-info {
+    display: grid;
+    max-width: 100rem;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.group-inputs, .members {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
