@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 interface Image {
   data: string
@@ -6,21 +7,30 @@ interface Image {
 }
 
 @Component({
-  selector: 'app-work-images',
-  templateUrl: './work-images.component.html',
-  styleUrls: ['./work-images.component.scss']
+  selector: 'app-work-images-modal',
+  templateUrl: './work-images-modal.component.html',
+  styleUrls: ['./work-images-modal.component.scss']
 })
-export class WorkImagesComponent {
+export class WorkImagesModalComponent {
+
+
+  @Input()
+  title: string
+
+  @Input()
+  photos: Image[]
 
   stream: MediaStream | null
   video: HTMLVideoElement | null
 
   images: Image[]
 
-  constructor() {
+  constructor(public activeModal: NgbActiveModal) {
 
     this.stream = null
     this.video = null
+    this.title = ""
+    this.photos = []
 
     this.images = []
 
@@ -53,7 +63,7 @@ export class WorkImagesComponent {
       timestamp: tstamp / 1000 // Convert to seconds
     }
 
-    this.images.unshift(i)
+    this.photos.unshift(i)
 
   }
 
@@ -61,8 +71,14 @@ export class WorkImagesComponent {
   }
 
   removeImage(i: number) {
-    console.log(i)
-    this.images.splice(i, 1)
+    this.photos.splice(i, 1)
+  }
+
+  close() {
+    this.activeModal.close()
+    this.stream?.getTracks().forEach(function(track) {
+      track.stop()
+    })
   }
 
 }

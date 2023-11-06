@@ -1,11 +1,20 @@
-<div class="layout">
+<div class="modal-header">
+    Before Photos
+    <div class="red-x" (click)="close()">
+        X
+    </div>
+</div>
+<div class="modal-body">
+
+
     <video id="video"></video>
     <div class="inputs">
-        <input (click)="takePicture()" type="button" value="">
+        <div id="outer-circle" (click)="takePicture()">
+        </div>
     </div>
     <canvas  id="canvas" style="width: 1px; height: 1px;" class="canvas"></canvas>
     <div class="image-area">
-        <ng-container *ngFor="let image of images; index as i">
+        <ng-container *ngFor="let image of photos; index as i">
             <div class="img-area">
                 <img  [src]="image.data">
                 <div (click)="removeImage(i)" class="red-x">

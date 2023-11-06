@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorkImagesComponent } from './work-images.component';
+import { WorkImagesComponent } from './work-images-modal.component';
 
 describe('WorkImagesComponent', () => {
   let component: WorkImagesComponent;
