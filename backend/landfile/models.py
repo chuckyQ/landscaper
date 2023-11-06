@@ -84,9 +84,9 @@ class Account(db.Model):
         return u
 
 
-    def add_group(self, name: str):
+    def add_crew(self, name: str):
 
-        c = Group(name=name, account_id=self.id)
+        c = Crew(name=name, account_id=self.id)
         c.save()
         return c
 
