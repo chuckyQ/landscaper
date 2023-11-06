@@ -192,7 +192,7 @@ class Crew(db.Model):
 
     account: Account = db.relationship('Account', backref='crews')
     jobs: t.List['Job'] = db.relationship('Crew', secondary=job_table, back_populates='crews')
-    leads: t.List['User'] = db.relationship('User', secondary=crew_lead, back_populates='crew_leads')
+    leads: t.List['User'] = db.relationship('User', secondary=crew_leads, back_populates='crew_leads')
     members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crew')
 
 
@@ -223,7 +223,7 @@ class Job(db.Model):
     last_updated_timestamp: float = db.Column(db.Float)
 
     account = db.relationship('Account', backref='jobs')
-    crew: t.List[Group] = db.relationship('Group', secondary=job_table, back_populates='jobs')
+    crew: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
 
 
     def __init__(self, name: str, account_id: int, work_date_timestamp: float):
