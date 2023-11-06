@@ -8,21 +8,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
-group_table = db.Table(
-    'group_members',
+crew_table = db.Table(
+    'crew_members',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('group_id', db.Integer, db.ForeignKey('groups.id')),
+    db.Column('crew_id', db.Integer, db.ForeignKey('crew.id')),
 )
 
-group_lead = db.Table(
-    'group_leads',
+crew_leads = db.Table(
+    'crew_leads',
     db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
-    db.Column('group_id', db.Integer(), db.ForeignKey('groups.id')),
+    db.Column('crew_id', db.Integer(), db.ForeignKey('crew.id')),
 )
 
 job_table = db.Table(
-    'group_jobs',
-    db.Column('group_id', db.Integer(), db.ForeignKey('groups.id')),
+    'crew_jobs',
+    db.Column('crew_id', db.Integer(), db.ForeignKey('crew.id')),
     db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
 )
 
@@ -71,10 +71,9 @@ class Account(db.Model):
         return c
 
 
-    def add_user(self, username: str, password: str, email: str):
+    def add_user(self, email: str, password: str):
 
         u = User(
-            username=username,
             password=password,
             email=email,
             account_id=self.id,
@@ -147,20 +146,18 @@ class User(db.Model):
     id: int = db.Column(db.Integer, primary_key=True)
     user_id: str = db.Column(db.String, index=True)
 
-    username: str = db.Column(db.String, unique=True)
     email: str = db.Column(db.String, unique=True)
     password: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
 
     account: Account = db.relationship('Account', backref='members')
-    group_leads: t.List['Group'] = db.relationship('Group', secondary=group_table, back_populates='leads')
-    groups: t.List['Group']  = db.relationship('Group', secondary=group_lead, back_populates='members')
+    crew_leads: t.List['Crew'] = db.relationship('Crew', secondary=crew_table, back_populates='leads')
+    crew: t.List['Crew']  = db.relationship('Crew', secondary=crew_leads, back_populates='members')
     _account: Account = db.relationship('Account', backref='admins')
 
 
-    def __init__(self, username: str, password: str, email: str, account_id: int):
+    def __init__(self, email: str, password: str, account_id: int):
 
-        self.username = username
         self.user_id = 'user_' + gen_id()
         self.password = generate_password_hash(password)
         self.email = email
@@ -183,27 +180,27 @@ class User(db.Model):
         return self in self.account.admins
 
 
-class Group(db.Model):
+class Crew(db.Model):
 
-    __tablename__ = 'groups'
+    __tablename__ = 'crews'
 
     id: int = db.Column(db.Integer, primary_key=True)
-    group_id: str = db.Column(db.String, index=True)
+    crew_id: str = db.Column(db.String, index=True)
 
     name: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer)
 
-    account: Account = db.relationship('Account', backref='groups')
-    jobs: t.List['Job'] = db.relationship('Group', secondary=job_table, back_populates='groups')
-    leads: t.List['User'] = db.relationship('User', secondary=group_lead, back_populates='group_leads')
-    members: t.List['User'] = db.relationship('User', secondary=group_table, back_populates='groups')
+    account: Account = db.relationship('Account', backref='crews')
+    jobs: t.List['Job'] = db.relationship('Crew', secondary=job_table, back_populates='crews')
+    leads: t.List['User'] = db.relationship('User', secondary=crew_lead, back_populates='crew_leads')
+    members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crew')
 
 
     def __init__(self, name: str, account_id: int):
 
         self.name = name
         self.account_id = account_id
-        self.user_id = 'group_' + gen_id()
+        self.user_id = 'crew_' + gen_id()
 
 
     def save(self):
@@ -226,7 +223,7 @@ class Job(db.Model):
     last_updated_timestamp: float = db.Column(db.Float)
 
     account = db.relationship('Account', backref='jobs')
-    groups: t.List[Group] = db.relationship('Group', secondary=job_table, back_populates='jobs')
+    crew: t.List[Group] = db.relationship('Group', secondary=job_table, back_populates='jobs')
 
 
     def __init__(self, name: str, account_id: int, work_date_timestamp: float):
@@ -246,8 +243,8 @@ class Job(db.Model):
         db.session.commit()
 
 
-def create_account(username: str, password: str, email: str):
+def create_account(email: str, password: str):
 
     a = Account(primary_email=email)
     a.save()
-    a.add_user(username=username, password=password, email=email)
+    a.add_user(email=email, password=password)
