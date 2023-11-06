@@ -13,7 +13,7 @@ import { JobComponent } from './components/job/job.component';
 import { UserComponent } from './components/user/user.component';
 import { CustomerComponent } from './components/customer/customer.component';
 import { CrewsComponent } from './components/crews/crews.component';
-import { GroupComponent } from './components/group/group.component';
+import { CrewComponent } from './components/crew/crew.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { AddCustomerModalComponent } from './components/add-customer-modal/add-customer-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -24,7 +24,7 @@ import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { CreateJobModalComponent } from './components/create-job-modal/create-job-modal.component';
 import { TimeTableModalComponent } from './time-table-modal/time-table-modal.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
-import { WorkImagesComponent } from './components/work-images/work-images.component';
+import { WorkImagesModalComponent } from './components/work-images-modal/work-images-modal.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ import { WorkImagesComponent } from './components/work-images/work-images.compon
     UserComponent,
     CustomerComponent,
     CrewsComponent,
-    GroupComponent,
+    CrewComponent,
     CalendarComponent,
     AddCustomerModalComponent,
     AddUserModalComponent,
@@ -47,7 +47,7 @@ import { WorkImagesComponent } from './components/work-images/work-images.compon
     CreateJobModalComponent,
     TimeTableModalComponent,
     CalendarDayComponent,
-    WorkImagesComponent
+    WorkImagesModalComponent
   ],
   imports: [
     BrowserModule,

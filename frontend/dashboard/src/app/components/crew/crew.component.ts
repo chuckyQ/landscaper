@@ -21,7 +21,7 @@ interface Group {
   templateUrl: './crew.component.html',
   styleUrls: ['./crew.component.scss']
 })
-export class GroupComponent implements OnInit {
+export class CrewComponent implements OnInit {
 
   crewID: string
   constructor(public ar: ActivatedRoute) {

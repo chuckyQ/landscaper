@@ -10,7 +10,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { UserComponent } from './components/user/user.component';
 import { UsersComponent } from './components/users/users.component';
 import { CrewsComponent } from './components/crews/crews.component';
-import { GroupComponent } from './components/group/group.component';
+import { CrewComponent } from './components/crew/crew.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 
@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: "customers/:customerID", component: CustomerComponent},
   {path: "customers", component: CustomersComponent},
   {path: "crews", component: CrewsComponent},
-  {path: "crews/:crewID", component: GroupComponent},
+  {path: "crews/:crewID", component: CrewComponent},
   {path: "", component: HomeComponent},
   {path: "jobs/:jobID", component: JobComponent},
   {path: "jobs", component: JobsComponent},
