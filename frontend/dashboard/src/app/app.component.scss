@@ -1,7 +1,7 @@
 .nav-bar {
   --bdr: 1px solid rgb(209, 209, 209);
   list-style: none;
-  display: flex;
+  display: none;
   gap: 2rem;
   font-size: 14pt;
   border-top: var(--bdr);
@@ -25,4 +25,10 @@
 .main-area {
   padding-left: 3rem;
   padding-right: 3rem;
+}
+
+@media screen and (min-width: 800px) {
+  .nav-bar {
+    display: flex;
+  }
 }

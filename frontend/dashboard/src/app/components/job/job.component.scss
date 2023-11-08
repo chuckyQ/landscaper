@@ -1,0 +1,24 @@
+.image-area {
+    display: flex;
+    max-width: 100%;
+    gap: 0.1rem;
+    overflow-x: scroll;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+.photos {
+    display: grid;
+    gap: 5rem;
+}
+
+
+@media screen and (min-width: 900px) {
+    .layout {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}

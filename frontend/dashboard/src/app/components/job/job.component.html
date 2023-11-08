@@ -1,1 +1,49 @@
-<p>job works!</p>
+<h1>Job</h1>
+
+
+<div class="layout">
+    <div class="job-info">
+        <div class="fields">
+            <div class="field">
+                <label>Name</label>
+                <input type="text" value="Bob's Burgers">
+            </div>
+            <div class="field">
+                <label for="">Address</label>
+                <input type="text" value="22637 Madison St St. Clair Shores">
+            </div>
+            <div class="field">
+                <label>Description</label>
+                <textarea>
+                </textarea>
+            </div>
+            <div class="field"></div>
+        </div>
+    </div>
+    <div class="photos">
+        <div class="before-photos">
+            <h2>Before Photos</h2>
+
+            <input type="button" class="btn btn-primary" (click)="openBeforePhotos()" value="Take Pictures">
+
+            <div class="image-area">
+                <ng-container *ngFor="let image of beforePhotos">
+                    <img [src]="image.data">
+                </ng-container>
+            </div>
+
+        </div>
+        <div class="after-photos">
+            <h2>After Photos</h2>
+            <input type="button" class="btn btn-primary" (click)="openAfterPhotos()" value="Take Pictures">
+
+            <div class="image-area">
+                <ng-container *ngFor="let image of afterPhotos">
+                    <img [src]="image.data">
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+</div>
+
