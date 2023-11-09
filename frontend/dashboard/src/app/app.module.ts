@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +21,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';
 import { AddCrewModalComponent } from './components/add-crew-modal/add-crew-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
 import { CreateJobModalComponent } from './components/create-job-modal/create-job-modal.component';
 import { TimeTableModalComponent } from './time-table-modal/time-table-modal.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
@@ -54,8 +54,8 @@ import { WorkImagesModalComponent } from './components/work-images-modal/work-im
     AppRoutingModule,
     NgbModule,
     BrowserAnimationsModule,
-    CdkDropList,
-    CdkDrag
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
