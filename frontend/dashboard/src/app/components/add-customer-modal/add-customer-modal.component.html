@@ -3,20 +3,46 @@
     <div class="modal-close-btn" (click)="closeModal()">X</div>
 </div>
 <div class="modal-body">
-    <div class="fields">
-        <div class="field">
-            <label>Name</label><input type="text">
+    <form #theForm="ngForm">
+        <div class="fields">
+            <div class="field">
+                <label>Address</label>
+                <input
+                    required
+                    ngModel
+                    #address="ngModel"
+                    name="address"
+                    class="form-control"
+                    type="text">
+                <div class="alert alert-danger" *ngIf="address.touched && !address.valid">
+                    An address is required.
+                </div>
+            </div>
+            <div class="field">
+                <label>Name</label>
+                <input
+                    placeholder="Enter a name (optional)..."
+                    ngModel
+                    class="form-control"
+                    #name="ngModel"
+                    name="name"
+                    type="text">
+            </div>
+            <div class="field">
+                <label>Phone Number</label>
+                <input
+                    placeholder="Enter a phone number (optional)..."
+                    class="form-control"
+                    #phone="ngModel"
+                    ngModel
+                    type="text">
+            </div>
         </div>
-        <div class="field">
-            <label>Address</label><input type="text">
+        <div class="modal-create-btn">
+            <input type="button"
+                class="btn btn-primary"
+                [disabled]="!theForm.valid"
+                value="Create">
         </div>
-        <div class="field">
-            <label>Phone Number</label><input type="text">
-        </div>
-    </div>
-    <div class="modal-create-btn">
-        <input type="button"
-        class="btn btn-primary"
-        value="Create">
-    </div>
+    </form>
 </div>
