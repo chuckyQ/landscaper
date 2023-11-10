@@ -29,13 +29,11 @@ export class JobComponent implements OnInit {
 
   openBeforePhotos(){
     let m = this.modal.open(WorkImagesModalComponent)
-    m.componentInstance.photos = this.beforePhotos
     m.componentInstance.title = "Before Photos"
   }
 
   openAfterPhotos() {
     let m = this.modal.open(WorkImagesModalComponent)
-    m.componentInstance.photos = this.afterPhotos
     m.componentInstance.title = "After Photos"
   }
 
