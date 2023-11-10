@@ -9,7 +9,13 @@
     <form #theForm="ngForm">
         <div class="fields">
             <div class="field">
+
                 <label for="">Time</label>
+                <select name="time" #time="ngModel" ngModel>
+                    <option *ngFor="let timeslot of timeslots" [value]="date + timeslot">
+                        {{date + timeslot | date: 'hh mm a'}}
+                    </option>
+                </select>
                 <input
                     [(ngModel)]="time"
                     type="time"
