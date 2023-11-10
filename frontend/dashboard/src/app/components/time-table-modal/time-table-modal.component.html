@@ -9,47 +9,26 @@
     <form #theForm="ngForm">
         <div class="fields">
             <div class="field">
-
                 <label for="">Time</label>
-                <select name="time" #time="ngModel" ngModel>
-                    <option *ngFor="let timeslot of timeslots" [value]="date + timeslot">
-                        {{date + timeslot | date: 'hh mm a'}}
+                <select #timeslot="ngModel" ngModel class="form-control" name="time">
+                    <option *ngFor="let timeslot of timeslots" [value]="date.split('T')[0] + 'T' + timeslot">
+                        {{date.split('T')[0] + 'T' + timeslot | date: 'hh:mm a'}}
                     </option>
                 </select>
-                <input
-                    [(ngModel)]="time"
-                    type="time"
-                    name="time"
-                    required
-                    class="form-control">
-            </div>
-
-            <div class="field">
-                <label for="">Name</label>
-                <input
-                    #name="ngModel"
-                    pattern=".*?"
-                    ngModel
-                    name="name"
-                    required
-                    type="text">
-                <div *ngIf="name.touched && !name.valid" class="alert alert-danger">
-                    This field is required.
-                </div>
             </div>
             <div class="field">
-                <label for="">Address</label>
+                <label>Address</label>
                 <input
                     name="address"
                     #address="ngModel"
                     ngModel
+                    class="form-control"
                     required
                     type="text">
                 <div *ngIf="address.touched && !address.valid" class="alert alert-danger">
                     This field is required.
                 </div>
             </div>
-
             <div class="field group-field">
                 <table class="table">
                     <tr *ngFor="let crew of crews">
@@ -64,9 +43,9 @@
                     #notes
                     style="resize: none;"
                     name="notes"
+                    class="form-control"
                     cols="30"
-                    rows="10">
-                </textarea>
+                    rows="10"></textarea>
             </div>
         </div>
         <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
