@@ -10,35 +10,38 @@
         <div class="fields">
             <div class="field">
                 <label for="">Time</label>
-                <input #time="ngModel" type="time" name="time" required >
-                <ng-container *ngIf="time === ''">
-                    <div class="alert alert-danger">
-                        This field is required.
-                    </div>
-                </ng-container>
+                <input
+                    [(ngModel)]="time"
+                    type="time"
+                    name="time"
+                    required
+                    class="form-control">
             </div>
 
             <div class="field">
                 <label for="">Name</label>
-                <input #name="ngModel" name="name" required type="text">
-                <ng-container *ngIf="name.value.trim() === ''">
-                    <div class="alert alert-danger">
-                        This field is required.
-                    </div>
-                </ng-container>
+                <input
+                    #name="ngModel"
+                    pattern=".*?"
+                    ngModel
+                    name="name"
+                    required
+                    type="text">
+                <div *ngIf="name.touched && !name.valid" class="alert alert-danger">
+                    This field is required.
+                </div>
             </div>
             <div class="field">
                 <label for="">Address</label>
                 <input
                     name="address"
-                    #address
+                    #address="ngModel"
+                    ngModel
                     required
                     type="text">
-                <ng-container *ngIf="address.value.trim() === ''">
-                    <div class="alert alert-danger">
-                        This field is required.
-                    </div>
-                </ng-container>
+                <div *ngIf="address.touched && !address.valid" class="alert alert-danger">
+                    This field is required.
+                </div>
             </div>
 
             <div class="field group-field">
@@ -51,9 +54,17 @@
             </div>
             <div class="field">
                 <label for="">Notes</label>
-                <textarea #notes style="resize: none;" name="" id="" cols="30" rows="10"></textarea>
+                <textarea
+                    #notes
+                    style="resize: none;"
+                    name="notes"
+                    cols="30"
+                    rows="10">
+                </textarea>
             </div>
         </div>
-        <input type="button" class="btn btn-primary" value="Create" [disabled]="!theForm.valid">
+        <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
+            <input type="button" class="btn btn-primary" value="Create" [disabled]="!theForm.valid">
+        </div>
     </form>
 </div>
