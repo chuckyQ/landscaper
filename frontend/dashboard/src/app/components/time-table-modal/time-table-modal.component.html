@@ -10,8 +10,14 @@
         <div class="fields">
             <div class="field">
                 <label for="">Time</label>
-                <select #timeslot="ngModel" ngModel class="form-control" name="time">
-                    <option *ngFor="let timeslot of timeslots" [value]="date.split('T')[0] + 'T' + timeslot">
+                <select
+                     class="form-select"
+                     name="selectedTimeslot">
+                    <option
+                        *ngFor="let timeslot of timeslots"
+                        [value]="date.split('T')[0] + 'T' + timeslot"
+                        [selected]="date.split('T')[0] + 'T' + timeslot === date.split('T')[0] + 'T' + time + ':00'"
+                        >
                         {{date.split('T')[0] + 'T' + timeslot | date: 'hh:mm a'}}
                     </option>
                 </select>
