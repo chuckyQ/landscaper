@@ -45,10 +45,8 @@
 }
 
 #outer-circle:active {
-    background-color: #ffffff;
-    border: 5px solid black;
+    border: 2px solid black;
     box-shadow: 0 5px #666;
-    transform: scale(1.1);
-    transition-timing-function: ease;
-    transition-delay: 100ms;
-  }
+    background-color: rgb(181, 181, 181);
+    cursor: pointer;
+}
