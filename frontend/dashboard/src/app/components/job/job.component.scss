@@ -8,11 +8,16 @@
 .layout {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+    gap: 3rem;
 }
 
 .photos {
     display: grid;
     gap: 5rem;
+}
+
+.job-comments {
+    margin-bottom: 2rem;
 }
 
 

@@ -3,6 +3,7 @@
 
 <div class="layout">
     <div class="job-info">
+        <h2>Info</h2>
         <div class="fields">
             <div class="field">
                 <label for="">Address</label>
@@ -14,31 +15,41 @@
             </div>
             <div class="field"></div>
         </div>
-    </div>
-    <div class="photos">
-        <div class="before-photos">
-            <h2>Before Photos</h2>
+        <div class="photos">
+            <div class="before-photos">
+                <h2>Before Photos</h2>
 
-            <input type="button" class="btn btn-primary" (click)="openBeforePhotos()" value="Take Pictures">
+                <input type="button" class="btn btn-primary" (click)="openBeforePhotos()" value="Take Pictures">
 
-            <div class="image-area">
-                <ng-container *ngFor="let image of beforePhotos">
-                    <img [src]="image.data">
-                </ng-container>
+                <div class="image-area">
+                    <ng-container *ngFor="let image of beforePhotos">
+                        <img [src]="image.data">
+                    </ng-container>
+                </div>
             </div>
+            <div class="after-photos">
+                <h2>After Photos</h2>
+                <input type="button" class="btn btn-primary" (click)="openAfterPhotos()" value="Take Pictures">
+
+                <div class="image-area">
+                    <ng-container *ngFor="let image of afterPhotos">
+                        <img [src]="image.data">
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="job-comments">
+        <h2>Comments</h2>
+        <textarea class="form-control" name="comment" style="width: 100%; resize: none;" rows="3"></textarea>
+        <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+            <input type="button" class="btn btn-primary" value="Post">
+        </div>
+        <div class="comment">
 
         </div>
-        <div class="after-photos">
-            <h2>After Photos</h2>
-            <input type="button" class="btn btn-primary" (click)="openAfterPhotos()" value="Take Pictures">
-
-            <div class="image-area">
-                <ng-container *ngFor="let image of afterPhotos">
-                    <img [src]="image.data">
-                </ng-container>
-            </div>
-        </div>
     </div>
+
 
 </div>
 
