@@ -1,49 +1,49 @@
 <div class="modal-header">
-    <h1>Add Group</h1>
+    <h1>Add Crew</h1>
     <div class="modal-close-btn" (click)="closeModal()">X</div>
 </div>
 <div class="modal-body">
-    <div class="fields">
-        <div class="field">
-            <label>Group Name</label><input type="text">
-        </div>
-        <div class="field">
-            <p>Members</p>
-            <input type="text" placeholder="Search...">
-            <div class="member-table">
-                <table class="table">
-                    <tr>
-                        <td>
-                            <img class="user-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg/330px-Elon_Musk_Colorado_2022_%28cropped2%29.jpg" alt="">
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img class="user-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg/330px-Elon_Musk_Colorado_2022_%28cropped2%29.jpg" alt="">
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img class="user-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg/330px-Elon_Musk_Colorado_2022_%28cropped2%29.jpg" alt="">
-                        </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img class="user-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg/330px-Elon_Musk_Colorado_2022_%28cropped2%29.jpg" alt="">
-                        </td>
-                        <td></td>
-                    </tr>
-                </table>
+    <form #theForm="ngForm">
+        <div class="fields">
+            <div class="field">
+                <label>Name</label>
+                <input
+                    required
+                    pattern=".*?"
+                    #name="ngModel"
+                    ngModel
+                    name="name"
+                    class="form-control"
+                    type="text">
+                    <div class="alert alert-danger" *ngIf="name.touched && !name.valid">
+                        A name is required.
+                    </div>
             </div>
 
+            <div class="field">
+                <p>Members</p>
+                <input type="text" class="form-control" placeholder="Search...">
+                <div class="member-table">
+                    <table class="table">
+                        <tr *ngFor="let member of members">
+                            <td>
+                                <img class="user-img" [src]="member.imageJWT">
+                            </td>
+                            <td>
+                                {{ member.email }}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
         </div>
-    </div>
-    <div class="modal-create-btn">
-        <input type="button"
-        class="btn btn-primary"
-        value="Create">
-    </div>
+        <div class="modal-create-btn">
+            <input type="button"
+            class="btn btn-primary"
+            [disabled]="!theForm.valid"
+            value="Create">
+        </div>
+    </form>
+
 </div>

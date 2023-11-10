@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
+
+interface Member {
+  email: string
+  imageJWT: string
+}
+
+
 @Component({
   selector: 'app-add-crew-modal',
   templateUrl: './add-crew-modal.component.html',
@@ -8,7 +15,13 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddCrewModalComponent implements OnInit {
 
-  constructor(public modal: NgbActiveModal) { }
+  members: Member[]
+
+  constructor(public modal: NgbActiveModal) {
+
+    this.members = []
+
+  }
 
   ngOnInit(): void {
   }
