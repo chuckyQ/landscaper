@@ -43,13 +43,14 @@ export class TimeTableModalComponent {
 
     this.timeslots = []
 
-    var j = 0;
+    var hour = 0;
     for(let i = 0; i < NUM_OF_TIMESLOTS; i++) {
       if(i % 2 == 0) {
-        this.timeslots.push(`${zfill(j)}:00:00`)
+        this.timeslots.push(`${zfill(hour)}:00:00`)
         continue
       }
-      this.timeslots.push(`${zfill(j)}:30:00`)
+      this.timeslots.push(`${zfill(hour)}:30:00`)
+      hour++
     }
 
 
