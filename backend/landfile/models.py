@@ -14,12 +14,6 @@ crew_table = db.Table(
     db.Column('crew_id', db.Integer, db.ForeignKey('crew.id')),
 )
 
-crew_leads = db.Table(
-    'crew_leads',
-    db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
-    db.Column('crew_id', db.Integer(), db.ForeignKey('crew.id')),
-)
-
 job_table = db.Table(
     'crew_jobs',
     db.Column('crew_id', db.Integer(), db.ForeignKey('crew.id')),
@@ -37,15 +31,6 @@ class Account(db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     acc_id: str = db.Column(db.String, index=True)
-    username: str = db.Column(db.String)
-
-    # This is a json field
-    stripe_payment_method_info: str = db.Column(db.String)
-
-    stripe_subscription_id: str = db.Column(db.String)
-    stripe_payment_method_id: str = db.Column(db.String)
-    seats: int = db.Column(db.Integer)
-    plan: str = db.Column(db.String)
 
     admins: t.List['User']
     members: t.List['User']
@@ -151,8 +136,7 @@ class User(db.Model):
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
 
     account: Account = db.relationship('Account', backref='members')
-    crew_leads: t.List['Crew'] = db.relationship('Crew', secondary=crew_table, back_populates='leads')
-    crew: t.List['Crew']  = db.relationship('Crew', secondary=crew_leads, back_populates='members')
+    crew: t.List['Crew']  = db.relationship('Crew', secondary=crew_table, back_populates='members')
     _account: Account = db.relationship('Account', backref='admins')
 
 
@@ -248,3 +232,4 @@ def create_account(email: str, password: str):
     a = Account(primary_email=email)
     a.save()
     a.add_user(email=email, password=password)
+    return a
