@@ -11,9 +11,9 @@ crew = Blueprint('crew', 'crew', url_prefix='/crews/<string:id>')
 
 def get_crew(id: str) -> t.Tuple[User, Crew]:
 
-    username = get_jwt_identity()
+    email = get_jwt_identity()
 
-    u: User = User.query.filter_by(username=username).first()
+    u: User = User.query.filter_by(email=email).first()
 
     if u is None:
         abort(500)

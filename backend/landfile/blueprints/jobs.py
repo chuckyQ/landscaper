@@ -9,9 +9,9 @@ jobs = Blueprint('jobs', 'jobs', url_prefix='/jobs')
 
 def get_user():
 
-    username = get_jwt_identity()
+    email = get_jwt_identity()
 
-    u: User = User.query.filter_by(username=username).first()
+    u: User = User.query.filter_by(email=email).first()
 
     if u is None:
         abort(500)
