@@ -228,6 +228,37 @@ class Job(db.Model):
         db.session.commit()
 
 
+class Image(db.Model):
+
+    __tablename__ = 'images'
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    image_id: str = db.Column(db.String)
+    job_id: str = db.Column(db.String, db.ForeignKey('jobs.job_id'))
+    job: Job = db.relationship('Job', backref='images')
+    aws_s3_file_name: str = db.Column(db.String)
+    file_size: float = db.Column(db.Float)
+
+    # Timestamp (in milliseconds) when the image was created
+    # The frontend expectes milliseconds for timestamps
+    timestamp: float = db.Column(db.Float)
+
+
+    def __init__(self, job_id: str, aws_s3_file_name: str, file_size: float, timestamp: float):
+
+        self.job_id = job_id
+        self.aws_s3_file_name = aws_s3_file_name
+        self.timestamp = timestamp
+        self.file_size = file_size
+        self.image_id = 'img_' + gen_id()
+
+
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
+
+
 def create_account(email: str, password: str):
 
     a = Account(primary_email=email)
