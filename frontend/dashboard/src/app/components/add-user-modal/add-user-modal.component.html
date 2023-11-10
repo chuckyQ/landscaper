@@ -5,13 +5,26 @@
 <div class="modal-body">
     <div class="fields">
         <div class="field">
-            <label>Name</label><input type="text">
+            <label>Email</label>
+            <!-- Pattern found here: https://mailtrap.io/blog/angular-email-validation/ -->
+            <input
+                class="form-control"
+                #email="ngModel"
+                pattern="\S+"
+                ngModel
+                required
+                name="email"
+                type="text">
+            <div class="alert alert-danger" *ngIf="email.touched && !email.valid">
+                Email is required.
+            </div>
         </div>
         <div class="field">
-            <label>Email</label><input type="text">
-        </div>
-        <div class="field">
-            <label>Phone Number</label><input type="text">
+            <label>Phone Number</label>
+            <input class="form-control" required #phoneNumber="ngModel" ngModel type="tel">
+            <div class="alert alert-danger" *ngIf="phoneNumber.touched && !phoneNumber.valid">
+                Phone number is required.
+            </div>
         </div>
     </div>
     <div class="modal-create-btn">
