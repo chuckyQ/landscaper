@@ -31,14 +31,15 @@ class Account(db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     acc_id: str = db.Column(db.String, index=True)
+    email: str = db.Column(db.String, index=True, unique=True)
 
     admins: t.List['User']
     members: t.List['User']
     jobs: t.List['Job']
 
-    def __init__(self, username: str):
+    def __init__(self, email: str):
 
-        self.username = username
+        self.email = email
         self.acc_id = 'acc_' + gen_id()
 
 
