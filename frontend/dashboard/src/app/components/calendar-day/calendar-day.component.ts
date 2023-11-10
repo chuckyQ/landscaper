@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TimeTableModalComponent } from 'src/app/time-table-modal/time-table-modal.component';
+import { TimeTableModalComponent } from 'src/app/components/time-table-modal/time-table-modal.component';
 
 interface Timeslot {
   time: string
