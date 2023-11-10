@@ -236,18 +236,16 @@ class Image(db.Model):
     image_id: str = db.Column(db.String)
     job_id: str = db.Column(db.String, db.ForeignKey('jobs.job_id'))
     job: Job = db.relationship('Job', backref='images')
-    file_size: float = db.Column(db.Float)
 
     # Timestamp (in milliseconds) when the image was created
     # The frontend expectes milliseconds for timestamps
     timestamp: float = db.Column(db.Float)
 
 
-    def __init__(self, job_id: str, file_size: float, timestamp: float):
+    def __init__(self, job_id: str, timestamp: float):
 
         self.job_id = job_id
         self.timestamp = timestamp
-        self.file_size = file_size
         self.image_id = 'img_' + gen_id()
 
 
