@@ -11,7 +11,7 @@ from .users import users
 
 BLUEPRINTS = [
     account,
-    calendar_day
+    calendar_day,
     crew,
     crews,
     customers,
