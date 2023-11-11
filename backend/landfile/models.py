@@ -149,7 +149,7 @@ class User(db.Model):
         self.account_id = account_id
 
 
-    def verify(self, password: str):
+    def verify_password(self, password: str):
 
         return check_password_hash(self.password, password)
 
