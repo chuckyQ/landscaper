@@ -30,6 +30,8 @@ export class AddCustomerModalComponent implements OnInit {
       {
         next: (resp: any) => {
           alert("Customer added!")
+          this.modal.close()
+          window.location.reload()
         }
       }
     )
