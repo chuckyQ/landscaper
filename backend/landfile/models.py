@@ -11,12 +11,12 @@ db = SQLAlchemy()
 crew_table = db.Table(
     'crew_members',
     db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
-    db.Column('crew_id', db.Integer, db.ForeignKey('crew.id')),
+    db.Column('crew_id', db.Integer, db.ForeignKey('crews.id')),
 )
 
 job_table = db.Table(
     'crew_jobs',
-    db.Column('crew_id', db.Integer(), db.ForeignKey('crew.id')),
+    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
     db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
 )
 
