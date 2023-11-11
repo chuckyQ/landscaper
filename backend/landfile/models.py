@@ -290,7 +290,7 @@ class Image(db.Model):
 
 def create_account(email: str, password: str):
 
-    a = Account(primary_email=email)
+    a = Account(email=email)
     a.save()
-    a.add_user(email=email, password=password)
+    a.add_user(email=email, password=password, is_admin=True)
     return a
