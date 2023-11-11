@@ -8,11 +8,20 @@
                 <div class="field">
                     <label for="">
                         Name
-                    </label><input type="text">
+                    </label>
+                    <input
+                        [(ngModel)]="crew.name"
+                        class="form-control"
+                        type="text">
                 </div>
                 <div class="field">
                     <label for="">Description</label>
-                    <textarea style="resize: none;" cols="30" rows="10"></textarea>
+                    <textarea
+                        [(ngModel)]="crew.description"
+                        class="form-control"
+                        style="resize: none;"
+                        cols="30"
+                        rows="10"></textarea>
                 </div>
             </div>
         </div>
