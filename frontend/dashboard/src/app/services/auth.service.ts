@@ -138,6 +138,9 @@ export class AuthService {
     return !isExpired
   }
 
+  getCrews() {
+    return this.http.get(`${environment.backendURL}/crews`)
+  }
 
   postCrew(data: any) {
     return this.http.post(`${environment.backendURL}/crews`, data)
