@@ -173,11 +173,11 @@ class Crew(db.Model):
     crew_id: str = db.Column(db.String, index=True)
 
     name: str = db.Column(db.String)
-    account_id: int = db.Column(db.Integer)
+    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
 
     account: Account = db.relationship('Account', backref='crews')
-    jobs: t.List['Job'] = db.relationship('Crew', secondary=job_table, back_populates='crews')
-    members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crew')
+    jobs: t.List['Job'] = db.relationship('Job', secondary=job_table, back_populates='crews')
+    members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crews')
 
 
     def __init__(self, name: str, account_id: int):
@@ -227,6 +227,7 @@ class Job(db.Model):
     last_updated_timestamp: float = db.Column(db.Float)
 
     account = db.relationship('Account', backref='jobs')
+
     crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
 
 
