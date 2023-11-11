@@ -201,7 +201,7 @@ class Crew(db.Model):
         self.name = name
         self.account_id = account_id
         self.description = description
-        self.user_id = 'crew_' + gen_id()
+        self.crew_id = 'crew_' + gen_id()
 
 
     def save(self):
@@ -225,6 +225,7 @@ class Crew(db.Model):
         return {
             'crewID' : self.crew_id,
             'name' : self.name,
+            'description' : self.description,
             'members' : members,
             'jobs' : jobs,
         }
