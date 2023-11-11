@@ -59,13 +59,14 @@ class Account(db.Model):
         return c
 
 
-    def add_user(self, email: str, password: str, is_admin: bool):
+    def add_user(self, email: str, phone_number: str, password: str, is_admin: bool):
 
         u = User(
             password=password,
             email=email,
             account_id=self.id,
             is_admin=is_admin,
+            phone_number=phone_number,
         )
 
         u.save()
@@ -150,18 +151,20 @@ class User(db.Model):
     password: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     is_admin: bool = db.Column(db.Boolean)
+    phone_number: str = db.Column(db.String)
 
     account: Account = db.relationship('Account', backref='members')
     crews: t.List['Crew']  = db.relationship('Crew', secondary=crew_table, back_populates='members')
 
 
-    def __init__(self, email: str, password: str, account_id: int, is_admin: bool):
+    def __init__(self, email: str, password: str, phone_number: str, account_id: int, is_admin: bool):
 
         self.user_id = 'user_' + gen_id()
         self.password = generate_password_hash(password)
         self.email = email
         self.account_id = account_id
         self.is_admin = is_admin
+        self.phone_number = phone_number
 
 
     def verify_password(self, password: str):
@@ -179,6 +182,14 @@ class User(db.Model):
 
         return self in self.account.admins
 
+
+    def json(self):
+
+        return {
+            'userID' : self.user_id,
+            'email' : self.email,
+            'phoneNumber' : self.phone_number,
+        }
 
 class Crew(db.Model):
 
@@ -308,5 +319,5 @@ def create_account(email: str, password: str):
 
     a = Account(email=email)
     a.save()
-    a.add_user(email=email, password=password, is_admin=True)
+    a.add_user(email=email, phone_number='', password=password, is_admin=True)
     return a
