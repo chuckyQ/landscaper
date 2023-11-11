@@ -9,8 +9,8 @@
         <th>Name</th>
         <th>Description</th>
     </thead>
-    <tr class="group" *ngFor="let group of groups">
-        <td>{{ group.name }}</td>
-        <td>{{ group.description }}</td>
+    <tr [routerLink]="['/crews/' + crew.crewID]" class="crew" *ngFor="let crew of crews">
+        <td>{{ crew.name }}</td>
+        <td>{{ crew.description }}</td>
     </tr>
 </table>

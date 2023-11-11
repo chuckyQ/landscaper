@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddCrewModalComponent } from '../add-crew-modal/add-crew-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 interface Member {
   id: number
@@ -10,8 +11,7 @@ interface Member {
 }
 
 interface Crew {
-  id: number
-  groupID: string
+  crewID: string
   name: string
   members: Member[]
   description: string
@@ -24,58 +24,19 @@ interface Crew {
 })
 export class CrewsComponent implements OnInit {
 
-  groups: Crew[]
+  crews: Crew[]
 
-  constructor(public modal: NgbModal) {
+  constructor(public modal: NgbModal, public service: AuthService) {
 
-    let g: Crew = {
-      id: 1,
-      groupID: "group_asdfjasdfadsf",
-      name: "Tree Trimming",
-      description: "Team for performing gutter cleanings",
-      members: [
-        {
-          id: 1,
-          userID: "user_fjfjaiwjfiwpfwf",
-          username: "bob",
-          email: "bob@bob.com",
-        },
-        {
-          id: 1,
-          userID: "user_fjfjaiwjfiwpfwf",
-          username: "bob",
-          email: "bob@bob.com",
-        },
-        {
-          id: 1,
-          userID: "user_fjfjaiwjfiwpfwf",
-          username: "bob",
-          email: "bob@bob.com",
-        },
-        {
-          id: 1,
-          userID: "user_fjfjaiwjfiwpfwf",
-          username: "bob",
-          email: "bob@bob.com",
-        },
-        {
-          id: 1,
-          userID: "user_fjfjaiwjfiwpfwf",
-          username: "bob",
-          email: "bob@bob.com",
-        },
-        {
-          id: 1,
-          userID: "user_fjfjaiwjfiwpfwf",
-          username: "bob",
-          email: "bob@bob.com",
-        },
-      ]
-    }
+    this.crews = []
 
-    this.groups = [g, g, g, g, g, g, g]
-
-
+    this.service.getCrews().subscribe(
+      {
+        next: (resp: any) => {
+          this.crews = resp
+        }
+      }
+    )
 
    }
 
