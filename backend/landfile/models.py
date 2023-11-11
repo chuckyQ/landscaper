@@ -177,7 +177,6 @@ class Crew(db.Model):
 
     account: Account = db.relationship('Account', backref='crews')
     jobs: t.List['Job'] = db.relationship('Crew', secondary=job_table, back_populates='crews')
-    leads: t.List['User'] = db.relationship('User', secondary=crew_leads, back_populates='crew_leads')
     members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crew')
 
 
