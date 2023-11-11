@@ -1,10 +1,10 @@
-from flask import Blueprint, request, abort
+from flask import Blueprint, abort
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from landfile.models import User
 
-users = Blueprint('users', 'users', url_prefix='/users/<string:id>')
+user = Blueprint('user', 'user', url_prefix='/users/<string:id>')
 
 
 def get_user():
@@ -24,14 +24,14 @@ def get_user():
     return u
 
 
-@users.route('', methods=['GET'])
+@user.route('', methods=['GET'])
 @jwt_required
 def get_users():
     u = get_user()
     return [u.users]
 
 
-@users.route('', methods=['POST'])
+@user.route('', methods=['POST'])
 @jwt_required
 def create_crew():
 
