@@ -162,5 +162,13 @@ export class AuthService {
     return this.http.get(`${environment.backendURL}/calendar/${year}/${month}/${day}`)
   }
 
+  postUser(data: any) {
+    return this.http.post(`${environment.backendURL}/users`, data)
+  }
+
+  getUsers() {
+    return this.http.get(`${environment.backendURL}/users`)
+  }
+
 }
 

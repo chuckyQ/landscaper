@@ -2,3 +2,14 @@
 <div class="create-widget">
     <input type="button" (click)="addUser()" value="Add User">
 </div>
+
+<table class="table">
+    <thead>
+        <th>Email</th>
+        <th>Phone Number</th>
+    </thead>
+    <tr [routerLink]="['/users/' + user.userID]" *ngFor="let user of users">
+        <td>{{ user.email }}</td>
+        <td>{{ user.phoneNumber }}</td>
+    </tr>
+</table>
