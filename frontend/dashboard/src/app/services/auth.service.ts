@@ -158,6 +158,10 @@ export class AuthService {
     return this.http.get(`${environment.backendURL}/customers`)
   }
 
+  getCustomer(custID: string) {
+    return this.http.get(`${environment.backendURL}/customers/${custID}`)
+  }
+
   getJobsForCalendarDay(year: number, month: number, day: number) {
     return this.http.get(`${environment.backendURL}/calendar/${year}/${month}/${day}`)
   }
@@ -168,6 +172,10 @@ export class AuthService {
 
   getUsers() {
     return this.http.get(`${environment.backendURL}/users`)
+  }
+
+  getUser(userID: string) {
+    return this.http.get(`${environment.backendURL}/users/${userID}`)
   }
 
 }
