@@ -193,6 +193,26 @@ class Crew(db.Model):
         db.session.commit()
 
 
+    def json(self, get_jobs=False, get_members=False):
+
+        if get_jobs:
+            jobs = [job.json() for job in self.jobs]
+        else:
+            jobs = []
+
+        if get_members:
+            members = [u.json() for u in self.members]
+        else:
+            members = []
+
+        return {
+            'crewID' : self.crew_id,
+            'name' : self.name,
+            'members' : members,
+            'jobs' : jobs,
+        }
+
+
 class Job(db.Model):
 
     __tablename__ = 'jobs'
@@ -207,7 +227,7 @@ class Job(db.Model):
     last_updated_timestamp: float = db.Column(db.Float)
 
     account = db.relationship('Account', backref='jobs')
-    crew: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
+    crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
 
 
     def __init__(self, name: str, account_id: int, work_date_timestamp: float):
@@ -225,6 +245,17 @@ class Job(db.Model):
 
         db.session.add(self)
         db.session.commit()
+
+
+    def json(self):
+
+        return {
+            'jobID' : self.job_id,
+            'name' : self.name,
+            'createdTimestamp' : self.created_timestamp,
+            'lastUpdatedTimestamp' : self.last_updated_timestamp,
+            'crews' : [c.json() for c in self.crews]
+        }
 
 
 class Image(db.Model):
