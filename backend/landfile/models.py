@@ -135,18 +135,19 @@ class User(db.Model):
     email: str = db.Column(db.String, unique=True)
     password: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    is_admin: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='members')
     crews: t.List['Crew']  = db.relationship('Crew', secondary=crew_table, back_populates='members')
-    _account: Account = db.relationship('Account', backref='admins')
 
 
-    def __init__(self, email: str, password: str, account_id: int):
+    def __init__(self, email: str, password: str, account_id: int, is_admin: bool):
 
         self.user_id = 'user_' + gen_id()
         self.password = generate_password_hash(password)
         self.email = email
         self.account_id = account_id
+        self.is_admin = is_admin
 
 
     def verify_password(self, password: str):
