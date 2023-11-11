@@ -9,11 +9,9 @@ from landfile.models import User, Crew
 crew = Blueprint('crew', 'crew', url_prefix='/crews/<string:id>')
 
 
-def get_crew(id: str) -> t.Tuple[User, Crew]:
+def _get_crew(id: str) -> t.Tuple[User, Crew]:
 
-    email = get_jwt_identity()
-
-    u: User = User.query.filter_by(email=email).first()
+    u: User = User.query.all()[0]
 
     if u is None:
         abort(500)
@@ -30,11 +28,20 @@ def get_crew(id: str) -> t.Tuple[User, Crew]:
     return u, c
 
 
+@crew.route('', methods=['GET'])
+# @jwt_required
+def get_crew(id: str):
+
+    _, crew_ = _get_crew(id)
+
+    return crew_.json()
+
+
 @crew.route('', methods=['POST'])
-@jwt_required
+# @jwt_required
 def post_crew(id: str):
 
-    user, crew_ = get_crew(id)
+    user, crew_ = _get_crew(id)
 
     if user not in crew_.leads:
         abort(403)
