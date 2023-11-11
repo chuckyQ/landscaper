@@ -49,10 +49,12 @@ def login():
     if u is None:
         abort(401)
 
+    assert isinstance(u, User)
+
     if not u.verify_password(password):
         abort(401)
 
-    access_token = create_access_token(identity=u.username)
+    access_token = create_access_token(identity=u.email)
     response = jsonify(msg='login successful', access_token=access_token,
                        isAccountOwner=u.is_account_owner())
     return response
