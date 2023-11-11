@@ -73,9 +73,9 @@ class Account(db.Model):
         return u
 
 
-    def add_crew(self, name: str):
+    def add_crew(self, name: str, description: str):
 
-        c = Crew(name=name, account_id=self.id)
+        c = Crew(name=name, description=description, account_id=self.id)
         c.save()
         return c
 
@@ -189,16 +189,18 @@ class Crew(db.Model):
 
     name: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    description: str = db.Column(db.String)
 
     account: Account = db.relationship('Account', backref='crews')
     jobs: t.List['Job'] = db.relationship('Job', secondary=job_table, back_populates='crews')
     members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crews')
 
 
-    def __init__(self, name: str, account_id: int):
+    def __init__(self, name: str, description: str, account_id: int):
 
         self.name = name
         self.account_id = account_id
+        self.description = description
         self.user_id = 'crew_' + gen_id()
 
 
