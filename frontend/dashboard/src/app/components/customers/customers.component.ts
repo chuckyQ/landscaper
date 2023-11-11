@@ -1,30 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddCustomerModalComponent } from '../add-customer-modal/add-customer-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 interface Customer {
+  custID: string
   address: string
-  city: string
-  state: string
-  zipCode: string
   phoneNumber: string
-  contactName: string
-}
-
-
-function createCustomer(address: string, city: string, state: string,
-  zipCode: string, phoneNumber: string, contactName: string) {
-  let c: Customer = {
-    address: address,
-    city: city,
-    state: state,
-    zipCode: zipCode,
-    phoneNumber: phoneNumber,
-    contactName: contactName,
-  }
-
-  return c
+  name: string
 }
 
 
@@ -37,9 +21,19 @@ export class CustomersComponent implements OnInit {
 
   customers: Customer[]
 
-  constructor(public modal: NgbModal) {
+  constructor(public modal: NgbModal, public service: AuthService) {
 
     this.customers = []
+
+    this.service.getCustomers().subscribe(
+      {
+        next: (resp: any) => {
+          console.log(resp)
+          this.customers = resp
+        }
+      }
+    )
+
 
    }
 
