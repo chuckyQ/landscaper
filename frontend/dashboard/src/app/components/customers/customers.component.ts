@@ -39,22 +39,7 @@ export class CustomersComponent implements OnInit {
 
   constructor(public modal: NgbModal) {
 
-    this.customers = [
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-      createCustomer("22637 Madison St", "St Clair Shores", "MI", "48081", "313-319-4742", "Charles"),
-    ]
+    this.customers = []
 
    }
 
