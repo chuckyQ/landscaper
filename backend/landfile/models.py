@@ -57,12 +57,13 @@ class Account(db.Model):
         return c
 
 
-    def add_user(self, email: str, password: str):
+    def add_user(self, email: str, password: str, is_admin: bool):
 
         u = User(
             password=password,
             email=email,
             account_id=self.id,
+            is_admin=is_admin,
         )
 
         u.save()
