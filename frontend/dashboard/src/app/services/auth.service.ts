@@ -151,5 +151,9 @@ export class AuthService {
     return this.http.get(`${environment.backendURL}/customers`)
   }
 
+  getJobsForCalendarDay(year: number, month: number, day: number) {
+    return this.http.get(`${environment.backendURL}/calendar/${year}/${month}/${day}`)
+  }
+
 }
 
