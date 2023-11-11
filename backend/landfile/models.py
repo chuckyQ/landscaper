@@ -137,7 +137,7 @@ class User(db.Model):
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
 
     account: Account = db.relationship('Account', backref='members')
-    crew: t.List['Crew']  = db.relationship('Crew', secondary=crew_table, back_populates='members')
+    crews: t.List['Crew']  = db.relationship('Crew', secondary=crew_table, back_populates='members')
     _account: Account = db.relationship('Account', backref='admins')
 
 
