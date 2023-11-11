@@ -215,7 +215,7 @@ class Job(db.Model):
         self.name = name
         self.account_id = account_id
         self.work_date_timestamp = work_date_timestamp
-        now = time()
+        now = time() * 1000 # Convert to milliseconds to make working with frontend easier
         self.created_timestamp = now
         self.last_updated_timestamp = now
         self.job_id = 'job_' + gen_id()
