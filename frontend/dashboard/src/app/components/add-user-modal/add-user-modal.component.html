@@ -3,33 +3,38 @@
     <div class="modal-close-btn" (click)="closeModal()">X</div>
 </div>
 <div class="modal-body">
-    <div class="fields">
-        <div class="field">
-            <label>Email</label>
-            <!-- Pattern found here: https://mailtrap.io/blog/angular-email-validation/ -->
-            <input
-                class="form-control"
-                #email="ngModel"
-                pattern="\S+"
-                ngModel
-                required
-                name="email"
-                type="text">
-            <div class="alert alert-danger" *ngIf="email.touched && !email.valid">
-                Email is required.
+    <form #theForm="ngForm">
+        <div class="fields">
+            <div class="field">
+                <label>Email</label>
+                <!-- Pattern found here: https://mailtrap.io/blog/angular-email-validation/ -->
+                <input
+                    class="form-control"
+                    #email="ngModel"
+                    pattern="\S+"
+                    ngModel
+                    required
+                    name="email"
+                    type="email">
+                <div class="alert alert-danger" *ngIf="email.touched && !email.valid">
+                    Email is required.
+                </div>
+            </div>
+            <div class="field">
+                <label>Phone Number</label>
+                <input class="form-control" required #phoneNumber="ngModel" ngModel type="tel">
+                <div class="alert alert-danger" *ngIf="phoneNumber.touched && !phoneNumber.valid">
+                    Phone number is required.
+                </div>
             </div>
         </div>
-        <div class="field">
-            <label>Phone Number</label>
-            <input class="form-control" required #phoneNumber="ngModel" ngModel type="tel">
-            <div class="alert alert-danger" *ngIf="phoneNumber.touched && !phoneNumber.valid">
-                Phone number is required.
-            </div>
-        </div>
-    </div>
+    </form>
+
     <div class="modal-create-btn">
         <input type="button"
+        [disabled]="!theForm.valid"
         class="btn btn-primary"
+        (click)="addUser(email.value, phoneNumber.value || '')"
         value="Create">
     </div>
 </div>
