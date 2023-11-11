@@ -19,7 +19,7 @@ def register():
 
     u = User.query.filter(func.lower(User.email) == email.lower()).first()
     if u is not None:
-        return {'msg' : 'This username is already in use.'}, 401
+        return {'msg' : 'This email is already in use.'}, 401
 
     password = generate_password()
     acc = create_account(email, password)
