@@ -1,4 +1,5 @@
 from .account import account
+from .customers import customers
 from .crew import crew
 from .crews import crews
 from .job import job
@@ -11,6 +12,7 @@ BLUEPRINTS = [
     account,
     crew,
     crews,
+    customers,
     job,
     jobs,
     public,
