@@ -17,7 +17,7 @@
             <!-- Empty -->
         </th>
     </thead>
-    <tr *ngFor="let customer of customers">
+    <tr [routerLink]="['/customers/' + customer.custID]" *ngFor="let customer of customers">
         <td>{{ customer.name }}</td>
         <td>{{ customer.address }}</td>
         <td>{{ customer.phoneNumber }}</td>
