@@ -19,7 +19,14 @@
                         A name is required.
                     </div>
             </div>
-
+            <div class="field">
+                <label>Description</label>
+                <textarea
+                    #description="ngModel"
+                    ngModel
+                    class="form-control"
+                    style="resize: none;"></textarea>
+            </div>
             <div class="field">
                 <p>Members</p>
                 <input type="text" class="form-control" placeholder="Search...">
@@ -40,6 +47,7 @@
         </div>
         <div class="modal-create-btn">
             <input type="button"
+            (click)="addCrew(name.value, description.value)"
             class="btn btn-primary"
             [disabled]="!theForm.valid"
             value="Create">

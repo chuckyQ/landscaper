@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 interface Member {
@@ -17,7 +18,7 @@ export class AddCrewModalComponent implements OnInit {
 
   members: Member[]
 
-  constructor(public modal: NgbActiveModal) {
+  constructor(public modal: NgbActiveModal, public service: AuthService) {
 
     this.members = []
 
@@ -28,6 +29,22 @@ export class AddCrewModalComponent implements OnInit {
 
   closeModal() {
     this.modal.close()
+  }
+
+  addCrew(name: string, description: string) {
+
+    let d = {
+      name: name,
+      description: description
+    }
+
+    this.service.postCrew(d).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Crew created!")
+        }
+      }
+    )
   }
 
 }
