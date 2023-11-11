@@ -33,6 +33,8 @@ class Account(db.Model):
     acc_id: str = db.Column(db.String, index=True)
     email: str = db.Column(db.String, index=True, unique=True)
 
+    customers: t.List['Customer']
+
     admins: t.List['User']
     members: t.List['User']
     jobs: t.List['Job']
@@ -107,6 +109,7 @@ class Customer(db.Model):
     phone_number: str = db.Column(db.String)
     notes: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    account: Account = db.relationship('Account', backref='customers')
 
 
     def __init__(self, address: str, contact_name: str,
@@ -124,6 +127,16 @@ class Customer(db.Model):
 
         db.session.add(self)
         db.session.commit()
+
+
+    def json(self):
+
+        return {
+            'custID' : self.cust_id,
+            'name' : self.contact_name,
+            'phoneNumber' : self.phone_number,
+            'address' : self.address,
+        }
 
 
 class User(db.Model):
