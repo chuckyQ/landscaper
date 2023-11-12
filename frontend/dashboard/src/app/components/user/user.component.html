@@ -1,1 +1,23 @@
-<p>user works!</p>
+<div class="user-area">
+    <div class="user-info">
+        <div class="user-inputs">
+            <div class="fields">
+                <div class="field">
+                    <label for="">
+                        Email
+                    </label>
+                    <input
+                        class="form-control"
+                        [ngModel]="user.email"
+                        type="text">
+                </div>
+                <div class="field">
+                    <label for="">Phone Number</label>
+                    <input type="text" [(ngModel)]="user.phoneNumber">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="user-work">
+    </div>
+</div>

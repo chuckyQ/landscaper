@@ -1,0 +1,12 @@
+.user-area {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+
+@media screen and (min-width: 900px) {
+    .user-area {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
