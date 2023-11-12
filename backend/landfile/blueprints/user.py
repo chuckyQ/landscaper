@@ -7,32 +7,20 @@ from landfile.models import User
 user = Blueprint('user', 'user', url_prefix='/users/<string:id>')
 
 
-def get_user():
+def get_user(id: str) -> User:
 
-    email = get_jwt_identity()
-
-    u: User = User.query.filter_by(email=email).first()
-
-    if u is None:
-        abort(500)
-
-    assert isinstance(u, User)
-
-    if not u.is_account_admin():
-        abort(403)
-
-    return u
+    return User.query.filter_by(user_id=id).first_or_404()
 
 
 @user.route('', methods=['GET'])
-@jwt_required
-def get_users():
-    u = get_user()
-    return [u.users]
+# @jwt_required
+def _get_user(id: str):
+    u = get_user(id)
+    return u.json()
 
 
 @user.route('', methods=['POST'])
-@jwt_required
-def create_crew():
+# @jwt_required
+def add_user():
 
     u = get_user()
