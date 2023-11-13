@@ -81,6 +81,13 @@ class Account(db.Model):
         return c
 
 
+    def add_job(self, name: str, address: str, date_timestamp: float):
+
+        j = Job(name=name, address=address, account_id=self.id, work_date_timestamp=date_timestamp)
+        j.save()
+        return j
+
+
     def save(self):
 
         db.session.add(self)
@@ -254,13 +261,14 @@ class Job(db.Model):
     created_timestamp: float = db.Column(db.Float)
     work_date_timestamp: float = db.Column(db.Float)
     last_updated_timestamp: float = db.Column(db.Float)
+    address: str = db.Column(db.String)
 
     account = db.relationship('Account', backref='jobs')
 
     crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
 
 
-    def __init__(self, name: str, account_id: int, work_date_timestamp: float):
+    def __init__(self, name: str, account_id: int, address: str, work_date_timestamp: float):
 
         self.name = name
         self.account_id = account_id
@@ -269,6 +277,7 @@ class Job(db.Model):
         self.created_timestamp = now
         self.last_updated_timestamp = now
         self.job_id = 'job_' + gen_id()
+        self.address = address
 
 
     def save(self):
@@ -282,9 +291,10 @@ class Job(db.Model):
         return {
             'jobID' : self.job_id,
             'name' : self.name,
+            'address' : self.address,
             'createdTimestamp' : self.created_timestamp,
             'lastUpdatedTimestamp' : self.last_updated_timestamp,
-            'crews' : [c.json() for c in self.crews]
+            'crews' : [c.json() for c in self.crews],
         }
 
 
