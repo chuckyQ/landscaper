@@ -127,6 +127,10 @@ export class AuthService {
     localStorage.clear()
   }
 
+  get token() {
+    return localStorage.getItem('access_token')
+  }
+
   isLoggedIn() {
 
     let token = localStorage.getItem('access_token')
@@ -164,6 +168,14 @@ export class AuthService {
 
   getJobsForCalendarDay(year: number, month: number, day: number) {
     return this.http.get(`${environment.backendURL}/calendar/${year}/${month}/${day}`)
+  }
+
+  getJob(jobID: string) {
+    return this.http.get(`${environment.backendURL}/jobs/${jobID}`)
+  }
+
+  getJobs() {
+    return this.http.get(`${environment.backendURL}/jobs`)
   }
 
   postUser(data: any) {
