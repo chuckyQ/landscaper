@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   backendURL: "http://localhost:5000",
+  websocketURL: "http://localhost:5001",
 };
 
 /*
