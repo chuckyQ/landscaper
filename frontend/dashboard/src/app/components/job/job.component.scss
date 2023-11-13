@@ -16,8 +16,16 @@
     gap: 5rem;
 }
 
-.job-comments {
-    margin-bottom: 2rem;
+
+
+.comment {
+    padding: 0.5rem;
+    border: 1px solid black;
+    border-bottom: none;
+
+    &:last-of-type {
+        border-bottom: 1px solid black;
+    }
 }
 
 
