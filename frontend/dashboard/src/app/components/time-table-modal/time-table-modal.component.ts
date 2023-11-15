@@ -6,20 +6,6 @@ interface Crew {
   selected: boolean
 }
 
-function zfill(n: number) {
-
-  if(n < 10) {
-    return `0${n}`
-  }
-
-  return n.toString()
-
-}
-
-// Number of timeslots in a day
-// at 30min increments.
-const NUM_OF_TIMESLOTS = 24 * 2
-
 @Component({
   selector: 'app-time-table-modal',
   templateUrl: './time-table-modal.component.html',
@@ -30,29 +16,10 @@ export class TimeTableModalComponent {
   @Input()
   date: string
 
-  @Input()
-  time: string
-
   crews: Crew[]
-
-  timeslots: string[]
 
   constructor(public activeModal: NgbActiveModal) {
     this.date = ""
-    this.time = ""
-
-    this.timeslots = []
-
-    var hour = 0;
-    for(let i = 0; i < NUM_OF_TIMESLOTS; i++) {
-      if(i % 2 == 0) {
-        this.timeslots.push(`${zfill(hour)}:00:00`)
-        continue
-      }
-      this.timeslots.push(`${zfill(hour)}:30:00`)
-      hour++
-    }
-
 
     this.crews = [
       {
