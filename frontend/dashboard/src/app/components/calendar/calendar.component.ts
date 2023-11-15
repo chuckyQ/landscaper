@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 function generateDates2(startYear: number, startMonth: number) {
@@ -26,6 +27,12 @@ function generateDates2(startYear: number, startMonth: number) {
 
 }
 
+interface Job {
+  jobID: string
+  address: string
+  workDateTimestamp: number
+}
+
 
 @Component({
   selector: 'calendar',
@@ -36,8 +43,8 @@ export class CalendarComponent implements OnInit {
 
   weekdayNames: string[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-  jobMap: Map<string, string[]>
-  jobIDs: Map<string, string>
+  jobMap: Map<string, string[]> // Maps dates to a list of job ids
+  jobIDs: Map<string, Job>
 
   clickedJobID: string | null
   clickedDate: string | null
@@ -45,15 +52,17 @@ export class CalendarComponent implements OnInit {
   destinationDate: string | null
   days: Date[]
   displayedMonth: Date
+  jobs: Job[]
 
   currentMonth: number
   currentYear: number
   dragging: boolean
 
-  constructor(public modal: NgbModal, public router: Router) {
+  constructor(public modal: NgbModal, public router: Router, public service: AuthService) {
 
     this.jobMap = new Map<string, string[]>;
-    this.jobIDs = new Map<string, string>;
+    this.jobIDs = new Map<string, Job>;
+    this.jobs = []
 
     this.clickedJobID = null
     this.clickedDate = null
@@ -64,16 +73,41 @@ export class CalendarComponent implements OnInit {
     this.currentYear = today.getFullYear()
     this.displayedMonth = today
 
-    this.jobIDs.set("a", "123456")
-    this.jobIDs.set("b", "10203040")
-
-    this.jobMap.set("2023-10-23", ["a", "b"])
-    this.jobMap.set("2023-10-24", [])
-    this.jobMap.set("2023-10-25", [])
-
     this.days = generateDates2(today.getFullYear(), today.getMonth())
-
     this.dragging = false
+
+    this.service.getJobBetweenTimestamps(this.days[0].getTime(), this.days[this.days.length-1].getTime())
+    .subscribe(
+      {
+        next: (resp: any) => {
+          this.jobs = resp as Job[]
+
+          for(let i = 0; i < this.jobs.length; i++) {
+            let job = this.jobs[i]
+            let dt = new Date(job.workDateTimestamp)
+            let date = dt.toISOString().split("T")[0]
+
+            if(!this.jobMap.has(date)) {
+              this.jobMap.set(date, [])
+            }
+
+            let list = this.jobMap.get(date)
+
+            if(list === undefined) {
+              list = []
+            }
+
+            list.push(job.jobID)
+            this.jobMap.set(date, list)
+            this.jobIDs.set(job.jobID, job)
+
+          }
+
+          console.log(this.jobMap)
+        }
+      }
+    )
+
   }
 
 
