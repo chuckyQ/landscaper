@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TimeTableModalComponent } from '../time-table-modal/time-table-modal.component';
 
 
 function generateDates2(startYear: number, startMonth: number) {
@@ -112,6 +113,11 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  openTimeTableModal(dt: string) {
+    let m = this.modal.open(TimeTableModalComponent)
+    m.componentInstance.date = dt
   }
 
   getJobList(dt: Date) {

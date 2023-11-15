@@ -43,7 +43,23 @@
   height: 30%;
   margin-top: 0.25rem;
   margin-left: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 0.5rem;
 }
+
+.day-date-add {
+  font-size: 15;
+  background-color: rgba(0, 0, 255, 0.306);
+  width: 1.5rem;
+  height: 1.5rem;
+  &:hover {
+    cursor: pointer;
+  }
+  text-align: center;
+  display: block;
+}
+
 
 .day-jobs {
   overflow-y: scroll;
@@ -91,7 +107,7 @@
     width: 12.5rem;
     position: relative;
     overflow-x: none;
-    background-color: blue;
+    background-color: rgb(229, 229, 229);
 
   }
 

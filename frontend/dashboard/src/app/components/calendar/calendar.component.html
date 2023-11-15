@@ -35,12 +35,19 @@
             [attr.date]="day.toISOString().split('T')[0]"
             >
             <div class="day-date">
-                <ng-container *ngIf="day.getDate() === 1">
-                    <strong>{{ day | date : 'MMM d' }}</strong>
-                </ng-container>
-                <ng-container *ngIf="day.getDate() !== 1">
-                    {{ day.getDate() }}
-                </ng-container>
+                <div>
+                    <ng-container *ngIf="day.getDate() === 1">
+                        <strong>{{ day | date : 'MMM d' }}</strong>
+                    </ng-container>
+                    <ng-container *ngIf="day.getDate() !== 1">
+                        {{ day.getDate() }}
+                    </ng-container>
+                </div>
+                <div
+                    class="day-date-add"
+                    (click)="openTimeTableModal(day.toISOString().split('T')[0])">
+                        <span> + </span>
+                </div>
             </div>
             <ng-container *ngFor="let job of getJobs(day);">
                 <div
@@ -49,7 +56,7 @@
                     [attr.jobID]="job"
                     class="example-box"
                     >
-                    {{ day.toISOString() }}
+                    {{ jobIDs.get(job)!.address  }}
                 </div>
         </ng-container>
         </div>
