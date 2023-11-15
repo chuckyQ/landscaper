@@ -174,6 +174,10 @@ export class AuthService {
     return this.http.get(`${environment.backendURL}/jobs/${jobID}`)
   }
 
+  getJobBetweenTimestamps(startTimestamp: number, endTimestamp: number) {
+    return this.http.get(`${environment.backendURL}/jobs?startTimestamp=${startTimestamp}&endTimestamp=${endTimestamp}`)
+  }
+
   getJobs() {
     return this.http.get(`${environment.backendURL}/jobs`)
   }
