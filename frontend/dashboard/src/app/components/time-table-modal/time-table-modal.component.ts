@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/services/auth.service';
 
 interface Crew {
   name: string
@@ -18,7 +19,7 @@ export class TimeTableModalComponent {
 
   crews: Crew[]
 
-  constructor(public activeModal: NgbActiveModal) {
+  constructor(public activeModal: NgbActiveModal, public service: AuthService) {
     this.date = ""
 
     this.crews = [
@@ -34,7 +35,26 @@ export class TimeTableModalComponent {
 
   }
 
-  createJob(dt: string, name: string, address: string) {
+  createJob(name: string, address: string, notes: string) {
+
+    let d = {
+      name: name,
+      address: address,
+      notes: notes,
+      dateTimestamp: new Date(this.date).getTime(),
+      crews: [],
+
+    }
+
+    this.service.postJob(d).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Job created!")
+          this.activeModal.close()
+          window.location.reload()
+        }
+      }
+    )
   }
 
 }
