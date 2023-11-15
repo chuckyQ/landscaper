@@ -186,6 +186,10 @@ export class AuthService {
     return this.http.post(`${environment.backendURL}/users`, data)
   }
 
+  postJob(data: any) {
+    return this.http.post(`${environment.backendURL}/jobs`, data)
+  }
+
   getUsers() {
     return this.http.get(`${environment.backendURL}/users`)
   }
