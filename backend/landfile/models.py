@@ -81,9 +81,10 @@ class Account(db.Model):
         return c
 
 
-    def add_job(self, name: str, address: str, date_timestamp: float):
+    def add_job(self, name: str, address: str, date_timestamp: float, notes: str):
 
-        j = Job(name=name, address=address, account_id=self.id, work_date_timestamp=date_timestamp)
+        j = Job(name=name, address=address, account_id=self.id,
+                notes=notes, work_date_timestamp=date_timestamp)
         j.save()
         return j
 
