@@ -160,3 +160,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     cursor: pointer;
   }
 }
+
+// Global shading when hovering over a table row
+tr {
+  &:hover {
+      cursor: pointer;
+      background-color: rgb(241, 239, 239);
+  }
+}
+
