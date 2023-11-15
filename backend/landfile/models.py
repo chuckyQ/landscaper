@@ -262,13 +262,14 @@ class Job(db.Model):
     work_date_timestamp: float = db.Column(db.Float)
     last_updated_timestamp: float = db.Column(db.Float)
     address: str = db.Column(db.String)
+    notes: str = db.Column(db.String)
 
     account = db.relationship('Account', backref='jobs')
 
     crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
 
 
-    def __init__(self, name: str, account_id: int, address: str, work_date_timestamp: float):
+    def __init__(self, name: str, account_id: int, address: str, notes: str, work_date_timestamp: float):
 
         self.name = name
         self.account_id = account_id
@@ -278,6 +279,7 @@ class Job(db.Model):
         self.last_updated_timestamp = now
         self.job_id = 'job_' + gen_id()
         self.address = address
+        self.notes = notes
 
 
     def save(self):
