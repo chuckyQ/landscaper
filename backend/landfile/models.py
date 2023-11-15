@@ -292,6 +292,7 @@ class Job(db.Model):
             'jobID' : self.job_id,
             'name' : self.name,
             'address' : self.address,
+            'workDateTimestamp' : self.work_date_timestamp,
             'createdTimestamp' : self.created_timestamp,
             'lastUpdatedTimestamp' : self.last_updated_timestamp,
             'crews' : [c.json() for c in self.crews],
