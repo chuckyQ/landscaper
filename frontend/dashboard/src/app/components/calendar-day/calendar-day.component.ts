@@ -1,27 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TimeTableModalComponent } from 'src/app/components/time-table-modal/time-table-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
 
-interface Timeslot {
-  time: string
-  hasEvent: boolean
-  length: number // Number of rows to span
-  date: string
-}
-
-function zfill(n: number) {
-
-  if(n < 10) {
-    return `0${n}`
-  }
-
-  return n.toString()
-
-}
 
 interface Job {
+  name: string
+  jobID: string
   address: string
   notes: string
 }
