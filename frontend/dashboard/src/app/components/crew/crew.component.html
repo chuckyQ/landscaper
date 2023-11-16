@@ -25,19 +25,22 @@
         </div>
     </div>
     <div class="members">
-        <div class="members-top" style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+        <div class="members-top" style="display: flex; gap: 2rem;">
             <h2>Members</h2>
             <div>
-                <input type="button" class="btn btn-primary" value="Edit">
+                <input
+                    type="button"
+                    (click)="editCrew()"
+                    class="btn btn-primary"
+                    value="Edit">
             </div>
         </div>
 
-        <div><img
-                class="user-img"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Elon_Musk_Colorado_2022_%28cropped2%29.jpg/330px-Elon_Musk_Colorado_2022_%28cropped2%29.jpg" alt=""></div>
-        <div>B</div>
-        <div>C</div>
-        <div>D</div>
-        <div>E</div>
+        <table class="table">
+            <tr *ngFor="let member of crew.members">
+                <td>{{ member.email }}</td>
+            </tr>
+        </table>
+
     </div>
 </div>

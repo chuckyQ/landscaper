@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
+import { EditCrewMembersModalComponent } from '../edit-crew-members-modal/edit-crew-members-modal.component';
 
 interface Member {
   id: number
@@ -25,7 +27,7 @@ export class CrewComponent implements OnInit {
 
   crewID: string
   crew: Crew
-  constructor(public ar: ActivatedRoute, public service: AuthService) {
+  constructor(public ar: ActivatedRoute, public service: AuthService, public modal: NgbModal) {
 
     this.crewID = this.ar.snapshot.paramMap.get("crewID") as string
     this.crew = {
@@ -45,6 +47,11 @@ export class CrewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  editCrew() {
+    let m = this.modal.open(EditCrewMembersModalComponent)
+    m.componentInstance.crewID = this.crew.crewID
   }
 
 }
