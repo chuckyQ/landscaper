@@ -6,12 +6,13 @@
                 <div class="fields">
                     <div class="field">
                         <label>Email</label>
+                        {{ user | json }}
                         <input
                             class="form-control"
                             #email="ngModel"
                             ngModel
                             name="email"
-                            [ngModel]="user.email"
+                            [value]="user.email"
                             required
                             email
                             type="email"
@@ -24,14 +25,20 @@
                         <label for="">Phone Number</label>
                         <input
                             type="text"
+                            name="phoneNumber"
+                            #phoneNumber="ngModel"
+                            ngModel
+                            [value]="user.phoneNumber"
                             placeholder="Add a phone number (optional)"
                             class="form-control"
-                            [(ngModel)]="user.phoneNumber">
+                            >
                     </div>
                 </div>
                 <div style="display: flex; justify-content: flex-end; margin-top: 1rem">
                     <input
                         type="button"
+                        (click)="save(email.value, phoneNumber.value)"
+                        [disabled]="!theForm.valid"
                         class="btn btn-primary"
                         value="Save">
                 </div>

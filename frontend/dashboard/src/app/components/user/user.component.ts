@@ -43,8 +43,14 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  save() {
-    this.service.editUser(this.user.userID, this.user).subscribe(
+  save(email: string, phoneNumber: string) {
+
+    let d = {
+      email: email,
+      phoneNumber: phoneNumber,
+    }
+
+    this.service.editUser(this.user.userID, d).subscribe(
       {
         next: (resp: any) => {
           alert("User successfully updated!")
