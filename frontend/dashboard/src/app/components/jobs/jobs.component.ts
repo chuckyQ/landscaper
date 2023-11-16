@@ -25,7 +25,6 @@ export class JobsComponent implements OnInit {
     this.service.getJobs().subscribe(
       {
         next: (resp: any) => {
-          console.log(resp)
           this.jobs = resp
         }
       }
