@@ -217,5 +217,9 @@ export class AuthService {
   postCrewMembers(crewID: string, data: any) {
     return this.http.post(`${environment.backendURL}/crews/${crewID}/members`, data)
   }
+
+  getMembers() {
+    return this.http.get(`${environment.backendURL}/account/members`)
+  }
 }
 
