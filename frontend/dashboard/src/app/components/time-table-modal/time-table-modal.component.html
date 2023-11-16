@@ -32,9 +32,14 @@
             <div class="field group-field">
                 <label>Crews</label>
                 <table class="table">
-                    <tr *ngFor="let crew of crews">
+                    <tr (click)="crew.selected = !crew.selected" *ngFor="let crew of crews">
                         <td>{{ crew.name }}</td>
-                        <td><input type="checkbox" [(ngModel)]="crew.selected"></td>
+                        <td><input
+                                readonly
+                                type="checkbox"
+                                [ngModelOptions]="{standalone: true}"
+                                [(ngModel)]="crew.selected">
+                            </td>
                     </tr>
                 </table>
             </div>

@@ -22,16 +22,19 @@ export class TimeTableModalComponent {
   constructor(public activeModal: NgbActiveModal, public service: AuthService) {
     this.date = ""
 
-    this.crews = [
+    this.crews = []
+
+    this.service.getCrews().subscribe(
       {
-        name: "Gutters",
-        selected: false,
-      },
-      {
-        name: "Lawn Care",
-        selected: false,
+        next: (resp: any) => {
+          this.crews = resp
+
+          for(let i = 0; i < this.crews.length; i++) {
+            this.crews[i].selected = false
+          }
+        }
       }
-    ]
+    )
 
   }
 
@@ -42,8 +45,7 @@ export class TimeTableModalComponent {
       address: address,
       notes: notes,
       dateTimestamp: new Date(this.date).getTime(),
-      crews: [],
-
+      crews: this.crews,
     }
 
     this.service.postJob(d).subscribe(
