@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h1>Edit Members</h1>
+    <div class="red-x">
+        <span (click)="modal.close()">X</span>
+    </div>
+</div>
+<div class="modal-body">
+    <input type="text" class="form-control" placeholder="Search...">
+    <table class="table">
+        <tr (click)="member.inCrew = !member.inCrew" *ngFor="let member of crewMembers">
+            <td>{{ member.email }}</td>
+            <td>
+                <input readonly type="checkbox" [(ngModel)]="member.inCrew">
+            </td>
+        </tr>
+    </table>
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+        <input
+            (click)="saveMembers()"
+            type="button"
+            class="btn btn-primary"
+            value="Save">
+    </div>
+</div>

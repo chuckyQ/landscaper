@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimeTableModalComponent } from './components/time-table-modal/time-table-modal.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 import { WorkImagesModalComponent } from './components/work-images-modal/work-images-modal.component';
+import { EditCrewMembersModalComponent } from './components/edit-crew-members-modal/edit-crew-members-modal.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { WorkImagesModalComponent } from './components/work-images-modal/work-im
     AddCrewModalComponent,
     TimeTableModalComponent,
     CalendarDayComponent,
-    WorkImagesModalComponent
+    WorkImagesModalComponent,
+    EditCrewMembersModalComponent
   ],
   imports: [
     BrowserModule,
