@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 interface Member {
   email: string
   imageJWT: string
+  selected: boolean
 }
 
 
@@ -22,6 +23,18 @@ export class AddCrewModalComponent implements OnInit {
 
     this.members = []
 
+    this.service.getMembers().subscribe(
+      {
+        next: (resp: any) => {
+          this.members = resp
+          for(let i = 0; i < this.members.length; i++) {
+            this.members[i].selected = false
+          }
+        }
+      }
+    )
+
+
   }
 
   ngOnInit(): void {
@@ -35,7 +48,8 @@ export class AddCrewModalComponent implements OnInit {
 
     let d = {
       name: name,
-      description: description
+      description: description,
+      members: this.members,
     }
 
     this.service.postCrew(d).subscribe(

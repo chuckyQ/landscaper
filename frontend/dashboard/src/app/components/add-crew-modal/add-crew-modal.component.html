@@ -24,6 +24,7 @@
                 <textarea
                     #description="ngModel"
                     ngModel
+                    name="description"
                     class="form-control"
                     style="resize: none;"></textarea>
             </div>
@@ -32,12 +33,20 @@
                 <input type="text" class="form-control" placeholder="Search...">
                 <div class="member-table">
                     <table class="table">
-                        <tr *ngFor="let member of members">
+                        <tr (click)="member.selected = !member.selected"
+                            *ngFor="let member of members">
                             <td>
-                                <img class="user-img" [src]="member.imageJWT">
+
                             </td>
                             <td>
                                 {{ member.email }}
+                            </td>
+                            <td>
+                                <input
+                                    readonly
+                                    type="checkbox"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="member.selected">
                             </td>
                         </tr>
                     </table>
