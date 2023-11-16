@@ -7,6 +7,7 @@ interface Customer {
   name: string
   address: string
   phoneNumber: string | null
+  notes: string
 }
 
 
@@ -25,7 +26,8 @@ export class CustomerComponent implements OnInit {
       custID: "",
       name: "",
       address: "",
-      phoneNumber: ""
+      phoneNumber: "",
+      notes: "",
     }
 
     let custID = this.ar.snapshot.paramMap.get('customerID')
@@ -34,6 +36,7 @@ export class CustomerComponent implements OnInit {
       this.service.getCustomer(custID).subscribe(
         {
           next: (resp: any) => {
+            console.log(resp)
             this.customer = resp
           }
         }
@@ -43,6 +46,18 @@ export class CustomerComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+
+  saveChanges() {
+    this.service.editCustomer(this.customer.custID, this.customer).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Customer updated!")
+          window.location.reload()
+        }
+      }
+    )
   }
 
 }

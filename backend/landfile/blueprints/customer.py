@@ -20,3 +20,17 @@ def get_customers(id: str):
     acc = get_account()
     c = Customer.query.filter_by(cust_id=id).first_or_404()
     return c.json()
+
+
+@customer.route('', methods=['POST'])
+def update_custoemr(id: str):
+
+    c: Customer = Customer.query.filter_by(cust_id=id).first_or_404()
+
+    for key, val in request.json.items():
+        setattr(c, key, val)
+
+    setattr(c, 'phone_number', request.json['phoneNumber'])
+    setattr(c, 'contact_name', request.json['name'])
+    c.save()
+    return {}

@@ -158,6 +158,10 @@ export class AuthService {
     return this.http.post(`${environment.backendURL}/customers`, data)
   }
 
+  editCustomer(custID: string, data: any) {
+    return this.http.post(`${environment.backendURL}/customers/${custID}`, data)
+  }
+
   getCustomers() {
     return this.http.get(`${environment.backendURL}/customers`)
   }
