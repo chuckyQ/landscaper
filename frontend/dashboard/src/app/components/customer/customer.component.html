@@ -1,21 +1,76 @@
 <div class="customer-area">
     <div class="customer-info">
+        <h1>Info</h1>
         <div class="customer-inputs">
-            <div class="fields">
-                <div class="field">
-                    <label>
-                        Name
-                    </label>
+            <form #thisForm="ngForm">
+                <div class="fields">
+                    <div class="field">
+                        <label>
+                            Name
+                        </label>
+                        <input
+                            required
+                            #name="ngModel"
+                            name="name"
+                            ngModel
+                            [(ngModel)]="customer.name"
+                            class="form-control"
+                            type="text">
+                        <div class="alert alert-danger"
+                            *ngIf="name.touched && !name.valid">
+                            A name is required.
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Address</label>
+                        <input
+                            type="text"
+                            name="address"
+                            required
+                            #address="ngModel"
+                            ngModel
+                            [(ngModel)]="customer.address"
+                            class="form-control">
+                        <div class="alert alert-danger"
+                            *ngIf="address.touched && !address.valid">
+                            An address is required.
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Phone Number</label>
+                        <input
+                            class="form-control"
+                            type="tel"
+                            name="phoneNumber"
+                            [(ngModel)]="customer.phoneNumber"
+                            placeholder="Phone number (optional)"
+                            >
+                    </div>
+                    <div class="field">
+                        <label>Notes</label>
+                        <textarea
+                            [(ngModel)]="customer.notes"
+                            name="notes"
+                            placeholder="Add notes (optional)"
+                            style="resize: none;"
+                            class="form-control"
+                            cols="30"
+                            rows="10"></textarea>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
                     <input
-                        [(ngModel)]="customer.name"
-                        class="form-control"
-                        type="text">
+                        type="button"
+                        (click)="saveChanges()"
+                        [disabled]="!thisForm.valid"
+                        class="btn btn-primary"
+                        value="Save">
                 </div>
-                <div class="field">
-                    <label>Address</label>
-                    <input type="text" [(ngModel)]="customer.address" class="form-control">
-                </div>
-            </div>
+            </form>
+
         </div>
+    </div>
+    <div class="most-recent-jobs">
+        <h1>Jobs</h1>
     </div>
 </div>
