@@ -42,6 +42,7 @@ export class AddCrewModalComponent implements OnInit {
       {
         next: (resp: any) => {
           alert("Crew created!")
+          window.location.reload()
         }
       }
     )
