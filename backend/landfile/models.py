@@ -299,6 +299,7 @@ class Job(db.Model):
             'createdTimestamp' : self.created_timestamp,
             'lastUpdatedTimestamp' : self.last_updated_timestamp,
             'crews' : [c.json() for c in self.crews],
+            'notes' : self.notes,
         }
 
 
