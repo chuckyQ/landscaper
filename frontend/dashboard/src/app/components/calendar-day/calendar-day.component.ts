@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TimeTableModalComponent } from 'src/app/components/time-table-modal/time-table-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 interface Timeslot {
   time: string
@@ -20,6 +21,11 @@ function zfill(n: number) {
 
 }
 
+interface Job {
+  address: string
+  notes: string
+}
+
 @Component({
   selector: 'app-calendar-day',
   templateUrl: './calendar-day.component.html',
@@ -27,76 +33,24 @@ function zfill(n: number) {
 })
 export class CalendarDayComponent {
 
-  timeslots: Timeslot[]
-  timeArray: string[]
-  dragStartSlot: number
-  dragEndSlot: number
   year: number | null
   month: number | null
   day: number | null
   date: string
+  startTimestamp: number
+  endTimestamp: number
+  jobs: Job[]
 
-  constructor(public modal: NgbModal, public ar: ActivatedRoute) {
+  constructor(public modal: NgbModal, public ar: ActivatedRoute, public service: AuthService) {
 
-    this.dragStartSlot = -1
-    this.dragEndSlot = -1
-    this.timeslots = []
-    this.date = ""
-
-    this.timeArray = [
-        "00:00",
-        "00:30",
-        "01:00",
-        "01:30",
-        "02:00",
-        "02:30",
-        "03:00",
-        "03:30",
-        "04:00",
-        "04:30",
-        "05:00",
-        "05:30",
-        "06:00",
-        "06:30",
-        "07:00",
-        "07:30",
-        "08:00",
-        "08:30",
-        "09:00",
-        "09:30",
-        "10:00",
-        "10:30",
-        "11:00",
-        "11:30",
-        "12:00",
-        "12:30",
-        "13:00",
-        "13:30",
-        "14:00",
-        "14:30",
-        "15:00",
-        "15:30",
-        "16:00",
-        "16:30",
-        "17:00",
-        "17:30",
-        "18:00",
-        "18:30",
-        "19:00",
-        "19:30",
-        "20:00",
-        "20:30",
-        "21:00",
-        "21:30",
-        "22:00",
-        "22:30",
-        "23:00",
-        "23:30",
-    ]
 
     this.year = null
     this.month = null
     this.day = null
+    this.date = ""
+    this.startTimestamp = -1
+    this.endTimestamp = -1
+    this.jobs = []
 
     let year = this.ar.snapshot.paramMap.get('year')
     let month = this.ar.snapshot.paramMap.get('month')
@@ -110,49 +64,20 @@ export class CalendarDayComponent {
     this.month = +month
     this.day = +day
 
-    this.date = `${year}-${zfill(this.month)}-${zfill(this.day)}T00:00:00`
+    this.startTimestamp = new Date(this.year, this.month - 1, this.day - 1).getTime()
+    this.endTimestamp = new Date(this.year, this.month - 1 , this.day).getTime()
 
-    for(let i = 0; i < this.timeArray.length; i++) {
+    this.date = `${this.year}-${this.month}-${this.day}`
 
-      let d = zfill(this.day)
-      let m = zfill(this.month)
-      this.timeslots.push(
-        {
-          time: this.timeArray[i],
-          hasEvent: false,
-          length: 2,
-          date: `${this.year}-${m}-${d}T${this.timeArray[i]}:00`
+    this.service.getJobBetweenTimestamps(this.startTimestamp, this.endTimestamp)
+    .subscribe(
+      {
+        next: (resp: any) => {
+          this.jobs = resp
         }
-      )
-    }
+      }
+    )
 
   }
-
-  createEvent(event: any, ts: Timeslot) {
-    ts.hasEvent = !ts.hasEvent
-    this.dragStartSlot = event.target.id
-  }
-
-  dragStart(event: any, ts: Timeslot) {
-    this.dragStartSlot = this.timeArray.indexOf(event.target.id)
-  }
-
-  dragEnd(event: any) {
-    this.dragEndSlot = this.timeArray.indexOf(event.target.id)
-  }
-
-  stretchEvent(event: any) {
-
-  }
-
-  scheduleTask(time: string) {
-
-    let m = this.modal.open(TimeTableModalComponent)
-    let dt = `${this.year}-${zfill(this.month as number)}-${zfill(this.day as number)}T00:00:00`
-    m.componentInstance.date = dt
-    m.componentInstance.time = time
-  }
-
 
 }
-
