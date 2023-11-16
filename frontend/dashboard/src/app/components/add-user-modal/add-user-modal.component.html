@@ -22,7 +22,7 @@
             </div>
             <div class="field">
                 <label>Phone Number</label>
-                <input class="form-control" required #phoneNumber="ngModel" ngModel type="tel">
+                <input class="form-control" name="phoneNumber" required #phoneNumber="ngModel" ngModel type="tel">
                 <div class="alert alert-danger" *ngIf="phoneNumber.touched && !phoneNumber.valid">
                     Phone number is required.
                 </div>
