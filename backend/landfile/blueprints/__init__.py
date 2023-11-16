@@ -1,4 +1,5 @@
 from .account import account
+from .calendar import calendar
 from .calendar_day import calendar_day
 from .customer import customer
 from .customers import customers
@@ -12,6 +13,7 @@ from .users import users
 
 BLUEPRINTS = [
     account,
+    calendar,
     calendar_day,
     crew,
     crews,
