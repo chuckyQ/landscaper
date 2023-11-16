@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 interface User {
+  userID: string
   email: string
   phoneNumber: string | null
 }
@@ -21,7 +22,8 @@ export class UserComponent implements OnInit {
 
     this.user = {
       email: "",
-      phoneNumber: ""
+      phoneNumber: "",
+      userID: "",
     }
 
     let userID = this.ar.snapshot.paramMap.get('userID')
@@ -39,6 +41,17 @@ export class UserComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  save() {
+    this.service.editUser(this.user.userID, this.user).subscribe(
+      {
+        next: (resp: any) => {
+          alert("User successfully updated!")
+          window.location.reload()
+        }
+      }
+    )
   }
 
 }

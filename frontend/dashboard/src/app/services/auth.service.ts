@@ -190,6 +190,10 @@ export class AuthService {
     return this.http.post(`${environment.backendURL}/users`, data)
   }
 
+  editUser(id: string, data: any) {
+    return this.http.post(`${environment.backendURL}/users/${id}`, data)
+  }
+
   postJob(data: any) {
     return this.http.post(`${environment.backendURL}/jobs`, data)
   }

@@ -1,21 +1,42 @@
 <div class="user-area">
     <div class="user-info">
         <div class="user-inputs">
-            <div class="fields">
-                <div class="field">
-                    <label for="">
-                        Email
-                    </label>
+            <h1>Info</h1>
+            <form #theForm="ngForm">
+                <div class="fields">
+                    <div class="field">
+                        <label>Email</label>
+                        <input
+                            class="form-control"
+                            #email="ngModel"
+                            ngModel
+                            name="email"
+                            [ngModel]="user.email"
+                            required
+                            email
+                            type="email"
+                            >
+                        <div class="alert alert-danger" *ngIf="email.touched && !email.valid">
+                            A valid email is required.
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="">Phone Number</label>
+                        <input
+                            type="text"
+                            placeholder="Add a phone number (optional)"
+                            class="form-control"
+                            [(ngModel)]="user.phoneNumber">
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem">
                     <input
-                        class="form-control"
-                        [ngModel]="user.email"
-                        type="text">
+                        type="button"
+                        class="btn btn-primary"
+                        value="Save">
                 </div>
-                <div class="field">
-                    <label for="">Phone Number</label>
-                    <input type="text" [(ngModel)]="user.phoneNumber">
-                </div>
-            </div>
+            </form>
+
         </div>
     </div>
     <div class="user-work">

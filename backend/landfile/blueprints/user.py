@@ -1,4 +1,4 @@
-from flask import Blueprint, abort
+from flask import Blueprint, abort, request
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -21,6 +21,14 @@ def _get_user(id: str):
 
 @user.route('', methods=['POST'])
 # @jwt_required
-def add_user():
+def update_user(id: str):
 
-    u = get_user()
+    u = get_user(id)
+
+    for key, val in request.json.items():
+        setattr(u, key, val)
+
+    u.phone_number = request.json['phoneNumber']
+    u.save()
+    return {}
+
