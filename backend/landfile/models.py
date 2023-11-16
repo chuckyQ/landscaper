@@ -145,6 +145,7 @@ class Customer(db.Model):
             'name' : self.contact_name,
             'phoneNumber' : self.phone_number,
             'address' : self.address,
+            'notes' : self.notes,
         }
 
 
