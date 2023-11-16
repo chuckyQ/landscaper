@@ -54,4 +54,19 @@ export class CrewComponent implements OnInit {
     m.componentInstance.crewID = this.crew.crewID
   }
 
+  save() {
+    let d = {
+      name: this.crew.name,
+      description: this.crew.description,
+    }
+    this.service.editCrew(this.crewID, d).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Crew saved!")
+          window.location.reload()
+        }
+      }
+    )
+  }
+
 }
