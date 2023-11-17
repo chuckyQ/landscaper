@@ -26,6 +26,8 @@ import { TimeTableModalComponent } from './components/time-table-modal/time-tabl
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 import { WorkImagesModalComponent } from './components/work-images-modal/work-images-modal.component';
 import { EditCrewMembersModalComponent } from './components/edit-crew-members-modal/edit-crew-members-modal.component';
+import { AddJobModalComponent } from './components/add-job-modal/add-job-modal.component';
+import { TimeagoPipe } from './pipes/timeago.pipe';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { EditCrewMembersModalComponent } from './components/edit-crew-members-mo
     TimeTableModalComponent,
     CalendarDayComponent,
     WorkImagesModalComponent,
-    EditCrewMembersModalComponent
+    EditCrewMembersModalComponent,
+    AddJobModalComponent,
+    TimeagoPipe
   ],
   imports: [
     BrowserModule,

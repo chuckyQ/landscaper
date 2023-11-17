@@ -1,0 +1,89 @@
+<div class="modal-header">
+    <h1>Add Job</h1>
+    <div class="red-x" (click)="activeModal.close()">
+        X
+    </div>
+</div>
+<div class="modal-body">
+
+    <form #theForm="ngForm">
+        <div class="fields">
+            <div class="field">
+                <label for="">Name</label>
+                <input
+                    #name="ngModel"
+                    ngModel
+                    name="name"
+                    required
+                    class="form-control"
+                    type="text"
+                    >
+                <div *ngIf="name.touched && !name.valid" class="alert alert-danger">
+                    This field is required.
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Address</label>
+                <input
+                    name="address"
+                    #address="ngModel"
+                    ngModel
+                    class="form-control"
+                    required
+                    type="text">
+                <div *ngIf="address.touched && !address.valid" class="alert alert-danger">
+                    This field is required.
+                </div>
+            </div>
+            <div class="field">
+                <label>Date</label>
+                <input
+                    #date="ngModel"
+                    ngModel
+                    required
+                    name="date"
+                    class="form-control"
+                    type="date">
+                <div class="alert alert-danger" *ngIf="date.touched && !date.valid">
+                    A date is required.
+                </div>
+            </div>
+            <div class="field group-field">
+                <label>Crews</label>
+                <div class="crew-tbl">
+                    <table class="table">
+                        <tr (click)="crew.selected = !crew.selected" *ngFor="let crew of crews">
+                            <td>{{ crew.name }}</td>
+                            <td>
+                                <input
+                                    readonly
+                                    type="checkbox"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [(ngModel)]="crew.selected">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="field">
+                <label>Notes</label>
+                <textarea
+                    #notes
+                    style="resize: none;"
+                    name="notes"
+                    class="form-control"
+                    cols="30"
+                    rows="5"></textarea>
+            </div>
+        </div>
+        <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
+            <input
+                type="button"
+                (click)="createJob(name.value, date.value, address.value, notes.value)"
+                class="btn btn-primary"
+                value="Create"
+                [disabled]="!theForm.valid">
+        </div>
+    </form>
+</div>
