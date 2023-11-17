@@ -16,16 +16,29 @@
     gap: 5rem;
 }
 
-
+.comments {
+    margin-top: 1rem;
+}
 
 .comment {
-    padding: 0.5rem;
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.521);
     border-bottom: none;
 
     &:last-of-type {
         border-bottom: 1px solid black;
     }
+}
+
+.comment-txt {
+    padding: 1rem;
+}
+
+.comment-header {
+    background-color: rgb(232, 232, 232);
+    padding: 0.25rem 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: row;
 }
 
 

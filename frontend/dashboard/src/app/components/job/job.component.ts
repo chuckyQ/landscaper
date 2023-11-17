@@ -14,12 +14,19 @@ interface Image {
 
 interface Comment {
   text: string
-  author: string
+  email: string
   userJWT: string
   timestamp: number
 }
 
+interface Member {
+  email: string
+  jwt: string
+}
+
 interface Job {
+  jobID: string
+  name: string
   address: string
   notes: string
   comments: Comment[]
@@ -27,6 +34,7 @@ interface Job {
   completed: boolean
   completeTimestamp: number
   startTimestamp: number
+  members: Member[]
 }
 
 @Component({
@@ -51,6 +59,8 @@ export class JobComponent implements OnInit {
     this.socket = null
 
     this.job = {
+      name: "",
+      jobID: "",
       address: "",
       notes: "",
       started: false,
@@ -58,6 +68,7 @@ export class JobComponent implements OnInit {
       comments: [],
       startTimestamp: 0,
       completeTimestamp: 0,
+      members: []
     }
 
     let jobID = this.ar.snapshot.paramMap.get('jobID') as string
@@ -65,7 +76,7 @@ export class JobComponent implements OnInit {
     this.service.getJob(jobID as string).subscribe(
       {
         next: (resp: any) => {
-          // this.job = resp
+          this.job = resp
         }
       }
     )
@@ -92,12 +103,22 @@ export class JobComponent implements OnInit {
     this.socket?.emit('postComment', {text: this.comment, userJWT: this.service.token})
     let c: Comment = {
       text: this.comment,
-      author: this.service.currentUser,
+      email: "myemail",
       userJWT: this.service.token as string,
       timestamp: new Date().getTime()
     }
     this.job.comments.unshift(c)
-    this.comment = "" // Clear out the comment after submitting
+
+    this.comment = ''
+    this.service.postJobComment(this.job.jobID, c).subscribe(
+      {
+        next: (resp: any) => {
+          // Empty
+        }
+      }
+    )
+
+
   }
 
   startJob() {
@@ -118,7 +139,7 @@ export class JobComponent implements OnInit {
 
     this.socket.on('emitComment', (postComment: any) => {
       let c: Comment = {
-        author: "",
+        email: postComment.email,
         text: postComment.text,
         timestamp: postComment.timestamp,
         userJWT: "",

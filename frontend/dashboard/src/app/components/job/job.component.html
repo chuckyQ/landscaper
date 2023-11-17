@@ -5,8 +5,12 @@
         <h2>Info</h2>
         <div class="fields">
             <div class="field">
+                <label for="">Name</label>
+                <input class="form-control" type="text" [value]="job.name" readonly>
+            </div>
+            <div class="field">
                 <label for="">Address</label>
-                <input type="text" class="form-control" readonly value="22637 Madison St St. Clair Shores">
+                <input type="text" class="form-control" readonly [value]="job.address">
             </div>
             <div class="field">
                 <label>Notes</label>
@@ -44,11 +48,21 @@
         <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
             <input (click)="postComment()"  type="button" class="btn btn-primary" value="Post">
         </div>
-        <div *ngFor="let comment of job.comments" class="comment">
-            {{ comment.text }}
+        <div class="comments">
+            <div class="comment" *ngFor="let comment of job.comments">
+                <div class="comment-header">
+                    <div class="email">
+                        {{ comment.email }}
+                    </div>
+                    <div class="created-at" style="text-align: right;">
+                        {{ comment.timestamp | timeago }}
+                    </div>
+                </div>
+                <div class="comment-txt">
+                    {{ comment.text }}
+                </div>
+            </div>
         </div>
     </div>
-
-
 </div>
 
