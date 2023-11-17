@@ -266,6 +266,9 @@ class Job(db.Model):
     address: str = db.Column(db.String)
     notes: str = db.Column(db.String)
 
+    # Added by the Comment model
+    comments: t.List['Comment']
+
     account = db.relationship('Account', backref='jobs')
 
     crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
@@ -286,11 +289,24 @@ class Job(db.Model):
 
     def save(self):
 
+        # We want milliseconds for the frontend
+        self.last_updated_timestamp = time() * 1000
+
         db.session.add(self)
         db.session.commit()
 
 
-    def json(self):
+    def json(self, get_crews=False, get_comments=False):
+
+        if get_comments:
+            comments = [c.json() for c in self.comments]
+        else:
+            comments = []
+
+        if get_crews:
+            crews =  [c.json() for c in self.crews]
+        else:
+            crews = []
 
         return {
             'jobID' : self.job_id,
@@ -299,8 +315,59 @@ class Job(db.Model):
             'workDateTimestamp' : self.work_date_timestamp,
             'createdTimestamp' : self.created_timestamp,
             'lastUpdatedTimestamp' : self.last_updated_timestamp,
-            'crews' : [c.json() for c in self.crews],
+            'crews' : crews,
             'notes' : self.notes,
+            'comments' : comments,
+        }
+
+
+    def add_comment(self, email: str, text: str):
+
+        c = Comment(
+            email=email,
+            text=text,
+            job_id=self.id,
+        )
+
+        c.save()
+
+        return c
+
+
+class Comment(db.Model):
+
+    __tablename__ = 'job_comments'
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    job_comment_id: str = db.Column(db.String, index=True)
+
+    email: str = db.Column(db.String)
+    job_id: int = db.Column(db.Integer, db.ForeignKey('jobs.id'))
+    created_timestamp: float = db.Column(db.Float)
+
+    job: Job = db.relationship('Job', backref='comments')
+
+    def __init__(self, email: str, text: str, job_id: int):
+
+        self.email = email
+        self.text = text
+        self.job_id = job_id
+        # We want to use milliseconds for the timestamp
+        self.created_timestamp = time() * 1000
+
+
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
+
+
+    def json(self):
+
+        return {
+            'email' : self.email,
+            'createdTimestamp' : self.created_timestamp,
+            'text' : self.text,
         }
 
 
