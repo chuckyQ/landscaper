@@ -104,6 +104,22 @@ class Account(db.Model):
         }
 
 
+    def search_customer(self, search_term: str) -> t.List['Customer']:
+
+        from sqlalchemy import func
+
+        term = search_term.strip()
+
+        if term == '':
+            return []
+
+        customers = Customer.query.filter(
+                    func.lower(Customer.contact_name).contains(func.lower(term)),
+                    ).all()
+
+        return customers
+
+
 class Customer(db.Model):
 
     __tablename__ = 'customers'
@@ -299,7 +315,7 @@ class Job(db.Model):
     def json(self, get_crews=False, get_comments=False):
 
         if get_comments:
-            comments = [c.json() for c in self.comments]
+            comments = [c.json() for c in sorted(self.comments, key=lambda c: c.created_timestamp)]
         else:
             comments = []
 
@@ -343,6 +359,7 @@ class Comment(db.Model):
 
     email: str = db.Column(db.String)
     job_id: int = db.Column(db.Integer, db.ForeignKey('jobs.id'))
+    text: str = db.Column(db.String)
     created_timestamp: float = db.Column(db.Float)
 
     job: Job = db.relationship('Job', backref='comments')
@@ -366,7 +383,7 @@ class Comment(db.Model):
 
         return {
             'email' : self.email,
-            'createdTimestamp' : self.created_timestamp,
+            'timestamp' : self.created_timestamp,
             'text' : self.text,
         }
 
