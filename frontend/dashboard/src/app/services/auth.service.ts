@@ -225,5 +225,9 @@ export class AuthService {
   getMembers() {
     return this.http.get(`${environment.backendURL}/account/members`)
   }
+
+  searchCustomer(searchTerm: string) {
+    return this.http.get(`${environment.backendURL}/account/customers?searchTerm=${searchTerm}`)
+  }
 }
 
