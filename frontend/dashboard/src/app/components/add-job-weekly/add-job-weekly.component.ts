@@ -86,8 +86,7 @@ export class AddJobWeeklyComponent {
 
   }
 
-  createJob(name: string, address: string, notes: string,
-    startMonth: string, endMonth: string) {
+  createWeeklyJob(startMonth: number, endMonth: number) {
 
     let dayIndexes: number[] = []
     for(let i = 0; i < this.days.length; i++) {
@@ -100,26 +99,35 @@ export class AddJobWeeklyComponent {
     let d: WeeklyJob = {
       isSeasonal: true,
       seasonalType: "weekly",
-      startMonth: this.months.indexOf(startMonth),
-      endMonth: this.months.indexOf(endMonth),
+      startMonth: startMonth,
+      endMonth: endMonth,
       days: dayIndexes,
-      name: name,
-      address: address,
+      name: this.custName,
+      address: this.address,
       custID: this.custID,
-      notes: notes,
+      notes: this.notes,
       crews: this.crewIDs,
     }
 
   this.service.postJob(d).subscribe(
   {
-  next: (resp: any) => {
-  alert("Job created!")
-  this.activeModal.close()
-  window.location.reload()
+    next: (resp: any) => {
+        alert("Job created!")
+        this.activeModal.close()
+        window.location.reload()
+    }
   }
-  }
-)
+  )
 }
 
+  get weekdayIsSelected() {
+    for(let i = 0; i < this.days.length; i++) {
+      if(this.days[i].selected) {
+        return true
+      }
+    }
+
+    return false
+  }
 
 }
