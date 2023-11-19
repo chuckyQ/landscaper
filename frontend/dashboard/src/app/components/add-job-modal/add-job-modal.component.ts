@@ -360,4 +360,36 @@ export class AddJobModalComponent {
     )
   }
 
+  getMonthDays(month: string) {
+
+    let m  = this.months.indexOf(month)
+    console.log(m)
+
+    if(m === -1) {
+      return []
+    }
+
+    let i = 0
+    let days: number[] = []
+    while(true) {
+      // We use 2023 as a base year because
+      // it does not have a leap day
+      let dt = new Date(2023, m, i + 1)
+
+      if (dt.getMonth() == m + 1) {
+        break
+      }
+
+      days.push(i + 1)
+      i++
+
+    }
+
+    return days
+
+  }
+
+
+
+
 }
