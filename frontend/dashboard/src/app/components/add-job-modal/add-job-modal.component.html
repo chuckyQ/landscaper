@@ -76,7 +76,7 @@
                     rows="5"></textarea>
             </div>
             <div class="centered">
-                <div class="form-check form-switch" style="font-size: 14pt;">
+                <div class="form-check form-switch" style="font-size: 12pt; margin-bottom: 0.5rem;">
                     <input
                         id="isSeasonal"
                         class="form-check-input"
@@ -99,7 +99,7 @@
                 type="radio"
                 value="daily"
                 name="seasonalType">
-            <label for="seasonalDaily">Seasonal Daily</label> <br>
+            <label style="font-size: 10pt;" for="seasonalDaily">Seasonal Daily</label> <br>
 
             <input
                 class="form-check-input"
@@ -110,7 +110,7 @@
                 type="radio"
                 value="weekly"
                 name="seasonalType">
-            <label for="seasonalWeekly">Seasonal Weekly</label> <br>
+            <label style="font-size: 10pt;" for="seasonalWeekly">Seasonal Weekly</label> <br>
 
             <input
                 class="form-check-input"
@@ -121,7 +121,7 @@
                 type="radio"
                 value="monthly"
                 name="seasonalType">
-            <label for="seasonalMonthly">Seasonal Monthly</label> <br>
+            <label style="font-size: 10pt;" for="seasonalMonthly">Seasonal Monthly</label> <br>
 
             <input
                 class="form-check-input"
@@ -132,9 +132,20 @@
                 type="radio"
                 value="yearly"
                 name="seasonalType">
-            <label for="seasonalYearly">Seasonal Yearly</label> <br>
+            <label style="font-size: 10pt;" for="seasonalYearly">Seasonal Yearly</label> <br>
         </div>
+    </div>
+    <div *ngIf="!isSeasonal">
+        <add-job-single
+            [custName]="name.value"
+            [address]="address.value"
+            [notes]="notes.value"
+            [custID]="custID"
+            [mainFormIsValid]="theForm.valid"
+        ></add-job-single>
+    </div>
 
+    <ng-container *ngIf="isSeasonal">
         <div *ngIf="seasonalType == 'daily'">
             <add-job-daily
                 [custName]="name.value"
@@ -172,14 +183,5 @@
                 [mainFormIsValid]="theForm.valid"
             ></add-job-yearly>
         </div>
-    </div>
-    <div *ngIf="!isSeasonal">
-        <add-job-single
-            [custName]="name.value"
-            [address]="address.value"
-            [notes]="notes.value"
-            [custID]="custID"
-            [mainFormIsValid]="theForm.valid"
-        ></add-job-single>
-    </div>
+    </ng-container>
 </div>
