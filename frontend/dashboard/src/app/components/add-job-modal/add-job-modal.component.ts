@@ -363,7 +363,6 @@ export class AddJobModalComponent {
   getMonthDays(month: string) {
 
     let m  = this.months.indexOf(month)
-    console.log(m)
 
     if(m === -1) {
       return []
@@ -375,6 +374,13 @@ export class AddJobModalComponent {
       // We use 2023 as a base year because
       // it does not have a leap day
       let dt = new Date(2023, m, i + 1)
+
+      if(m === 11) {
+        // Case of December
+        if(dt.getMonth() == 0) {
+          break
+        }
+      }
 
       if (dt.getMonth() == m + 1) {
         break
