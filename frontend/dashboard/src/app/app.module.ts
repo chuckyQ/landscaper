@@ -28,6 +28,11 @@ import { WorkImagesModalComponent } from './components/work-images-modal/work-im
 import { EditCrewMembersModalComponent } from './components/edit-crew-members-modal/edit-crew-members-modal.component';
 import { AddJobModalComponent } from './components/add-job-modal/add-job-modal.component';
 import { TimeagoPipe } from './pipes/timeago.pipe';
+import { AddJobDailyComponent } from './components/add-job-daily/add-job-daily.component';
+import { AddJobWeeklyComponent } from './components/add-job-weekly/add-job-weekly.component';
+import { AddJobMonthlyComponent } from './components/add-job-monthly/add-job-monthly.component';
+import { AddJobYearlyComponent } from './components/add-job-yearly/add-job-yearly.component';
+import { AddJobSingleComponent } from './components/add-job-single/add-job-single.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +57,12 @@ import { TimeagoPipe } from './pipes/timeago.pipe';
     WorkImagesModalComponent,
     EditCrewMembersModalComponent,
     AddJobModalComponent,
-    TimeagoPipe
+    TimeagoPipe,
+    AddJobDailyComponent,
+    AddJobWeeklyComponent,
+    AddJobMonthlyComponent,
+    AddJobYearlyComponent,
+    AddJobSingleComponent,
   ],
   imports: [
     BrowserModule,

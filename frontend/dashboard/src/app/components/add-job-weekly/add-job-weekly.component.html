@@ -1,0 +1,27 @@
+<div class="month-range">
+    <div class="month-select">
+        <label for="startMonth">Start Month</label>
+        <select class="form-select" id="startMonth">
+            <ng-container *ngFor="let month of months">
+                <option [value]="month">{{ month }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="month-select">
+        <label for="endMonth">End Month</label>
+        <select class="form-select" id="endMonth">
+            <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+        </select>
+    </div>
+</div>
+<div class="days-of-week">
+    <div *ngFor="let day of days" class="day">
+        <input
+            class="form-check-input"
+            id="seasonalMonthly"
+            type="checkbox"
+            [(ngModel)]="day.selected"
+            [name]="day.name">
+    <label for="seasonalMonthly">{{ day.name }}</label> <br>
+    </div>
+</div>

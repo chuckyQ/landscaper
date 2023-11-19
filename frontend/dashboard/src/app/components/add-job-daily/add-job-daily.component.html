@@ -1,0 +1,29 @@
+<div class="month-range">
+    <div class="month-select">
+        <label for="startMonth">Start Month</label>
+        <select
+            #dailyStartMonth="ngModel"
+            ngModel
+            name="dailyStartMonth"
+            class="form-select"
+            id="startMonth">
+            <ng-container *ngFor="let month of months">
+                <option [value]="month">{{ month }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="month-select">
+        <label for="endMonth">End Month</label>
+        <select
+            class="form-select"
+            name="dailyEndMonth"
+            #dailyEndMonth="ngModel"
+            ngModel
+            id="endMonth">
+            <option
+                *ngFor="let month of months; index as i"
+                [selected]="i === 4"
+                [value]="month">{{ month }}</option>
+        </select>
+    </div>
+</div>

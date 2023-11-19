@@ -1,0 +1,28 @@
+<div class="month-range">
+    <div class="month-select">
+        <label for="startMonth">Start Month</label>
+        <select class="form-select" id="startMonth">
+            <ng-container *ngFor="let month of months">
+                <option [value]="month">{{ month }}</option>
+            </ng-container>
+        </select>
+    </div>
+    <div class="month-select">
+        <label for="endMonth">End Month</label>
+        <select class="form-select" id="endMonth">
+            <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+        </select>
+    </div>
+</div>
+<div>
+    <label for="everyWeek">Every</label>
+    <select name="" id="everyWeek" class="form-select">
+        <option value="2">2 weeks</option>
+        <option value="3">3 weeks</option>
+        <option value="4">4 weeks</option>
+    </select>
+    <label for="selectedDay">on</label>
+    <select name="monthlyWeekday" id="everyWeek" class="form-select">
+        <option *ngFor="let day of days" [value]="day.selected">{{ day.name }}</option>
+    </select>
+</div>

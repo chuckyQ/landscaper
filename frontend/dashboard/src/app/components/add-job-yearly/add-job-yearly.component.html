@@ -1,0 +1,19 @@
+<label>Every</label>
+<select
+    #selectedMonth="ngModel"
+    ngModel
+    name="selectedMonth"
+    class="form-select"
+    id="yearlyMonth">
+    <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+</select>
+<select
+    name="selectedDay"
+    #selectedDay="ngModel"
+    ngModel
+    class="form-select"
+    id="endDay">
+    <ng-container *ngFor="let d of getMonthDays(selectedMonth.value)">
+        <option [value]="d">{{ d }}</option>
+    </ng-container>
+</select>

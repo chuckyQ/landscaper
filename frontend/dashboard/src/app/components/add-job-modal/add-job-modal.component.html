@@ -65,183 +65,6 @@
                     </table>
                 </div>
             </div>
-
-            <div class="centered">
-                <div class="form-check form-switch" style="font-size: 14pt;">
-                    <input
-                    id="isSeasonal"
-                    class="form-check-input"
-                    [(ngModel)]="isSeasonal"
-                    type="checkbox"
-                    name="isSeasonal">
-                <label for="isSeasonal" class="form-check-label">Seasonal</label>
-                </div>
-            </div>
-            <div class="centered" *ngIf="isSeasonal">
-                <div>
-                    <input
-                        class="form-check-input"
-                        id="seasonalDaily"
-                        #seasonalDaily="ngModel"
-                        ngModel
-                        [(ngModel)]="seasonalType"
-                        type="radio"
-                        value="daily"
-                        name="seasonalType">
-                    <label for="seasonalDaily">Seasonal Daily</label> <br>
-
-                    <input
-                        class="form-check-input"
-                        id="seasonalWeekly"
-                        #seasonalDaily="ngModel"
-                        ngModel
-                        [(ngModel)]="seasonalType"
-                        type="radio"
-                        value="weekly"
-                        name="seasonalType">
-                    <label for="seasonalWeekly">Seasonal Weekly</label> <br>
-
-                    <input
-                        class="form-check-input"
-                        id="seasonalMonthly"
-                        #seasonalDaily="ngModel"
-                        ngModel
-                        [(ngModel)]="seasonalType"
-                        type="radio"
-                        value="monthly"
-                        name="seasonalType">
-                    <label for="seasonalMonthly">Seasonal Monthly</label> <br>
-
-                    <input
-                        class="form-check-input"
-                        id="seasonalYearly"
-                        #seasonalDaily="ngModel"
-                        ngModel
-                        [(ngModel)]="seasonalType"
-                        type="radio"
-                        value="yearly"
-                        name="seasonalType">
-                    <label for="seasonalYearly">Seasonal Yearly</label> <br>
-                </div>
-
-                <div *ngIf="seasonalType == 'daily'">
-                    <div class="month-range">
-                        <div class="month-select">
-                            <label for="startMonth">Start Month</label>
-                            <select class="form-select" id="startMonth">
-                                <ng-container *ngFor="let month of months">
-                                    <option [value]="month">{{ month }}</option>
-                                </ng-container>
-                            </select>
-                        </div>
-                        <div class="month-select">
-                            <label for="endMonth">End Month</label>
-                            <select class="form-select" id="endMonth">
-                                <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="seasonalType == 'weekly'">
-                    <div class="month-range">
-                        <div class="month-select">
-                            <label for="startMonth">Start Month</label>
-                            <select class="form-select" id="startMonth">
-                                <ng-container *ngFor="let month of months">
-                                    <option [value]="month">{{ month }}</option>
-                                </ng-container>
-                            </select>
-                        </div>
-                        <div class="month-select">
-                            <label for="endMonth">End Month</label>
-                            <select class="form-select" id="endMonth">
-                                <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="days-of-week">
-                        <div *ngFor="let day of days" class="day">
-                            <input
-                                class="form-check-input"
-                                id="seasonalMonthly"
-                                type="checkbox"
-                                [(ngModel)]="day.selected"
-                                [name]="day.name">
-                        <label for="seasonalMonthly">{{ day.name }}</label> <br>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div *ngIf="seasonalType == 'monthly'">
-                    <div class="month-range">
-                        <div class="month-select">
-                            <label for="startMonth">Start Month</label>
-                            <select class="form-select" id="startMonth">
-                                <ng-container *ngFor="let month of months">
-                                    <option [value]="month">{{ month }}</option>
-                                </ng-container>
-                            </select>
-                        </div>
-                        <div class="month-select">
-                            <label for="endMonth">End Month</label>
-                            <select class="form-select" id="endMonth">
-                                <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <label for="everyWeek">Every</label>
-                        <select name="" id="everyWeek" class="form-select">
-                            <option value="2">2 weeks</option>
-                            <option value="3">3 weeks</option>
-                            <option value="4">4 weeks</option>
-                        </select>
-                        <label for="selectedDay">on</label>
-                        <select name="monthlyWeekday" id="everyWeek" class="form-select">
-                            <option *ngFor="let day of days" [value]="day.selected">{{ day.name }}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div *ngIf="seasonalType == 'yearly'">
-                    <label>Every</label>
-                    <select
-                        #selectedMonth="ngModel"
-                        ngModel
-                        name="selectedMonth"
-                        class="form-select"
-                        id="yearlyMonth">
-                        <option *ngFor="let month of months" [value]="month">{{ month }}</option>
-                    </select>
-                    <select
-                        name="selectedDay"
-                        #selectedDay="ngModel"
-                        ngModel
-                        class="form-select"
-                        id="endDay">
-                        <ng-container *ngFor="let d of getMonthDays(selectedMonth.value)">
-                            <option [value]="d">{{ d }}</option>
-                        </ng-container>
-                    </select>
-                </div>
-            </div>
-            <div *ngIf="!isSeasonal">
-                <div class="field">
-                    <label>Date</label>
-                    <input
-                        #date="ngModel"
-                        ngModel
-                        required
-                        name="date"
-                        class="form-control"
-                        type="date">
-                    <div class="alert alert-danger" *ngIf="date.touched && !date.valid">
-                        A date is required.
-                    </div>
-                </div>
-            </div>
-
             <div class="field">
                 <label>Notes</label>
                 <textarea
@@ -252,14 +75,111 @@
                     cols="30"
                     rows="5"></textarea>
             </div>
-        </div>
-        <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
-            <input
-                type="button"
-                (click)="createJob(name.value, address.value, notes.value)"
-                class="btn btn-primary"
-                value="Create"
-                [disabled]="!theForm.valid">
+            <div class="centered">
+                <div class="form-check form-switch" style="font-size: 14pt;">
+                    <input
+                        id="isSeasonal"
+                        class="form-check-input"
+                        [(ngModel)]="isSeasonal"
+                        type="checkbox"
+                        name="isSeasonal">
+                <label for="isSeasonal" class="form-check-label">Seasonal</label>
+                </div>
+            </div>
         </div>
     </form>
+    <div class="centered" *ngIf="isSeasonal">
+        <div>
+            <input
+                class="form-check-input"
+                id="seasonalDaily"
+                #seasonalDaily="ngModel"
+                ngModel
+                [(ngModel)]="seasonalType"
+                type="radio"
+                value="daily"
+                name="seasonalType">
+            <label for="seasonalDaily">Seasonal Daily</label> <br>
+
+            <input
+                class="form-check-input"
+                id="seasonalWeekly"
+                #seasonalDaily="ngModel"
+                ngModel
+                [(ngModel)]="seasonalType"
+                type="radio"
+                value="weekly"
+                name="seasonalType">
+            <label for="seasonalWeekly">Seasonal Weekly</label> <br>
+
+            <input
+                class="form-check-input"
+                id="seasonalMonthly"
+                #seasonalDaily="ngModel"
+                ngModel
+                [(ngModel)]="seasonalType"
+                type="radio"
+                value="monthly"
+                name="seasonalType">
+            <label for="seasonalMonthly">Seasonal Monthly</label> <br>
+
+            <input
+                class="form-check-input"
+                id="seasonalYearly"
+                #seasonalDaily="ngModel"
+                ngModel
+                [(ngModel)]="seasonalType"
+                type="radio"
+                value="yearly"
+                name="seasonalType">
+            <label for="seasonalYearly">Seasonal Yearly</label> <br>
+        </div>
+
+        <div *ngIf="seasonalType == 'daily'">
+            <add-job-daily
+                [custName]="name.value"
+                [address]="address.value"
+                [notes]="notes.value"
+                [custID]="custID"
+                [mainFormIsValid]="theForm.valid"
+            ></add-job-daily>
+        </div>
+        <div *ngIf="seasonalType == 'weekly'">
+            <add-job-weekly
+                [custName]="name.value"
+                [address]="address.value"
+                [notes]="notes.value"
+                [custID]="custID"
+                [mainFormIsValid]="theForm.valid"
+            ></add-job-weekly>
+        </div>
+
+        <div *ngIf="seasonalType == 'monthly'">
+            <add-job-monthly
+                [custName]="name.value"
+                [address]="address.value"
+                [notes]="notes.value"
+                [custID]="custID"
+                [mainFormIsValid]="theForm.valid"
+            ></add-job-monthly>
+        </div>
+        <div *ngIf="seasonalType == 'yearly'">
+            <add-job-yearly
+                [custName]="name.value"
+                [address]="address.value"
+                [notes]="notes.value"
+                [custID]="custID"
+                [mainFormIsValid]="theForm.valid"
+            ></add-job-yearly>
+        </div>
+    </div>
+    <div *ngIf="!isSeasonal">
+        <add-job-single
+            [custName]="name.value"
+            [address]="address.value"
+            [notes]="notes.value"
+            [custID]="custID"
+            [mainFormIsValid]="theForm.valid"
+        ></add-job-single>
+    </div>
 </div>
