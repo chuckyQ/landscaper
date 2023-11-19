@@ -2,14 +2,14 @@
     <div class="month-select">
         <label for="startMonth">Start Month</label>
         <select
-            #dailyStartMonth="ngModel"
-            ngModel
+            #startMonth
             name="dailyStartMonth"
             class="form-select"
             id="startMonth">
-            <ng-container *ngFor="let month of months">
-                <option [value]="month">{{ month }}</option>
-            </ng-container>
+                <option
+                    *ngFor="let month of months; index as i"
+                    [selected]="i === 3"
+                    [value]="i">{{ month }}</option>
         </select>
     </div>
     <div class="month-select">
@@ -17,13 +17,16 @@
         <select
             class="form-select"
             name="dailyEndMonth"
-            #dailyEndMonth="ngModel"
-            ngModel
+            #dailyEndMonth
             id="endMonth">
             <option
                 *ngFor="let month of months; index as i"
-                [selected]="i === 4"
-                [value]="month">{{ month }}</option>
+                [selected]="i === 7"
+                [value]="i">{{ month }}</option>
         </select>
+    </div>
+
+    <div style="display: flex; justify-content: flex-end;">
+        <input type="button" class="btn btn-primary" value="Create">
     </div>
 </div>
