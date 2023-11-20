@@ -55,7 +55,7 @@ def delete_crew(id: str):
 
     crew_.jobs.clear()
     crew_.members.clear()
-    crew_.delete
+    crew_.delete()
 
     return {}
 
