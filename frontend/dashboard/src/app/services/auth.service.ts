@@ -206,6 +206,14 @@ export class AuthService {
     return this.http.post(`${environment.backendURL}/jobs`, data)
   }
 
+  editJob(jobID: string, data: any) {
+    return this.http.post(`${environment.backendURL}/jobs/${jobID}`, data)
+  }
+
+  deleteJob(id: string) {
+    return this.http.delete(`${environment.backendURL}/jobs/${id}`)
+  }
+
   postJobComment(jobID: string, data: any) {
     return this.http.post(`${environment.backendURL}/jobs/${jobID}/comments`, data)
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { WorkImagesModalComponent } from '../work-images-modal/work-images-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as io from "socket.io-client";
 import { environment } from 'src/environments/environment';
 
@@ -51,7 +51,7 @@ export class JobComponent implements OnInit {
   socket: io.Socket | null
 
 
-  constructor(public modal: NgbModal, public ar: ActivatedRoute, public service: AuthService) {
+  constructor(public modal: NgbModal, public router: Router, public ar: ActivatedRoute, public service: AuthService) {
 
     this.beforePhotos = []
     this.afterPhotos = []
@@ -149,6 +149,42 @@ export class JobComponent implements OnInit {
 
     })
 
+  }
+
+  delete() {
+
+    let resp = confirm("Do you want to cancel this job?")
+    if(!resp) {
+      return
+    }
+
+    this.service.deleteJob(this.job.jobID).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Job canceled!")
+          this.router.navigate(['/jobs'])
+        }
+      }
+    )
+
+  }
+
+  save() {
+
+    let d = {
+      name: this.job.name,
+      address: this.job.address,
+      notes: this.job.notes,
+    }
+
+    this.service.editJob(this.job.jobID, d).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Job sucessfully updated!")
+          window.location.reload()
+        }
+      }
+    )
   }
 
 }
