@@ -41,6 +41,10 @@ export class AddJobYearlyComponent {
   crewIDs: string[]
 
   months: string[]
+  days: string[]
+
+  every: boolean
+  onEvery: boolean
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
@@ -49,6 +53,9 @@ export class AddJobYearlyComponent {
     this.notes = ""
     this.mainFormIsValid = false
     this.crewIDs = []
+
+    this.every = true
+    this.onEvery = false
 
     this.months = [
       "January",
@@ -65,31 +72,35 @@ export class AddJobYearlyComponent {
       "December",
     ]
 
+    this.days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ]
+
   }
 
-  getMonthDays(month: string) {
-
-    let m  = this.months.indexOf(month)
-
-    if(m === -1) {
-      return []
-    }
+  getMonthDays(monthIndex: number) {
 
     let i = 0
     let days: number[] = []
     while(true) {
       // We use 2023 as a base year because
       // it does not have a leap day
-      let dt = new Date(2023, m, i + 1)
+      let dt = new Date(2023, monthIndex, i + 1)
 
-      if(m === 11) {
+      if(monthIndex === 11) {
         // Case of December
         if(dt.getMonth() == 0) {
           break
         }
       }
 
-      if (dt.getMonth() == m + 1) {
+      if (dt.getMonth() == monthIndex + 1) {
         break
       }
 
@@ -127,6 +138,11 @@ export class AddJobYearlyComponent {
       }
     )
 
+  }
+
+  toggle() {
+    this.every = !this.every
+    this.onEvery = !this.onEvery
   }
 
 }
