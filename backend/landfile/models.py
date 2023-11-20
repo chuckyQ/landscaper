@@ -267,6 +267,12 @@ class Crew(db.Model):
         }
 
 
+    def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
+
 class Job(db.Model):
 
     __tablename__ = 'jobs'
@@ -350,6 +356,178 @@ class Job(db.Model):
         return c
 
 
+    def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
+
+class DailyJob(db.Model):
+
+    __tablename__ = 'daily_jobs'
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    job_id: str = db.Column(db.String)
+    cust_id: int = db.Column(db.Integer)
+    notes: str = db.Column(db.String)
+    # Indices of months (0-Jan, 1-Feb, etc...)
+    start_month: db.Column(db.Integer)
+    end_month: db.Column(db.Integer)
+
+
+    def __init__(self, cust_id: int,
+                 start_month: int,
+                 end_month: int):
+
+        self.job_id = f'dailyjob_{gen_id(18)}'
+
+        self.cust_id = cust_id
+        self.start_month = start_month
+        self.end_month = end_month
+
+
+    def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
+
+class WeeklyJob(db.Model):
+
+    __tablename__ = 'weekly_jobs'
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    job_id: str = db.Column(db.String)
+    cust_id: int = db.Column(db.Integer)
+    notes: str = db.Column(db.String)
+
+    sunday: db.Column(db.Boolean)
+    monday: db.Column(db.Boolean)
+    tuesday: db.Column(db.Boolean)
+    wednesday: db.Column(db.Boolean)
+    thursday: db.Column(db.Boolean)
+    friday: db.Column(db.Boolean)
+    saturday: db.Column(db.Boolean)
+
+    # Indices of months (0-Jan, 1-Feb, etc...)
+    start_month: db.Column(db.Integer)
+    end_month: db.Column(db.Integer)
+
+
+    def __init__(self, cust_id: int,
+                 sunday: bool, monday: bool,
+                 tuesday: bool, wednesday: bool,
+                 thursday: bool, friday: bool,
+                 saturday: bool, start_month: int,
+                 end_month: int):
+
+        self.job_id = f'weekjob_{gen_id(18)}'
+
+        self.cust_id = cust_id
+        self.start_month = start_month
+        self.end_month = end_month
+
+        self.sunday = sunday
+        self.monday = monday
+        self.tuesday = tuesday
+        self.wednesday = wednesday
+        self.thursday = thursday
+        self.friday = friday
+        self.saturday = saturday
+
+
+    def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
+
+class MonthlyJob(db.Model):
+
+    __tablename__ = 'monthly_jobs'
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    job_id: str = db.Column(db.String)
+    cust_id: int = db.Column(db.Integer)
+    notes: str = db.Column(db.String)
+
+    sunday: db.Column(db.Boolean)
+    monday: db.Column(db.Boolean)
+    tuesday: db.Column(db.Boolean)
+    wednesday: db.Column(db.Boolean)
+    thursday: db.Column(db.Boolean)
+    friday: db.Column(db.Boolean)
+    saturday: db.Column(db.Boolean)
+
+    # Indices of months (0-Jan, 1-Feb, etc...)
+    start_month: db.Column(db.Integer)
+    end_month: db.Column(db.Integer)
+
+    # Every 2 weeks, every 3 weeks, etc...
+    num_of_weeks: int = db.Column(db.Integer)
+
+    def __init__(self, cust_id: int,
+                 sunday: bool, monday: bool,
+                 tuesday: bool, wednesday: bool,
+                 thursday: bool, friday: bool,
+                 saturday: bool, start_month: int,
+                 end_month: int, num_of_weeks: int):
+
+        self.job_id = f'monthjob_{gen_id(18)}'
+
+        self.cust_id = cust_id
+        self.start_month = start_month
+        self.end_month = end_month
+        self.num_of_weeks = num_of_weeks
+
+        self.sunday = sunday
+        self.monday = monday
+        self.tuesday = tuesday
+        self.wednesday = wednesday
+        self.thursday = thursday
+        self.friday = friday
+        self.saturday = saturday
+
+
+    def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
+
+class YearlyJob(db.Model):
+
+    __tablename__ = 'yearly_jobs'
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    job_id: str = db.Column(db.String)
+    cust_id: int = db.Column(db.Integer)
+    notes: str = db.Column(db.String)
+
+    # Indices of months (0-Jan, 1-Feb, etc...)
+    month: int = db.Column(db.Integer)
+
+    # Every 2 weeks, every 3 weeks, etc...
+    num_of_weeks: int = db.Column(db.Integer)
+
+    def __init__(self, cust_id: int, notes: str,
+                 start_month: int, end_month: int,
+                 num_of_weeks: int):
+
+        self.job_id = f'yearjob_{gen_id(18)}'
+        self.cust_id = cust_id
+        self.notes = notes
+        self.start_month = start_month
+        self.end_month = end_month
+        self.num_of_weeks = num_of_weeks
+
+
+    def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
+
 class Comment(db.Model):
 
     __tablename__ = 'job_comments'
@@ -388,6 +566,12 @@ class Comment(db.Model):
         }
 
 
+    def delete(self):
+
+        db.session.delete(self)
+        db.session.commit()
+
+
 class Image(db.Model):
 
     __tablename__ = 'images'
@@ -412,6 +596,12 @@ class Image(db.Model):
     def save(self):
 
         db.session.add(self)
+        db.session.commit()
+
+
+    def delete(self):
+
+        db.session.delete(self)
         db.session.commit()
 
 
