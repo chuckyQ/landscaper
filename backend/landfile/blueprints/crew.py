@@ -43,9 +43,21 @@ def post_crew(id: str):
 
     user, crew_ = _get_crew(id)
 
+    for key, val in request.json.items():
+        setattr(crew_, key, val)
+    crew_.save()
+    return {}
 
-    return crew
+@crew.route('', methods=['DELETE'])
+def delete_crew(id: str):
 
+    _, crew_ = _get_crew(id)
+
+    crew_.jobs.clear()
+    crew_.members.clear()
+    crew_.delete
+
+    return {}
 
 @crew.route('/members', methods=['GET'])
 # @jwt_required
