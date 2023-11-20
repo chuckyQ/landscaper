@@ -51,12 +51,18 @@ export class AddJobMonthlyComponent {
 
   days: Day[]
 
+  certainDay: boolean
+  certainDate: boolean
+
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
     this.address = ""
     this.custName = ""
     this.notes = ""
     this.mainFormIsValid = false
+
+    this.certainDay = true
+    this.certainDate = false
 
     this.crewIDs = []
 
@@ -117,5 +123,12 @@ export class AddJobMonthlyComponent {
   }
   )
 
-}
+
+  }
+
+  toggle() {
+    this.certainDay = !this.certainDay
+    this.certainDate = !this.certainDate
+  }
+
 }
