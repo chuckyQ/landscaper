@@ -158,6 +158,10 @@ export class AuthService {
     return this.http.post(`${environment.backendURL}/crews/${crewID}`, data)
   }
 
+  deleteCrew(crewID: string) {
+    return this.http.delete(`${environment.backendURL}/crews/${crewID}`)
+  }
+
   postCustomer(data: any) {
     return this.http.post(`${environment.backendURL}/customers`, data)
   }
