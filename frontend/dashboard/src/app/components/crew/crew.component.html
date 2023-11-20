@@ -23,12 +23,22 @@
                     rows="10"></textarea>
             </div>
         </div>
-        <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
-            <input
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 1rem;">
+            <div>
+                <input
+                type="button"
+                (click)="delete()"
+                class="btn btn-danger"
+                value="Delete"
+                >
+            </div>
+            <div style="display: flex; justify-content: flex-end;">
+                <input
                 type="button"
                 (click)="save()"
                 class="btn btn-primary"
                 value="Save">
+            </div>
         </div>
     </div>
     <div class="members">

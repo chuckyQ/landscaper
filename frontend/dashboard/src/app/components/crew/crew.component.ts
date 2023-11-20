@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 import { EditCrewMembersModalComponent } from '../edit-crew-members-modal/edit-crew-members-modal.component';
@@ -27,7 +27,7 @@ export class CrewComponent implements OnInit {
 
   crewID: string
   crew: Crew
-  constructor(public ar: ActivatedRoute, public service: AuthService, public modal: NgbModal) {
+  constructor(public ar: ActivatedRoute, public router: Router, public service: AuthService, public modal: NgbModal) {
 
     this.crewID = this.ar.snapshot.paramMap.get("crewID") as string
     this.crew = {
@@ -67,6 +67,24 @@ export class CrewComponent implements OnInit {
         }
       }
     )
+  }
+
+  delete() {
+    let resp = confirm("Are you sure you want to delete this crew?")
+
+    if(!resp) {
+      return
+    }
+
+    this.service.deleteCrew(this.crewID).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Crew deleted!")
+          this.router.navigate(['/crews'])
+        }
+      }
+    )
+
   }
 
 }
