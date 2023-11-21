@@ -2,7 +2,11 @@
     <div class="month-range">
         <div class="month-select">
             <label for="startMonth">Start Month</label>
-            <select [(ngModel)]="startMonth" name="startMonth" class="form-select" id="startMonth">
+            <select
+                [(ngModel)]="startMonth"
+                name="startMonth"
+                class="form-select"
+                id="startMonth">
                 <option
                     *ngFor="let month of months; index as i"
                     [value]="i"
@@ -31,7 +35,10 @@
                 <label class="form-check-label">Every</label>
             </div>
             <div>
-                <select id="">
+                <select
+                    required
+                    #selectedMonth="ngModel"
+                    ngModel>
                     <option
                         [value]="opt"
                         *ngFor="let opt of getMonthRange()">
@@ -56,17 +63,18 @@
                     type="checkbox"
                     >
                 <label
-                    class="form-check-label"
-                    for="certainDay">Day</label>
+                    class="form-check-label">Day</label>
             </div>
             <div>
-                <input
-                    type="number"
-                    [disabled]="!certainDay"
-                    style="width: 6ch"
-                    min="1"
-                    max="31"
-                    step="1">
+                <select
+                    [disabled]="certainDate"
+                    #selectedDay="ngModel"
+                    name="certainDate"
+                    ngModel>
+                    <option *ngFor="let d of daySelection();" [value]="1">
+                        {{ d }}
+                    </option>
+                </select>
             </div>
         </div>
 
@@ -83,14 +91,14 @@
                 <label
                     style="margin-right: 0.5rem;"
                     class="form-check-label"
-                    for="certainDay">Every
+                    >Every
                 </label>
 
                     <select
-                        [disabled]="certainDay"
+                        [disabled]="!certainDate"
                         #nDay
                         style="width: 10ch;"
-                        #every>
+                        >
                         <option value="1">first</option>
                         <option value="2">second</option>
                         <option value="3">third</option>
@@ -99,8 +107,12 @@
                     </select>
             </div>
             <div>
-                <select [disabled]="certainDay" #selectedDay>
-                    <option *ngFor="let day of days; index as i" [value]="i">{{ day.name }}</option>
+                <select
+                    [disabled]="certainDay"
+                    #selectedDay>
+                    <option
+                        *ngFor="let day of days; index as i"
+                        [value]="i">{{ day.name }}</option>
                 </select>
             </div>
         </div>
