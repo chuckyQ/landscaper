@@ -51,8 +51,8 @@ export class AddJobMonthlyComponent {
   crewIDs: string[]
 
   months: string[]
-  startMonth: number
-  endMonth: number
+  startDate: number
+  endDate: number
 
   days: Day[]
 
@@ -66,8 +66,8 @@ export class AddJobMonthlyComponent {
     this.notes = ""
     this.mainFormIsValid = false
 
-    this.startMonth = 3
-    this.endMonth = 7
+    this.startDate = 0
+    this.endDate = 0
 
     this.certainDay = true
     this.certainDate = false
@@ -101,14 +101,13 @@ export class AddJobMonthlyComponent {
 
   }
 
-  createMonthlyJob(startMonth: number, endMonth: number,
-    isSpecificDay: boolean, nDay: number, day: number) {
+  createMonthlyJob(isSpecificDay: boolean, nDay: number, day: number) {
 
     let d: MonthlyJob = {
       isSeasonal: true,
       seasonalType: "monthly",
-      startMonth: startMonth,
-      endMonth: endMonth,
+      startMonth: this.startDate,
+      endMonth: this.endDate,
       day: day,
       name: this.custName,
       address: this.address,
@@ -142,7 +141,7 @@ export class AddJobMonthlyComponent {
   getMonthRange() {
 
     let values: number[] = []
-    for(let i = 0; i < Math.abs(this.startMonth - this.endMonth) + 1; i++) {
+    for(let i = 0; i < Math.abs(this.startDate - this.endDate) + 1; i++) {
       values.push(i + 1)
     }
     return values
