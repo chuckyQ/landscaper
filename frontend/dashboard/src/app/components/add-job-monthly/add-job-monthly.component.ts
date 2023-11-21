@@ -148,4 +148,16 @@ export class AddJobMonthlyComponent {
     return values
   }
 
+  daySelection() {
+
+    // Generate a list containing the numbers
+    // [1-31] inclusive
+    let values: number[] = []
+    for(let i = 0; i < 31; i++) {
+      values.push(i + 1)
+    }
+
+    return values
+  }
+
 }
