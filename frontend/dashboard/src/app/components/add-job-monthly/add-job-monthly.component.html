@@ -57,9 +57,9 @@
             <div class="form-check">
                 <input
                     class="form-check-input"
+                    [ngModelOptions]="{standalone: true}"
                     [(ngModel)]="certainDay"
                     (click)="toggle()"
-                    name="certainDay"
                     type="checkbox"
                     >
                 <label
@@ -69,7 +69,7 @@
                 <select
                     [disabled]="certainDate"
                     #selectedDay="ngModel"
-                    name="certainDate"
+                    name="certainDay"
                     ngModel>
                     <option *ngFor="let d of daySelection();" [value]="1">
                         {{ d }}
@@ -84,8 +84,8 @@
                 <input
                     class="form-check-input"
                     [(ngModel)]="certainDate"
+                    [ngModelOptions]="{standalone: true}"
                     (click)="toggle()"
-                    name="certainDate"
                     type="checkbox"
                     >
                 <label
@@ -95,9 +95,9 @@
                 </label>
 
                     <select
-                        [disabled]="!certainDate"
+                        [disabled]="certainDay"
                         #nDay
-                        style="width: 10ch;"
+                        required
                         >
                         <option value="1">first</option>
                         <option value="2">second</option>
