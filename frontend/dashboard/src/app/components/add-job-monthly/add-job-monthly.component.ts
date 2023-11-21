@@ -7,13 +7,16 @@ interface MonthlyJob {
   seasonalType: string // always 'monthly'
   startMonth: number // index of month (zero-based)
   endMonth: number // index of month (zero-based)
-  numOfWeeks: number // every 2 weeks, every 3 weeks, etc...
   day: number // index of weekday (0-Sunday, 1-Monday, etc...)
   name: string // Customer name
   address: string
   custID: string
   crews: string[] // List of crew ids
   notes: string
+
+  isSpecificDay: boolean // On a specific month and day or not (ex every first Sunday)
+  // (first -> 1, second -> 2, third -> 3, fourth -> 4, last -> 5)
+  nDay: number | null
 }
 
 interface Day {
@@ -93,24 +96,24 @@ export class AddJobMonthlyComponent {
 
   }
 
-  createMonthlyJob(name: string, address: string,
-    notes: string, startMonth: string,
-    endMonth: string, numOfWeeks: number,
-    day: string) {
-
+  createMonthlyJob(startMonth: number, endMonth: number,
+    isSpecificDay: boolean, nDay: number, day: number) {
 
     let d: MonthlyJob = {
       isSeasonal: true,
       seasonalType: "monthly",
-      startMonth: this.months.indexOf(startMonth),
-      endMonth: this.months.indexOf(endMonth),
-      numOfWeeks: numOfWeeks,
-      day: Object.keys(this.days).indexOf(day),
-      name: name,
-      address: address,
+      startMonth: startMonth,
+      endMonth: endMonth,
+      day: day,
+      name: this.custName,
+      address: this.address,
       custID: this.custID,
-      notes: notes,
+      notes: this.notes,
       crews: this.crewIDs,
+
+      // The "first" Sunday of every month (not specific date)
+      isSpecificDay: isSpecificDay,
+      nDay: nDay,
     }
 
   this.service.postJob(d).subscribe(
