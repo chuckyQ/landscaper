@@ -1,107 +1,118 @@
-<div class="month-range">
-    <div class="month-select">
-        <label for="startMonth">Start Month</label>
-        <select #startMonth class="form-select" id="startMonth">
-            <option
-                *ngFor="let month of months; index as i"
-                [value]="i"
-                [selected]="i === 3"
-                >{{ month }}</option>
-        </select>
-    </div>
-    <div class="month-select">
-        <label for="endMonth">End Month</label>
-        <select #endMonth class="form-select" id="endMonth">
-            <option
-                *ngFor="let month of months; index as i"
-                [value]="i"
-                [selected]="i === 7"
-                >
-                {{ month }}
-            </option>
-        </select>
-    </div>
-</div>
-<div>
-    <div class="form-check" style="display: flex; gap: 1rem;">
-        <div>
-            <label class="form-check-label">Every</label>
+<form #theForm="ngForm">
+    <div class="month-range">
+        <div class="month-select">
+            <label for="startMonth">Start Month</label>
+            <select [(ngModel)]="startMonth" name="startMonth" class="form-select" id="startMonth">
+                <option
+                    *ngFor="let month of months; index as i"
+                    [value]="i"
+                    >{{ month }}</option>
+            </select>
         </div>
-        <div>
-            <select id="">
-                <option [value]="opt" *ngFor="let opt of getMonthRange(+startMonth.value, +endMonth.value)">
-                    {{ opt }}
+        <div class="month-select">
+            <label for="endMonth">End Month</label>
+            <select
+                [(ngModel)]="endMonth"
+                name="endMonth"
+                class="form-select"
+                id="endMonth">
+                <option
+                    *ngFor="let month of months; index as i"
+                    [value]="i"
+                    >
+                    {{ month }}
                 </option>
             </select>
         </div>
-        <div>
-            <label class="form-check-label">month(s)</label>
-        </div>
     </div>
-</div>
-<div>
-    <!-- Day 1 every 2 months -->
-    <div style="display: flex; gap: 1rem;">
-        <div class="form-check">
-            <input
-                class="form-check-input"
-                [(ngModel)]="certainDay"
-                (click)="toggle()"
-                type="checkbox"
-                >
-            <label
-                class="form-check-label"
-                for="certainDay">Day</label>
-        </div>
-        <div>
-            <input
-                type="number"
-                [disabled]="!certainDay"
-                style="width: 6ch"
-                min="1"
-                max="31"
-                step="1">
-        </div>
-    </div>
-
-    <!-- Every 'first' 'Sunday' of every 2 months -->
-    <div style="display: flex;">
-        <div class="form-check">
-            <input
-                class="form-check-input"
-                [(ngModel)]="certainDate"
-                (click)="toggle()"
-                name="monthlyType"
-                type="checkbox"
-                >
-            <label
-                style="margin-right: 0.5rem;"
-                class="form-check-label"
-                for="certainDay">Every
-            </label>
-
-                <select [disabled]="certainDay" #nDay style="width: 10ch;" #every>
-                    <option value="1">first</option>
-                    <option value="2">second</option>
-                    <option value="3">third</option>
-                    <option value="4">fourth</option>
-                    <option value="5">last</option>
+    <div>
+        <div class="form-check" style="display: flex; gap: 1rem;">
+            <div>
+                <label class="form-check-label">Every</label>
+            </div>
+            <div>
+                <select id="">
+                    <option
+                        [value]="opt"
+                        *ngFor="let opt of getMonthRange()">
+                        {{ opt }}
+                    </option>
                 </select>
-        </div>
-        <div>
-            <select [disabled]="certainDay" #selectedDay>
-                <option *ngFor="let day of days; index as i" [value]="i">{{ day.name }}</option>
-            </select>
+            </div>
+            <div>
+                <label class="form-check-label">month(s)</label>
+            </div>
         </div>
     </div>
+    <div>
+        <!-- Day 1 every 2 months -->
+        <div style="display: flex; gap: 1rem;">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    [(ngModel)]="certainDay"
+                    (click)="toggle()"
+                    type="checkbox"
+                    >
+                <label
+                    class="form-check-label"
+                    for="certainDay">Day</label>
+            </div>
+            <div>
+                <input
+                    type="number"
+                    [disabled]="!certainDay"
+                    style="width: 6ch"
+                    min="1"
+                    max="31"
+                    step="1">
+            </div>
+        </div>
 
-    <div style="display: flex; justify-content: flex-end;">
-        <input
-            type="button"
-            class="btn btn-primary"
-            (click)="createMonthlyJob(+startMonth.value, +endMonth.value,
-                                      certainDay, +nDay.value,
-                                      +selectedDay.value)"
-            value="Create">
+        <!-- Every 'first' 'Sunday' of every 2 months -->
+        <div style="display: flex;">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    [(ngModel)]="certainDate"
+                    (click)="toggle()"
+                    name="monthlyType"
+                    type="checkbox"
+                    >
+                <label
+                    style="margin-right: 0.5rem;"
+                    class="form-check-label"
+                    for="certainDay">Every
+                </label>
+
+                    <select
+                        [disabled]="certainDay"
+                        #nDay
+                        style="width: 10ch;"
+                        #every>
+                        <option value="1">first</option>
+                        <option value="2">second</option>
+                        <option value="3">third</option>
+                        <option value="4">fourth</option>
+                        <option value="5">last</option>
+                    </select>
+            </div>
+            <div>
+                <select [disabled]="certainDay" #selectedDay>
+                    <option *ngFor="let day of days; index as i" [value]="i">{{ day.name }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+            <input
+                type="button"
+                class="btn btn-primary"
+                (click)="createMonthlyJob(startMonth, endMonth,
+                                          certainDay, +nDay.value,
+                                          +selectedDay.value)"
+                value="Create">
+        </div>
     </div>
-</div>
+</form>
+

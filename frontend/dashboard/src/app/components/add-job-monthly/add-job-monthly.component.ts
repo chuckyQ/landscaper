@@ -51,6 +51,8 @@ export class AddJobMonthlyComponent {
   crewIDs: string[]
 
   months: string[]
+  startMonth: number
+  endMonth: number
 
   days: Day[]
 
@@ -63,6 +65,9 @@ export class AddJobMonthlyComponent {
     this.custName = ""
     this.notes = ""
     this.mainFormIsValid = false
+
+    this.startMonth = 3
+    this.endMonth = 7
 
     this.certainDay = true
     this.certainDate = false
@@ -134,10 +139,10 @@ export class AddJobMonthlyComponent {
     this.certainDate = !this.certainDate
   }
 
-  getMonthRange(startMonth: number, endMonth: number) {
+  getMonthRange() {
 
     let values: number[] = []
-    for(let i = 0; i < Math.abs(startMonth - endMonth) + 1; i++) {
+    for(let i = 0; i < Math.abs(this.startMonth - this.endMonth) + 1; i++) {
       values.push(i + 1)
     }
     return values
