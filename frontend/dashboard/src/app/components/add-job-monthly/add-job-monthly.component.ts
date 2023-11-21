@@ -134,4 +134,13 @@ export class AddJobMonthlyComponent {
     this.certainDate = !this.certainDate
   }
 
+  getMonthRange(startMonth: number, endMonth: number) {
+
+    let values: number[] = []
+    for(let i = 0; i < Math.abs(startMonth - endMonth) + 1; i++) {
+      values.push(i + 1)
+    }
+    return values
+  }
+
 }

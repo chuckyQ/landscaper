@@ -28,14 +28,11 @@
             <label class="form-check-label">Every</label>
         </div>
         <div>
-            <input
-            type="number"
-            #nMonths
-            style="width: 6ch;"
-            min="1"
-            value="1"
-            max="12"
-            step="1">
+            <select id="">
+                <option [value]="opt" *ngFor="let opt of getMonthRange(+startMonth.value, +endMonth.value)">
+                    {{ opt }}
+                </option>
+            </select>
         </div>
         <div>
             <label class="form-check-label">month(s)</label>
