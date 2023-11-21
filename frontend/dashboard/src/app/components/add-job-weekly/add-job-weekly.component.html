@@ -25,6 +25,28 @@
             </select>
         </div>
     </div>
+    <div style="place-items: center; display: flex;">
+        <div class="form-check" style="display: flex; gap: 1rem;">
+            <div>
+                <label class="form-check-label">Every</label>
+            </div>
+            <div>
+                <select
+                    required
+                    #selectedMonth="ngModel"
+                    ngModel>
+                    <option
+                        [value]="opt"
+                        *ngFor="let opt of getWeekRange()">
+                        {{ opt }}
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label class="form-check-label">weeks(s)</label>
+            </div>
+        </div>
+    </div>
 
     <div class="day-area">
         <div class="days-of-week">

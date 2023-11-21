@@ -50,12 +50,18 @@ export class AddJobWeeklyComponent {
   days: Day[]
   months: string[]
 
+  startMonth: number
+  endMonth: number
+
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
     this.address = ""
     this.custName = ""
     this.notes = ""
     this.mainFormIsValid = false
+
+    this.startMonth = 3
+    this.endMonth = 7
 
     this.crewIDs = []
 
@@ -128,6 +134,20 @@ export class AddJobWeeklyComponent {
     }
 
     return false
+  }
+
+  getWeekRange() {
+
+    let values: number[] = []
+
+    // Just give a max of 10 weeks for recurrence
+    for(let i = 0; i < 10; i++) {
+      values.push(i + 1)
+    }
+
+
+    return values
+
   }
 
 }
