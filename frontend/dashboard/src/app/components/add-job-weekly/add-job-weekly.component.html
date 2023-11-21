@@ -1,28 +1,18 @@
 <div style="display: flex; flex-direction: column; place-content: center;">
     <div class="month-range">
         <div class="month-select">
-            <label for="startMonth">Start Month</label>
-            <select
-                #startMonth
-                class="form-select"
-                id="startMonth">
-                <option
-                    *ngFor="let month of months; index as i"
-                    [selected]="i === 3"
-                    [value]="i">{{ month }}</option>
-            </select>
+            <label for="startDate">Start Date</label>
+            <input
+                type="date"
+                [(ngModel)]="startDate"
+                required>
         </div>
         <div class="month-select">
-            <label for="endMonth">End Month</label>
-            <select
-                #endMonth
-                class="form-select"
-                id="endMonth">
-                <option *ngFor="let month of months; index as i"
-                    [selected]="i === 7"
-                    [value]="i">{{ month }}
-                </option>
-            </select>
+            <label for="endDate">End Date</label>
+            <input
+                type="date"
+                [(ngModel)]="endDate"
+                required>
         </div>
     </div>
     <div style="place-items: center; display: flex;">
@@ -68,6 +58,6 @@
         type="button"
         [disabled]="!mainFormIsValid || !weekdayIsSelected"
         class="btn btn-primary"
-        (click)="createWeeklyJob(+startMonth.value, +endMonth.value)"
+        (click)="createWeeklyJob(startDate, endDate)"
         value="Create">
 </div>

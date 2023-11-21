@@ -50,8 +50,8 @@ export class AddJobWeeklyComponent {
   days: Day[]
   months: string[]
 
-  startMonth: number
-  endMonth: number
+  startDate: number
+  endDate: number
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
@@ -60,8 +60,8 @@ export class AddJobWeeklyComponent {
     this.notes = ""
     this.mainFormIsValid = false
 
-    this.startMonth = 3
-    this.endMonth = 7
+    this.startDate = 0
+    this.endDate = 0
 
     this.crewIDs = []
 
