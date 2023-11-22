@@ -1,9 +1,9 @@
 
 <form #theForm="ngForm">
-    <div style="display: flex; flex-direction: column; place-content: center;">
+    <div style="display: flex; flex-direction: column; place-content: center; margin: 1rem;">
         <div class="month-range">
             <div class="month-select">
-                <label for="startDate">Start Date</label>
+                <label class="form-check-label" for="startDate">Start Date</label>
                 <input
                     type="date"
                     #startDate="ngModel"
@@ -12,7 +12,7 @@
                     required>
             </div>
             <div class="month-select">
-                <label for="endDate">End Date</label>
+                <label class="form-check-label" for="endDate">End Date</label>
                 <input
                     type="date"
                     #endDate="ngModel"
@@ -21,28 +21,32 @@
                     required>
             </div>
         </div>
+        <div class="alert alert-danger" *ngIf="endDate.value < startDate.value">
+            End date cannot be before start date.
+        </div>
         <div style="place-items: center; display: flex;">
             <div class="form-check" style="display: flex; gap: 1rem;">
                 <div>
                     <label class="form-check-label">Every</label>
                 </div>
-                <div>
-                    <select
-                        required
-                        #selectedMonth="ngModel"
-                        name="selectedWeek"
-                        required
-                        ngModel>
-                        <option
-                            [value]="1"
-                            *ngFor="let opt of getWeekRange()">
-                            {{ opt }}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label class="form-check-label">weeks(s)</label>
-                </div>
+            </div>
+            <div>
+                <select
+                    style="margin-right: 0.5rem; margin-left: 0.5rem;"
+                    required
+                    #selectedMonth="ngModel"
+                    name="selectedWeek"
+                    required
+                    ngModel>
+                    <option
+                        [value]="1"
+                        *ngFor="let opt of getWeekRange()">
+                        {{ opt }}
+                    </option>
+                </select>
+            </div>
+            <div>
+                <label class="form-check-label">week(s)</label>
             </div>
         </div>
 
@@ -64,7 +68,7 @@
     <div style="display: flex; justify-content: flex-end;">
         <input
             type="button"
-            [disabled]="!mainFormIsValid || !weekdayIsSelected || !theForm.valid"
+            [disabled]="!mainFormIsValid || !weekdayIsSelected || !theForm.valid || endDate.value < startDate.value"
             class="btn btn-primary"
             (click)="createWeeklyJob(startDate.value, endDate.value)"
             value="Create">
