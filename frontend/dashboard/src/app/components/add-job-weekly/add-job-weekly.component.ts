@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/services/auth.service';
 interface Day {
   name: string
   selected: boolean
-  index: number
 }
 
 interface WeeklyJob {
@@ -13,12 +12,24 @@ interface WeeklyJob {
   seasonalType: string // always 'weekly'
   startMonth: number // index of month (zero-based)
   endMonth: number // index of month (zero-based)
-  days: number[] // Indexes of selected days (0-Sunday, 1-Monday, etc...)
   name: string // Customer name
   address: string
   custID: string
   crews: string[] // List of crew ids
   notes: string
+
+  startTimestamp: number
+
+  endTimestamp: number
+
+  sunday: boolean
+  monday: boolean
+  tuesday: boolean
+  wednesday: boolean
+  thursday: boolean
+  friday: boolean
+  saturday: boolean
+
 }
 
 
@@ -81,38 +92,50 @@ export class AddJobWeeklyComponent {
     ]
 
     this.days = [
-      { name: "Sunday", selected: false, index: 0},
-      { name: "Monday", selected: false, index: 1},
-      { name: "Tuesday", selected: false, index: 2},
-      { name: "Wednesday", selected: false, index: 3},
-      { name: "Thursday", selected: false, index: 4},
-      { name: "Friday", selected: false ,index: 5},
-      { name: "Saturday", selected: false, index: 6},
+      { name: "Sunday", selected: false},
+      { name: "Monday", selected: false},
+      { name: "Tuesday", selected: false},
+      { name: "Wednesday", selected: false},
+      { name: "Thursday", selected: false},
+      { name: "Friday", selected: false},
+      { name: "Saturday", selected: false},
     ]
 
   }
 
-  createWeeklyJob(startMonth: number, endMonth: number) {
+  createWeeklyJob(startDate: string, endDate: string) {
 
-    let dayIndexes: number[] = []
-    for(let i = 0; i < this.days.length; i++) {
-      let day = this.days[i]
-      if(day.selected) {
-        dayIndexes.push(day.index)
-      }
+    function parseDate(dt: string) {
+      let d = new Date(dt)
+      return [d.getTime(), d.getMonth()]
     }
 
+    let [startTimestamp, startMonth] = parseDate(startDate)
+    let [endTimestamp, endMonth] = parseDate(endDate)
     let d: WeeklyJob = {
       isSeasonal: true,
       seasonalType: "weekly",
+
+      startTimestamp: startTimestamp,
       startMonth: startMonth,
+
       endMonth: endMonth,
-      days: dayIndexes,
+      endTimestamp: endTimestamp,
+
       name: this.custName,
       address: this.address,
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,
+
+      sunday: this.days[0].selected,
+      monday: this.days[1].selected,
+      tuesday: this.days[2].selected,
+      wednesday: this.days[3].selected,
+      thursday: this.days[4].selected,
+      friday: this.days[5].selected,
+      saturday: this.days[6].selected,
+
     }
 
   this.service.postJob(d).subscribe(
