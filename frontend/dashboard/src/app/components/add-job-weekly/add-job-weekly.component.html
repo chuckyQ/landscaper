@@ -6,7 +6,8 @@
                 <label for="startDate">Start Date</label>
                 <input
                     type="date"
-                    [(ngModel)]="startDate"
+                    #startDate="ngModel"
+                    ngModel
                     name="startDate"
                     required>
             </div>
@@ -14,7 +15,8 @@
                 <label for="endDate">End Date</label>
                 <input
                     type="date"
-                    [(ngModel)]="endDate"
+                    #endDate="ngModel"
+                    ngModel
                     name="endDate"
                     required>
             </div>
@@ -28,10 +30,11 @@
                     <select
                         required
                         #selectedMonth="ngModel"
+                        name="selectedWeek"
                         required
                         ngModel>
                         <option
-                            [value]="opt"
+                            [value]="1"
                             *ngFor="let opt of getWeekRange()">
                             {{ opt }}
                         </option>
@@ -63,7 +66,7 @@
             type="button"
             [disabled]="!mainFormIsValid || !weekdayIsSelected || !theForm.valid"
             class="btn btn-primary"
-            (click)="createWeeklyJob(startDate, endDate)"
+            (click)="createWeeklyJob(startDate.value, endDate.value)"
             value="Create">
     </div>
 </form>
