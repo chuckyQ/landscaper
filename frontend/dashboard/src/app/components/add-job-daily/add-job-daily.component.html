@@ -1,32 +1,13 @@
 <div class="month-range">
     <div class="month-select">
-        <label for="startMonth">Start Month</label>
-        <select
-            #startMonth
-            name="dailyStartMonth"
-            class="form-select"
-            id="startMonth">
-                <option
-                    *ngFor="let month of months; index as i"
-                    [selected]="i === 3"
-                    [value]="i">{{ month }}</option>
-        </select>
+        <label for="startMonth">Start Date</label>
+        <input type="date">
     </div>
     <div class="month-select">
-        <label for="endMonth">End Month</label>
-        <select
-            class="form-select"
-            name="dailyEndMonth"
-            #dailyEndMonth
-            id="endMonth">
-            <option
-                *ngFor="let month of months; index as i"
-                [selected]="i === 7"
-                [value]="i">{{ month }}</option>
-        </select>
+        <label for="endMonth">End Date</label>
+        <input type="date">
     </div>
-
-    <div style="display: flex; justify-content: flex-end;">
-        <input type="button" class="btn btn-primary" value="Create">
-    </div>
+</div>
+<div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+    <input type="button" class="btn btn-primary" value="Create">
 </div>
