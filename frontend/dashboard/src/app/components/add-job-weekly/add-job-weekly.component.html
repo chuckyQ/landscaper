@@ -1,63 +1,69 @@
-<div style="display: flex; flex-direction: column; place-content: center;">
-    <div class="month-range">
-        <div class="month-select">
-            <label for="startDate">Start Date</label>
-            <input
-                type="date"
-                [(ngModel)]="startDate"
-                required>
-        </div>
-        <div class="month-select">
-            <label for="endDate">End Date</label>
-            <input
-                type="date"
-                [(ngModel)]="endDate"
-                required>
-        </div>
-    </div>
-    <div style="place-items: center; display: flex;">
-        <div class="form-check" style="display: flex; gap: 1rem;">
-            <div>
-                <label class="form-check-label">Every</label>
-            </div>
-            <div>
-                <select
-                    required
-                    #selectedMonth="ngModel"
-                    ngModel>
-                    <option
-                        [value]="opt"
-                        *ngFor="let opt of getWeekRange()">
-                        {{ opt }}
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label class="form-check-label">weeks(s)</label>
-            </div>
-        </div>
-    </div>
 
-    <div class="day-area">
-        <div class="days-of-week">
-            <div *ngFor="let day of days" class="day">
+<form #theForm="ngForm">
+    <div style="display: flex; flex-direction: column; place-content: center;">
+        <div class="month-range">
+            <div class="month-select">
+                <label for="startDate">Start Date</label>
                 <input
-                    class="form-check-input"
-                    id="seasonalMonthly"
-                    type="checkbox"
-                    [(ngModel)]="day.selected"
-                    [name]="day.name">
-            <label for="seasonalMonthly">{{ day.name }}</label> <br>
+                    type="date"
+                    [(ngModel)]="startDate"
+                    name="startDate"
+                    required>
+            </div>
+            <div class="month-select">
+                <label for="endDate">End Date</label>
+                <input
+                    type="date"
+                    [(ngModel)]="endDate"
+                    name="endDate"
+                    required>
+            </div>
+        </div>
+        <div style="place-items: center; display: flex;">
+            <div class="form-check" style="display: flex; gap: 1rem;">
+                <div>
+                    <label class="form-check-label">Every</label>
+                </div>
+                <div>
+                    <select
+                        required
+                        #selectedMonth="ngModel"
+                        required
+                        ngModel>
+                        <option
+                            [value]="opt"
+                            *ngFor="let opt of getWeekRange()">
+                            {{ opt }}
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-check-label">weeks(s)</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-area">
+            <div class="days-of-week">
+                <div *ngFor="let day of days" class="day">
+                    <input
+                        class="form-check-input"
+                        id="seasonalMonthly"
+                        type="checkbox"
+                        [(ngModel)]="day.selected"
+                        [name]="day.name">
+                <label for="seasonalMonthly">{{ day.name }}</label> <br>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div style="display: flex; justify-content: flex-end;">
-    <input
-        type="button"
-        [disabled]="!mainFormIsValid || !weekdayIsSelected"
-        class="btn btn-primary"
-        (click)="createWeeklyJob(startDate, endDate)"
-        value="Create">
-</div>
+    <div style="display: flex; justify-content: flex-end;">
+        <input
+            type="button"
+            [disabled]="!mainFormIsValid || !weekdayIsSelected || !theForm.valid"
+            class="btn btn-primary"
+            (click)="createWeeklyJob(startDate, endDate)"
+            value="Create">
+    </div>
+</form>
