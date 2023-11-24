@@ -370,20 +370,18 @@ class DailyJob(db.Model):
     job_id: str = db.Column(db.String)
     cust_id: int = db.Column(db.Integer)
     notes: str = db.Column(db.String)
-    # Indices of months (0-Jan, 1-Feb, etc...)
-    start_month: db.Column(db.Integer)
-    end_month: db.Column(db.Integer)
-
+    start_date: str = db.Column(db.String)
+    end_date: str = db.Column(db.String)
 
     def __init__(self, cust_id: int,
-                 start_month: int,
-                 end_month: int):
+                 start_date: str,
+                 end_date: str):
 
         self.job_id = f'dailyjob_{gen_id(18)}'
 
         self.cust_id = cust_id
-        self.start_month = start_month
-        self.end_month = end_month
+        self.start_date = start_date
+        self.end_date = end_date
 
 
     def delete(self):
@@ -401,6 +399,9 @@ class WeeklyJob(db.Model):
     cust_id: int = db.Column(db.Integer)
     notes: str = db.Column(db.String)
 
+    start_date: str = db.Column(db.String)
+    end_date: str = db.Column(db.String)
+
     sunday: db.Column(db.Boolean)
     monday: db.Column(db.Boolean)
     tuesday: db.Column(db.Boolean)
@@ -409,23 +410,20 @@ class WeeklyJob(db.Model):
     friday: db.Column(db.Boolean)
     saturday: db.Column(db.Boolean)
 
-    # Indices of months (0-Jan, 1-Feb, etc...)
-    start_month: db.Column(db.Integer)
-    end_month: db.Column(db.Integer)
-
 
     def __init__(self, cust_id: int,
                  sunday: bool, monday: bool,
                  tuesday: bool, wednesday: bool,
                  thursday: bool, friday: bool,
-                 saturday: bool, start_month: int,
-                 end_month: int):
+                 saturday: bool,
+                 start_date: str,
+                 end_date: str):
 
         self.job_id = f'weekjob_{gen_id(18)}'
 
         self.cust_id = cust_id
-        self.start_month = start_month
-        self.end_month = end_month
+        self.start_month = start_date
+        self.end_month = end_date
 
         self.sunday = sunday
         self.monday = monday
@@ -451,6 +449,9 @@ class MonthlyJob(db.Model):
     cust_id: int = db.Column(db.Integer)
     notes: str = db.Column(db.String)
 
+    start_date: str = db.Column(db.String)
+    end_date: str = db.Column(db.String)
+
     sunday: db.Column(db.Boolean)
     monday: db.Column(db.Boolean)
     tuesday: db.Column(db.Boolean)
@@ -459,10 +460,6 @@ class MonthlyJob(db.Model):
     friday: db.Column(db.Boolean)
     saturday: db.Column(db.Boolean)
 
-    # Indices of months (0-Jan, 1-Feb, etc...)
-    start_month: db.Column(db.Integer)
-    end_month: db.Column(db.Integer)
-
     # Every 2 weeks, every 3 weeks, etc...
     num_of_weeks: int = db.Column(db.Integer)
 
@@ -470,14 +467,14 @@ class MonthlyJob(db.Model):
                  sunday: bool, monday: bool,
                  tuesday: bool, wednesday: bool,
                  thursday: bool, friday: bool,
-                 saturday: bool, start_month: int,
-                 end_month: int, num_of_weeks: int):
+                 saturday: bool, start_date: str,
+                 end_date: str, num_of_weeks: int):
 
         self.job_id = f'monthjob_{gen_id(18)}'
 
         self.cust_id = cust_id
-        self.start_month = start_month
-        self.end_month = end_month
+        self.start_date = start_date
+        self.end_date = end_date
         self.num_of_weeks = num_of_weeks
 
         self.sunday = sunday
@@ -511,14 +508,14 @@ class YearlyJob(db.Model):
     num_of_weeks: int = db.Column(db.Integer)
 
     def __init__(self, cust_id: int, notes: str,
-                 start_month: int, end_month: int,
+                 start_date: int, end_date: int,
                  num_of_weeks: int):
 
         self.job_id = f'yearjob_{gen_id(18)}'
         self.cust_id = cust_id
         self.notes = notes
-        self.start_month = start_month
-        self.end_month = end_month
+        self.start_date = start_date
+        self.end_date = end_date
         self.num_of_weeks = num_of_weeks
 
 
