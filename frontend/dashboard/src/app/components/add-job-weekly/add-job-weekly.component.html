@@ -1,8 +1,8 @@
 
 <form #theForm="ngForm">
-    <div style="display: flex; flex-direction: column; place-content: center; margin: 1rem;">
+    <div style="display: flex; flex-direction: column; gap: 0.2rem; place-content: center; margin: 0.5rem;">
         <div class="month-range">
-            <div class="month-select">
+            <div>
                 <div>
                     <label
                     class="form-check-label"
@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="month-select">
+            <div>
                 <div class="end-after">
                     <input
                         (click)="toggle()"
@@ -52,6 +52,7 @@
                         type="date"
                         name="endDate"
                         #endDate="ngModel"
+                        style="width: 16ch;"
                         ngModel
                         [disabled]="!useEndDate"
                         required>
@@ -102,7 +103,10 @@
     <div style="display: flex; justify-content: flex-end;">
         <input
             type="button"
-            [disabled]="!mainFormIsValid || !weekdayIsSelected || !theForm.valid || endDate.value < startDate.value"
+            [disabled]="!mainFormIsValid ||
+                        !weekdayIsSelected ||
+                        !theForm.valid ||
+                        (endDate.value < startDate.value) && useEndDate"
             class="btn btn-primary"
             (click)="createWeeklyJob(startDate.value, endDate.value)"
             value="Create">
