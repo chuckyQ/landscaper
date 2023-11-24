@@ -3,53 +3,87 @@
     <div style="display: flex; flex-direction: column; place-content: center; margin: 1rem;">
         <div class="month-range">
             <div class="month-select">
-                <label class="form-check-label" for="startDate">Start Date</label>
+                <div>
+                    <label
+                    class="form-check-label"
+                    for="startDate">
+                    Start Date
+                </label>
                 <input
                     type="date"
                     #startDate="ngModel"
                     ngModel
                     name="startDate"
                     required>
-            </div>
-            <div class="month-select">
-                <label class="form-check-label" for="endDate">End Date</label>
-                <input
-                    type="date"
-                    #endDate="ngModel"
-                    ngModel
-                    name="endDate"
-                    required>
-            </div>
-        </div>
-        <div class="alert alert-danger" *ngIf="endDate.value < startDate.value">
-            End date cannot be before start date.
-        </div>
-        <div style="place-items: center; display: flex;">
-            <div class="form-check" style="display: flex; gap: 1rem;">
-                <div>
+                </div>
+                <div style="justify-content: center; display: flex; margin-top: 1.5rem;">
                     <label class="form-check-label">Every</label>
+                    <div>
+                        <select
+                            style="margin-right: 0.5rem; margin-left: 0.5rem;"
+                            name="selectedWeek"
+                            required
+                            >
+                            <option
+                                [selected]="opt === 1"
+                                *ngFor="let opt of getWeekRange()">
+                                {{ opt }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-check-label">week(s)</label>
+                    </div>
                 </div>
             </div>
-            <div>
-                <select
-                    style="margin-right: 0.5rem; margin-left: 0.5rem;"
-                    required
-                    #selectedMonth="ngModel"
-                    name="selectedWeek"
-                    required
-                    ngModel>
-                    <option
-                        [value]="1"
-                        *ngFor="let opt of getWeekRange()">
-                        {{ opt }}
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label class="form-check-label">week(s)</label>
+            <div class="month-select">
+                <div class="end-after">
+                    <input
+                        (click)="toggle()"
+                        checked
+                        type="radio"
+                        [value]="true"
+                        name="endAfter"
+                        >
+                    <label
+                        class="form-check-label"
+                        for="endDate">End Date</label>
+                    <input
+                        type="date"
+                        name="endDate"
+                        #endDate="ngModel"
+                        ngModel
+                        [disabled]="!useEndDate"
+                        required>
+                </div>
+                <div class="end-after">
+                    <input
+                        type="radio"
+                        (click)="toggle()"
+                        name="endAfter"
+                        >
+                    <label
+                        class="form-check-label"
+                        for="endDate">End After:
+                    </label>
+                    <input
+                        type="number"
+                        #endDate
+                        [disabled]="useEndDate"
+                        style="width: 14ch;"
+                        value="1"
+                        min="1"
+                        max="100"
+                        name="endDate"
+                        step="1"
+                        required>
+                </div>
+
             </div>
         </div>
-
+        <div class="alert alert-danger" *ngIf="(endDate.value < startDate.value) && useEndDate">
+            End date cannot be before start date.
+        </div>
         <div class="day-area">
             <div class="days-of-week">
                 <div *ngFor="let day of days" class="day">

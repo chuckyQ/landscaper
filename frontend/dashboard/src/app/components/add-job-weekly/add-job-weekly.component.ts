@@ -64,6 +64,10 @@ export class AddJobWeeklyComponent {
   startDate: number
   endDate: number
 
+  useEndDate: boolean
+  useEndAfter: boolean
+
+
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
     this.address = ""
@@ -71,10 +75,15 @@ export class AddJobWeeklyComponent {
     this.notes = ""
     this.mainFormIsValid = false
 
+    this.useEndDate = true
+    this.useEndAfter = false
+
     this.startDate = 0
     this.endDate = 0
 
     this.crewIDs = []
+
+
 
     this.months = [
       "January",
@@ -171,6 +180,11 @@ export class AddJobWeeklyComponent {
 
     return values
 
+  }
+
+  toggle() {
+    this.useEndAfter = !this.useEndAfter
+    this.useEndDate = !this.useEndDate
   }
 
 }

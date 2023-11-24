@@ -1,6 +1,7 @@
 .month-range {
-    display: flex;
-    place-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-flow: row;
     gap: 2rem;
     margin-bottom: 0.5rem;
 }
@@ -19,4 +20,11 @@
     flex-basis: 50% 50%;
     gap: 1rem;
     margin: auto;
+}
+
+.end-after {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
 }
