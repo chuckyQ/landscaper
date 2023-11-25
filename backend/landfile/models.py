@@ -120,6 +120,23 @@ class Account(db.Model):
         return customers
 
 
+    def create_daily_job_end_at(self, start_date: str, end_date: str,
+                                cust_id: str, crew_id: str):
+
+        dj = DailyJob(
+            cust_id=cust_id,
+            start_date=start_date,
+            end_date=end_date,
+            use_end_date=True,
+            use_end_after=False,
+            account_id=self.id,
+            crew_id=crew_id,
+        )
+
+        dj.save()
+        return dj
+
+
 class Customer(db.Model):
 
     __tablename__ = 'customers'
@@ -411,6 +428,12 @@ class DailyJob(db.Model):
         self.account_id = account_id
 
 
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
+
+
 class WeeklyJob(db.Model):
 
     __tablename__ = 'weekly_jobs'
@@ -470,6 +493,12 @@ class WeeklyJob(db.Model):
         db.session.commit()
 
 
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
+
+
 class MonthlyJob(db.Model):
 
     __tablename__ = 'monthly_jobs'
@@ -520,6 +549,12 @@ class MonthlyJob(db.Model):
         self.saturday = saturday
 
 
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
+
+
 class YearlyJob(db.Model):
 
     __tablename__ = 'yearly_jobs'
@@ -558,6 +593,12 @@ class YearlyJob(db.Model):
         self.use_end_after = use_end_after
         self.use_end_at = use_end_at
         self.canceled = False
+
+
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
 
 
 class Comment(db.Model):
