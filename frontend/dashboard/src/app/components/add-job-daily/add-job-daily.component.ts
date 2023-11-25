@@ -48,6 +48,9 @@ export class AddJobDailyComponent {
   mainFormIsValid: boolean | null
 
   @Input()
+  startDate: string
+
+  @Input()
   crewIDs: string[]
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
@@ -57,6 +60,7 @@ export class AddJobDailyComponent {
     this.mainFormIsValid = false
     this.notes = ""
     this.crewIDs = []
+    this.startDate = ""
 
   }
 
