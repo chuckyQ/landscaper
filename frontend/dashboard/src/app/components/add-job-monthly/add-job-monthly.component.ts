@@ -5,8 +5,9 @@ import { AuthService } from 'src/app/services/auth.service';
 interface MonthlyJob {
   isSeasonal: boolean // always true
   seasonalType: string // always 'monthly'
-  startMonth: number // index of month (zero-based)
-  endMonth: number // index of month (zero-based)
+  startDate: string // date
+  endDate: string // date or empty string
+  recurrences: number // number of recurrences
   day: number // index of weekday (0-Sunday, 1-Monday, etc...)
   name: string // Customer name
   address: string
@@ -50,9 +51,12 @@ export class AddJobMonthlyComponent {
   @Input()
   crewIDs: string[]
 
-  months: string[]
-  startDate: number
-  endDate: number
+  startDate: string
+  endDate: string
+  useEndDate: boolean
+  useEndAfter: boolean
+  recurrences: number
+  recurringIsValid: boolean
 
   days: Day[]
 
@@ -66,28 +70,17 @@ export class AddJobMonthlyComponent {
     this.notes = ""
     this.mainFormIsValid = false
 
-    this.startDate = 0
-    this.endDate = 0
+    this.startDate = ""
+    this.endDate = ""
+    this.useEndDate = true
+    this.useEndAfter = false
+    this.recurrences = 1
+    this.recurringIsValid = false
 
     this.certainDay = true
     this.certainDate = false
 
     this.crewIDs = []
-
-    this.months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ]
 
     this.days = [
       { name: "Sunday", selected: false, index: 0},
@@ -106,14 +99,15 @@ export class AddJobMonthlyComponent {
     let d: MonthlyJob = {
       isSeasonal: true,
       seasonalType: "monthly",
-      startMonth: this.startDate,
-      endMonth: this.endDate,
       day: day,
       name: this.custName,
       address: this.address,
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      recurrences: this.recurrences,
 
       // The "first" Sunday of every month (not specific date)
       isSpecificDay: isSpecificDay,
@@ -138,15 +132,6 @@ export class AddJobMonthlyComponent {
     this.certainDate = !this.certainDate
   }
 
-  getMonthRange() {
-
-    let values: number[] = []
-    for(let i = 0; i < Math.abs(this.startDate - this.endDate) + 1; i++) {
-      values.push(i + 1)
-    }
-    return values
-  }
-
   daySelection() {
 
     // Generate a list containing the numbers
@@ -157,6 +142,10 @@ export class AddJobMonthlyComponent {
     }
 
     return values
+  }
+
+  setValid(event: boolean) {
+    this.recurringIsValid = event
   }
 
 }

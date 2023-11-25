@@ -1,44 +1,11 @@
 <form #theForm="ngForm">
-    <div class="month-range">
-        <div class="month-range">
-            <div class="month-select">
-                <label for="startDate">Start Date</label>
-                <input
-                    type="date"
-                    [(ngModel)]="startDate"
-                    required>
-            </div>
-            <div class="month-select">
-                <label for="endDate">End Date</label>
-                <input
-                    type="date"
-                    [(ngModel)]="endDate"
-                    required>
-            </div>
-        </div>
-    </div>
-    <div>
-        <div class="form-check" style="display: flex; gap: 1rem;">
-            <div>
-                <label class="form-check-label">Every</label>
-            </div>
-            <div>
-                <select
-                    required
-                    #selectedMonth="ngModel"
-                    ngModel>
-                    <option
-                        [value]="opt"
-                        *ngFor="let opt of getMonthRange()">
-                        {{ opt }}
-                    </option>
-                </select>
-            </div>
-            <div>
-                <label class="form-check-label">month(s)</label>
-            </div>
-        </div>
-    </div>
+    <recurring
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        [(endAfterRecurrence)]="useEndAfter"
+        [(recurrences)]="recurrences"
+        (valid)="setValid($event)"
+    ></recurring>
     <div>
         <!-- Day 1 every 2 months -->
         <div style="display: flex; gap: 1rem;">
@@ -55,11 +22,11 @@
             </div>
             <div>
                 <select
-                    [disabled]="certainDate"
+                    [disabled]="!certainDay"
                     #selectedDay="ngModel"
                     name="certainDay"
                     ngModel>
-                    <option *ngFor="let d of daySelection();" [value]="1">
+                    <option *ngFor="let d of daySelection();">
                         {{ d }}
                     </option>
                 </select>
@@ -83,11 +50,12 @@
                 </label>
 
                     <select
-                        [disabled]="certainDay"
-                        #nDay
-                        required
+                        [disabled]="!certainDate"
+                        name="nDay"
+                        #nDay="ngModel"
+                        ngModel
                         >
-                        <option value="1">first</option>
+                        <option selected value="1">first</option>
                         <option value="2">second</option>
                         <option value="3">third</option>
                         <option value="4">fourth</option>
@@ -108,10 +76,17 @@
         <div style="display: flex; justify-content: flex-end;">
             <input
                 type="button"
+                [disabled]="!mainFormIsValid ||
+                !theForm.valid ||
+                !recurringIsValid ||
+                (selectedDay.value === '' && certainDay) ||
+                (nDay.value === '' && certainDate)
+                "
                 class="btn btn-primary"
                 (click)="createMonthlyJob(certainDay, +nDay.value,
                                           +selectedDay.value)"
                 value="Create">
+
         </div>
     </div>
 </form>

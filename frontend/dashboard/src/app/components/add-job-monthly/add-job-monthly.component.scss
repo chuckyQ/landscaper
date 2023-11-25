@@ -1,3 +1,9 @@
 select {
     margin-bottom: 0.5rem;
 }
+
+.month-range {
+    display: flex;
+    justify-content: space-around;
+    gap: 0.5rem;
+}
