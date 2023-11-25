@@ -46,6 +46,14 @@ export class AddJobYearlyComponent {
   every: boolean
   onEvery: boolean
 
+  startDate: string
+  endDate: string
+  useEndAfter: boolean
+  recurrences: number
+  recurringIsValid: boolean
+
+
+
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
     this.address = ""
@@ -53,6 +61,12 @@ export class AddJobYearlyComponent {
     this.notes = ""
     this.mainFormIsValid = false
     this.crewIDs = []
+
+    this.startDate = ""
+    this.endDate = ""
+    this.useEndAfter = false
+    this.recurrences = 1
+    this.recurringIsValid = false
 
     this.every = true
     this.onEvery = false
@@ -143,6 +157,10 @@ export class AddJobYearlyComponent {
   toggle() {
     this.every = !this.every
     this.onEvery = !this.onEvery
+  }
+
+  setValid(event: boolean) {
+    this.recurringIsValid = event
   }
 
 }

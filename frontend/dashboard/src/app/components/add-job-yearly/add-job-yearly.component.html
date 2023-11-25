@@ -1,4 +1,11 @@
 <form #theForm="ngForm">
+    <recurring
+     [(startDate)]="startDate"
+     [(endDate)]="endDate"
+     [(endAfterRecurrence)]="useEndAfter"
+     [(recurrences)]="recurrences"
+     (valid)="setValid($event)"
+    ></recurring>
     <div style="display: flex; gap: 0.2rem; place-items: center;">
         <div style="display: flex;">
             <div style="display: flex; gap: 1rem; align-items: center;">
@@ -75,10 +82,10 @@
                 <div class="form-check">
                     <select
                         [disabled]="!onEvery"
-                        #selectedMonth="ngModel"
+                        #selectedMonth2="ngModel"
                         ngModel
                         style="width: 12ch;"
-                        name="selectedMonth"
+                        name="selectedMonth2"
                         id="yearlyMonth">
                         <option *ngFor="let day of days; index as i"
                             [selected]="i === 0"
@@ -92,8 +99,8 @@
                 <div class="form-check">
                     <select
                         [disabled]="!onEvery"
-                        name="selectedDay"
-                        #selectedDay
+                        name="selectedDay2"
+                        #selectedDay2
                         id="endDay">
                     <option
                         *ngFor="let month of months; index as i"
@@ -108,7 +115,13 @@
     <div style="display: flex; justify-content: flex-end;">
         <input
             type="button"
-            [disabled]="!mainFormIsValid"
+            [disabled]="!mainFormIsValid ||
+                        !recurringIsValid ||
+                        (selectedMonth.value === '' ||
+                         selectedDay.value === '') && every ||
+                        (selectedMonth2.value === '' ||
+                         selectedDay2.value === '') && onEvery
+            "
             class="btn btn-primary"
             value="Create">
     </div>
