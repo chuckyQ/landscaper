@@ -1,4 +1,16 @@
 <form #theForm="ngForm">
+    <div style="display: flex; place-content: center; gap: 0.5rem">
+        <label>Every</label>
+        <select #nMonths="ngModel" required name="nMonths" ngModel>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+        <label>month(s)</label>
+    </div>
     <recurring
         [(startDate)]="startDate"
         [(endDate)]="endDate"
@@ -6,10 +18,10 @@
         [(recurrences)]="recurrences"
         (valid)="setValid($event)"
     ></recurring>
-    <div>
+    <div style="display: flex; flex-direction: column; align-items: center;">
         <!-- Day 1 every 2 months -->
-        <div style="display: flex; gap: 1rem;">
-            <div class="form-check">
+        <div>
+            <div class="form-check" style="display: flex; gap: 0.25rem;">
                 <input
                     class="form-check-input"
                     [ngModelOptions]="{standalone: true}"
@@ -17,10 +29,7 @@
                     (click)="toggle()"
                     type="checkbox"
                     >
-                <label
-                    class="form-check-label">Day</label>
-            </div>
-            <div>
+                <label class="form-check-label">Day</label>
                 <select
                     [disabled]="!certainDay"
                     #selectedDay="ngModel"
@@ -31,63 +40,61 @@
                     </option>
                 </select>
             </div>
-        </div>
 
-        <!-- Every 'first' 'Sunday' of every 2 months -->
-        <div style="display: flex;">
-            <div class="form-check">
-                <input
-                    class="form-check-input"
-                    [(ngModel)]="certainDate"
-                    [ngModelOptions]="{standalone: true}"
-                    (click)="toggle()"
-                    type="checkbox"
-                    >
-                <label
-                    style="margin-right: 0.5rem;"
-                    class="form-check-label"
-                    >Every
-                </label>
-
-                    <select
-                        [disabled]="!certainDate"
-                        name="nDay"
-                        #nDay="ngModel"
-                        ngModel
+            <!-- Every 'first' 'Sunday' of every 2 months -->
+            <div style="display: flex;">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        [(ngModel)]="certainDate"
+                        [ngModelOptions]="{standalone: true}"
+                        (click)="toggle()"
+                        type="checkbox"
                         >
-                        <option selected value="1">first</option>
-                        <option value="2">second</option>
-                        <option value="3">third</option>
-                        <option value="4">fourth</option>
-                        <option value="5">last</option>
+                    <label
+                        style="margin-right: 0.5rem;"
+                        class="form-check-label"
+                        >Every
+                    </label>
+
+                        <select
+                            [disabled]="!certainDate"
+                            name="nDay"
+                            #nDay="ngModel"
+                            ngModel
+                            >
+                            <option selected value="1">first</option>
+                            <option value="2">second</option>
+                            <option value="3">third</option>
+                            <option value="4">fourth</option>
+                            <option value="5">last</option>
+                        </select>
+                </div>
+                <div>
+                    <select
+                        [disabled]="certainDay"
+                        #selectedDay>
+                        <option
+                            *ngFor="let day of days; index as i"
+                            [value]="i">{{ day.name }}</option>
                     </select>
-            </div>
-            <div>
-                <select
-                    [disabled]="certainDay"
-                    #selectedDay>
-                    <option
-                        *ngFor="let day of days; index as i"
-                        [value]="i">{{ day.name }}</option>
-                </select>
+                </div>
             </div>
         </div>
-
-        <div style="display: flex; justify-content: flex-end;">
-            <input
-                type="button"
-                [disabled]="!mainFormIsValid ||
-                !theForm.valid ||
-                !recurringIsValid ||
-                (selectedDay.value === '' && certainDay) ||
-                (nDay.value === '' && certainDate)
-                "
-                class="btn btn-primary"
-                (click)="createMonthlyJob(certainDay, +nDay.value,
-                                          +selectedDay.value)"
-                value="Create">
-
-        </div>
+    </div>
+    <div style="display: flex; justify-content: flex-end;">
+        <input
+            type="button"
+            [disabled]="!mainFormIsValid ||
+            !theForm.valid ||
+            !recurringIsValid ||
+            (selectedDay.value === '' && certainDay) ||
+            (nDay.value === '' && certainDate)
+            "
+            class="btn btn-primary"
+            (click)="createMonthlyJob(certainDay, +nDay.value,
+                                      +selectedDay.value)"
+            value="Create">
     </div>
 </form>
 
