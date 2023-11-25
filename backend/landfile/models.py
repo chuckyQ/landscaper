@@ -158,7 +158,7 @@ class Account(db.Model):
 
 
     def create_weekly_job_end_at(self, start_date: str, end_date: str,
-                                 cust_id: str, crew_id: str,
+                                 cust_id: str, crew_id: str, n_weeks: int,
                                  sunday: bool, monday: bool, tuesday: bool,
                                  wednesday: bool, thursday: bool, friday: bool,
                                  saturday: bool):
@@ -168,6 +168,7 @@ class Account(db.Model):
             end_date=end_date,
             cust_id=cust_id,
             crew_id=crew_id,
+            n_weeks=n_weeks,
             use_end_after=False,
             use_end_date=True,
             sunday=sunday,
@@ -186,7 +187,7 @@ class Account(db.Model):
                                     cust_id: str, crew_id: str,
                                     sunday: bool, monday: bool, tuesday: bool,
                                     wednesday: bool, thursday: bool, friday: bool,
-                                    saturday: bool
+                                    saturday: bool, n_weeks: int,
                                     ):
 
         wj = WeeklyJob(
@@ -197,6 +198,7 @@ class Account(db.Model):
             crew_id=crew_id,
             use_end_after=False,
             use_end_date=True,
+            n_weeks=n_weeks,
             sunday=sunday,
             monday=monday,
             tuesday=tuesday,
@@ -520,6 +522,7 @@ class WeeklyJob(db.Model):
     end_date: str = db.Column(db.String)
     end_at_date: bool = db.Column(db.Boolean)
     end_after: int = db.Column(db.Integer)
+    n_weeks: int = db.Column(db.Integer)
     use_end_date: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
     canceled: bool = db.Column(db.Boolean)
@@ -534,7 +537,7 @@ class WeeklyJob(db.Model):
 
     account: 'Account' = db.relationship('Account', backref='weekly_jobs')
 
-    def __init__(self, cust_id: str,
+    def __init__(self, cust_id: str, n_weeks: int,
                  sunday: bool, monday: bool,
                  tuesday: bool, wednesday: bool,
                  thursday: bool, friday: bool,
@@ -555,6 +558,7 @@ class WeeklyJob(db.Model):
         self.end_after = end_after
         self.use_end_date = use_end_date
         self.use_end_after = use_end_after
+        self.n_weeks = n_weeks
 
         self.sunday = sunday
         self.monday = monday
