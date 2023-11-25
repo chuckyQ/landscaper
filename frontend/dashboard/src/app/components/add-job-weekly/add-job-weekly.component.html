@@ -1,12 +1,30 @@
 
 <form #theForm="ngForm">
+
+    <div class="weekly">
+        <label>Every</label>
+        <select #numOfWeeks>
+            <option selected>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+            <option>7</option>
+            <option>8</option>
+            <option>9</option>
+            <option>10</option>
+        </select>
+        <label>week(s)</label>
+    </div>
+
     <div class="recurring-values">
         <div class="start-date">
             <label
                 class="form-check-label"
                 style="padding-top: 0.3rem"
                 for="startDate">
-                Start Date
+                Start:
             </label>
             <input
                 type="date"
@@ -24,15 +42,15 @@
                 >
                 <label
                     class="form-check-label"
-                    for="endDate">End Date</label>
+                    for="endDate">End by:</label>
                 <input
                     type="date"
                     name="endDate"
                     #endDate="ngModel"
                     style="width: 16ch;"
                     ngModel
-                    [disabled]="useEndAfter"
-                    required>
+                    [readonly]="!useEndDate"
+                    >
             </div>
             <div>
                 <div class="end-after">
@@ -40,28 +58,30 @@
                         type="radio"
                         (click)="toggle()"
                         [checked]="useEndAfter"
-                        [value]="useEndAfter"
                         >
                     <label
                         class="form-check-label"
-                        for="endDate">End After:
+                        for="endDate">End after:
                     </label>
                     <input
                         type="number"
                         #endAfterRecurrences="ngModel"
                         ngModel
-                        [disabled]="useEndDate"
+                        [readonly]="!useEndAfter"
                         style="width: 8ch;"
                         value="1"
                         min="1"
                         max="100"
-                        name="endDate"
+                        name="endAfter"
                         step="1"
-                        required>
+                        >
                     <label style="padding-top: 0.35rem;">times</label>
                 </div>
                 <div class="alert alert-danger" *ngIf="(endDate.value < startDate.value) && useEndDate">
                     End date cannot be before start date.
+                </div>
+                <div class="alert alert-danger" *ngIf="(+endAfterRecurrences.value < 1) && useEndAfter">
+                    End after cannot be less than one.
                 </div>
             </div>
         </div>
@@ -87,10 +107,11 @@
                         !weekdayIsSelected ||
                         !theForm.valid ||
                         (endDate.value < startDate.value) && useEndDate ||
-                        (endAfterRecurrences.value < 1) && useEndAfter
+                        (+endAfterRecurrences.value < 1 || endAfterRecurrences.value === null) && useEndAfter
                         "
             class="btn btn-primary"
             (click)="createWeeklyJob(startDate.value, endDate.value)"
             value="Create">
+            {{ endAfterRecurrences.value }}
     </div>
 </form>
