@@ -134,6 +134,7 @@ class Customer(db.Model):
     phone_number: str = db.Column(db.String)
     notes: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    canceled: bool = db.Column(db.Boolean)
     account: Account = db.relationship('Account', backref='customers')
 
 
@@ -146,6 +147,7 @@ class Customer(db.Model):
         self.notes = notes
         self.account_id = account_id
         self.phone_number = phone_number
+        self.canceled = False
 
 
     def save(self):
@@ -226,6 +228,7 @@ class Crew(db.Model):
     name: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     description: str = db.Column(db.String)
+    deleted: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='crews')
     jobs: t.List['Job'] = db.relationship('Job', secondary=job_table, back_populates='crews')
@@ -238,6 +241,7 @@ class Crew(db.Model):
         self.account_id = account_id
         self.description = description
         self.crew_id = 'crew_' + gen_id()
+        self.deleted = False
 
 
     def save(self):
@@ -269,7 +273,8 @@ class Crew(db.Model):
 
     def delete(self):
 
-        db.session.delete(self)
+        self.deleted = True
+        db.session.add(self)
         db.session.commit()
 
 
@@ -367,27 +372,40 @@ class DailyJob(db.Model):
     __tablename__ = 'daily_jobs'
 
     id: int = db.Column(db.Integer, primary_key=True)
+    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     job_id: str = db.Column(db.String)
-    cust_id: int = db.Column(db.Integer)
+    cust_id: str = db.Column(db.Integer)
+    crew_id: str = db.Column(db.Integer)
     notes: str = db.Column(db.String)
     start_date: str = db.Column(db.String)
     end_date: str = db.Column(db.String)
+    use_end_date: bool = db.Column(db.Boolean)
+    use_end_after: bool = db.Column(db.Boolean)
+    canceled: bool = db.Column(db.Boolean)
+
+    account: Account = db.relationship('Account', backref='daily_jobs')
 
     def __init__(self, cust_id: int,
+                 crew_id: str,
                  start_date: str,
-                 end_date: str):
+                 end_after: bool,
+                 end_date: str,
+                 use_end_date: bool,
+                 use_end_after: bool,
+                 account_id: int
+                 ):
 
         self.job_id = f'dailyjob_{gen_id(18)}'
 
         self.cust_id = cust_id
         self.start_date = start_date
         self.end_date = end_date
-
-
-    def delete(self):
-
-        db.session.delete(self)
-        db.session.commit()
+        self.end_after = end_after
+        self.crew_id = crew_id
+        self.use_end_date = use_end_date
+        self.use_end_after = use_end_after
+        self.canceled = False
+        self.account_id = account_id
 
 
 class WeeklyJob(db.Model):
@@ -395,12 +413,18 @@ class WeeklyJob(db.Model):
     __tablename__ = 'weekly_jobs'
 
     id: int = db.Column(db.Integer, primary_key=True)
+    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     job_id: str = db.Column(db.String)
-    cust_id: int = db.Column(db.Integer)
+    cust_id: str = db.Column(db.String)
     notes: str = db.Column(db.String)
 
     start_date: str = db.Column(db.String)
     end_date: str = db.Column(db.String)
+    end_at_date: bool = db.Column(db.Boolean)
+    end_after: int = db.Column(db.Integer)
+    use_end_date: bool = db.Column(db.Boolean)
+    use_end_after: bool = db.Column(db.Boolean)
+    canceled: bool = db.Column(db.Boolean)
 
     sunday: db.Column(db.Boolean)
     monday: db.Column(db.Boolean)
@@ -410,8 +434,9 @@ class WeeklyJob(db.Model):
     friday: db.Column(db.Boolean)
     saturday: db.Column(db.Boolean)
 
+    account: 'Account' = db.relationship('Account', backref='weekly_jobs')
 
-    def __init__(self, cust_id: int,
+    def __init__(self, cust_id: str,
                  sunday: bool, monday: bool,
                  tuesday: bool, wednesday: bool,
                  thursday: bool, friday: bool,
@@ -424,6 +449,7 @@ class WeeklyJob(db.Model):
         self.cust_id = cust_id
         self.start_month = start_date
         self.end_month = end_date
+        self.canceled = False
 
         self.sunday = sunday
         self.monday = monday
@@ -436,46 +462,48 @@ class WeeklyJob(db.Model):
 
     def delete(self):
 
-        db.session.delete(self)
+        self.canceled = True
+        db.session.add(self)
         db.session.commit()
-
 
 class MonthlyJob(db.Model):
 
     __tablename__ = 'monthly_jobs'
 
     id: int = db.Column(db.Integer, primary_key=True)
+    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     job_id: str = db.Column(db.String)
-    cust_id: int = db.Column(db.Integer)
+    cust_id: str = db.Column(db.String)
     notes: str = db.Column(db.String)
 
     start_date: str = db.Column(db.String)
     end_date: str = db.Column(db.String)
+    end_after: int = db.Column(db.Integer)
 
-    sunday: db.Column(db.Boolean)
-    monday: db.Column(db.Boolean)
-    tuesday: db.Column(db.Boolean)
-    wednesday: db.Column(db.Boolean)
-    thursday: db.Column(db.Boolean)
-    friday: db.Column(db.Boolean)
-    saturday: db.Column(db.Boolean)
+    use_end_at: bool = db.Column(db.Boolean)
+    use_end_after: bool = db.Column(db.Boolean)
 
-    # Every 2 weeks, every 3 weeks, etc...
-    num_of_weeks: int = db.Column(db.Integer)
+    account: Account = db.relatoinship('Account', backref='monthly_jobs')
 
     def __init__(self, cust_id: int,
+                 crew_id: str,
+                 use_end_at: bool,
+                 use_end_after: bool,
                  sunday: bool, monday: bool,
                  tuesday: bool, wednesday: bool,
                  thursday: bool, friday: bool,
                  saturday: bool, start_date: str,
-                 end_date: str, num_of_weeks: int):
+                 end_date: str
+                 ):
 
         self.job_id = f'monthjob_{gen_id(18)}'
 
+        self.crew_id = crew_id
         self.cust_id = cust_id
         self.start_date = start_date
         self.end_date = end_date
-        self.num_of_weeks = num_of_weeks
+        self.use_end_after = use_end_after
+        self.use_end_at = use_end_at
 
         self.sunday = sunday
         self.monday = monday
@@ -484,12 +512,6 @@ class MonthlyJob(db.Model):
         self.thursday = thursday
         self.friday = friday
         self.saturday = saturday
-
-
-    def delete(self):
-
-        db.session.delete(self)
-        db.session.commit()
 
 
 class YearlyJob(db.Model):
@@ -498,31 +520,38 @@ class YearlyJob(db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     job_id: str = db.Column(db.String)
-    cust_id: int = db.Column(db.Integer)
+    cust_id: str = db.Column(db.String)
     notes: str = db.Column(db.String)
 
     # Indices of months (0-Jan, 1-Feb, etc...)
     month: int = db.Column(db.Integer)
 
-    # Every 2 weeks, every 3 weeks, etc...
-    num_of_weeks: int = db.Column(db.Integer)
+    start_date: str = db.Column(db.String)
+    end_date: str = db.Column(db.String)
+    end_after: int = db.Column(db.Integer)
+
+    use_end_at: bool = db.Column(db.Boolean)
+    use_end_after: bool = db.Column(db.Boolean)
+
+    canceled: bool = db.Column(db.Boolean)
+
+    account: Account = db.relationship('Account', backref='yearly_jobs')
 
     def __init__(self, cust_id: int, notes: str,
-                 start_date: int, end_date: int,
-                 num_of_weeks: int):
+                 start_date: str, end_date: str,
+                 end_after: int,  use_end_at: bool,
+                 use_end_after: bool,
+                 ):
 
         self.job_id = f'yearjob_{gen_id(18)}'
         self.cust_id = cust_id
         self.notes = notes
         self.start_date = start_date
         self.end_date = end_date
-        self.num_of_weeks = num_of_weeks
-
-
-    def delete(self):
-
-        db.session.delete(self)
-        db.session.commit()
+        self.end_after = end_after
+        self.use_end_after = use_end_after
+        self.use_end_at = use_end_at
+        self.canceled = False
 
 
 class Comment(db.Model):
