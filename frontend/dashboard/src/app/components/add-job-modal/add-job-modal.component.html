@@ -142,6 +142,7 @@
             [notes]="notes.value"
             [custID]="custID"
             [mainFormIsValid]="theForm.valid"
+            [startDate]="startDate"
         ></add-job-single>
     </div>
 
@@ -154,6 +155,7 @@
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
                 [mainFormIsValid]="theForm.valid"
+                [startDate]="startDate"
             ></add-job-daily>
         </div>
         <div *ngIf="seasonalType == 'weekly'">
@@ -164,6 +166,7 @@
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
                 [mainFormIsValid]="theForm.valid"
+                [startDate]="startDate"
             ></add-job-weekly>
         </div>
 
@@ -175,6 +178,7 @@
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
                 [mainFormIsValid]="theForm.valid"
+                [startDate]="startDate"
             ></add-job-monthly>
         </div>
         <div *ngIf="seasonalType == 'yearly'">
@@ -185,6 +189,7 @@
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
                 [mainFormIsValid]="theForm.valid"
+                [startDate]="startDate"
             ></add-job-yearly>
         </div>
     </ng-container>
