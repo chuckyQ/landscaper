@@ -14,17 +14,6 @@ interface Customer {
   custID: string
 }
 
-interface SingleJob {
-  isSeasonal: boolean // always false
-  seasonalType: string // always an empty string ''
-  dateTimestamp: number // Unix timestamp
-  name: string // Customer name
-  address: string
-  custID: string
-  crews: string[] // List of crew ids
-  notes: string
-}
-
 @Component({
   selector: 'app-add-job-modal',
   templateUrl: './add-job-modal.component.html',
@@ -42,7 +31,7 @@ export class AddJobModalComponent {
   showSearch: boolean
   seasonalType: string
   isSeasonal: boolean
-  jobDate: string // Date of a single job (non-recurring)
+  startDate: string // Date of a single job (non-recurring)
 
   constructor(public activeModal: NgbActiveModal, public service: AuthService) {
     this.date = ""
@@ -52,7 +41,7 @@ export class AddJobModalComponent {
     this.showSearch = false
     this.seasonalType = ""
     this.isSeasonal = false
-    this.jobDate = ""
+    this.startDate = ""
 
     this.dayValues = []
     for(let i = 0; i < 28; i++) {
