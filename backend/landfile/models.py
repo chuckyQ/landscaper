@@ -218,6 +218,7 @@ class User(db.Model):
             'phoneNumber' : self.phone_number,
         }
 
+
 class Crew(db.Model):
 
     __tablename__ = 'crews'
@@ -292,6 +293,7 @@ class Job(db.Model):
     last_updated_timestamp: float = db.Column(db.Float)
     address: str = db.Column(db.String)
     notes: str = db.Column(db.String)
+    canceled: bool = db.Column(db.Boolean)
 
     # Added by the Comment model
     comments: t.List['Comment']
@@ -363,7 +365,8 @@ class Job(db.Model):
 
     def delete(self):
 
-        db.session.delete(self)
+        self.canceled = True
+        db.session.add(self)
         db.session.commit()
 
 
@@ -466,6 +469,7 @@ class WeeklyJob(db.Model):
         db.session.add(self)
         db.session.commit()
 
+
 class MonthlyJob(db.Model):
 
     __tablename__ = 'monthly_jobs'
@@ -479,6 +483,7 @@ class MonthlyJob(db.Model):
     start_date: str = db.Column(db.String)
     end_date: str = db.Column(db.String)
     end_after: int = db.Column(db.Integer)
+    canceled: bool = db.Column(db.Boolean)
 
     use_end_at: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
@@ -504,6 +509,7 @@ class MonthlyJob(db.Model):
         self.end_date = end_date
         self.use_end_after = use_end_after
         self.use_end_at = use_end_at
+        self.canceled = False
 
         self.sunday = sunday
         self.monday = monday
