@@ -182,6 +182,32 @@ class Account(db.Model):
         wj.save()
 
 
+    def create_weekly_job_end_after(self, start_date: str, end_after: int,
+                                    cust_id: str, crew_id: str,
+                                    sunday: bool, monday: bool, tuesday: bool,
+                                    wednesday: bool, thursday: bool, friday: bool,
+                                    saturday: bool
+                                    ):
+
+        wj = WeeklyJob(
+            start_date=start_date,
+            end_date='',
+            cust_id=cust_id,
+            crew_id=crew_id,
+            use_end_after=False,
+            use_end_date=True,
+            sunday=sunday,
+            monday=monday,
+            tuesday=tuesday,
+            wednesday=wednesday,
+            thursday=thursday,
+            friday=friday,
+            saturday=saturday,
+        )
+
+        wj.save()
+
+
 class Customer(db.Model):
 
     __tablename__ = 'customers'
@@ -629,12 +655,13 @@ class YearlyJob(db.Model):
 
     account: Account = db.relationship('Account', backref='yearly_jobs')
 
-    def __init__(self, cust_id: int, notes: str,
+    def __init__(self, account_id: int, cust_id: int, notes: str,
                  start_date: str, end_date: str,
                  end_after: int,  use_end_at: bool,
                  use_end_after: bool,
                  ):
 
+        self.account_id = account_id
         self.job_id = f'yearjob_{gen_id(18)}'
         self.cust_id = cust_id
         self.notes = notes
