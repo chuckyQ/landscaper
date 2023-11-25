@@ -238,27 +238,21 @@ class Account(db.Model):
 
 
     def create_monthly_job_end_after(self, start_date: str, end_after: int,
-                                    cust_id: str, crew_id: str,
-                                    sunday: bool, monday: bool, tuesday: bool,
-                                    wednesday: bool, thursday: bool, friday: bool,
-                                    saturday: bool, n_weeks: int):
+                                    cust_id: str, crew_id: str, ordinal: int,
+                                    day: int, use_specific_day: bool,
+                                    weekday: int):
 
         mj = MonthlyJob(
             cust_id=cust_id,
             crew_id=crew_id,
-            n_weeks=n_weeks,
+            ordinal=ordinal,
+            day=day,
+            use_specific_day=use_specific_day,
             start_date=start_date,
             end_date='',
             end_after=end_after,
             use_end_after=True,
             use_end_at=False,
-            sunday=sunday,
-            monday=monday,
-            tuesday=tuesday,
-            wednesday=wednesday,
-            thursday=thursday,
-            friday=friday,
-            saturday=saturday,
         )
 
         mj.save()
@@ -280,13 +274,6 @@ class Account(db.Model):
             end_date=end_date,
             use_end_after=False,
             use_end_at=True,
-            sunday=sunday,
-            monday=monday,
-            tuesday=tuesday,
-            wednesday=wednesday,
-            thursday=thursday,
-            friday=friday,
-            saturday=saturday,
         )
 
         yj.save()
@@ -694,6 +681,15 @@ class WeeklyJob(db.Model):
 
 class MonthlyJob(db.Model):
 
+    _ORDINAL_TO_INT = {
+        '' : 0,
+        'first' : 1,
+        'second' : 2,
+        'third' : 3,
+        'fourth' : 4,
+        'last' : 5,
+    }
+
     __tablename__ = 'monthly_jobs'
 
     id: int = db.Column(db.Integer, primary_key=True)
@@ -706,6 +702,10 @@ class MonthlyJob(db.Model):
     end_date: str = db.Column(db.String)
     end_after: int = db.Column(db.Integer)
     canceled: bool = db.Column(db.Boolean)
+    day: int = db.Column(db.Boolean)
+    ordinal: int = db.Column(db.Boolean)
+    use_specific_day: bool = db.Column(db.Boolean)
+    weekday: int = db.Column(db.Integer)
 
     use_end_at: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
@@ -713,14 +713,14 @@ class MonthlyJob(db.Model):
     account: Account = db.relatoinship('Account', backref='monthly_jobs')
 
     def __init__(self, cust_id: int,
-                 crew_id: str,
+                 crew_id: str, day: int,
                  use_end_at: bool,
                  use_end_after: bool,
-                 sunday: bool, monday: bool,
-                 tuesday: bool, wednesday: bool,
-                 thursday: bool, friday: bool,
-                 saturday: bool, start_date: str,
-                 end_date: str
+                 start_date: str,
+                 end_date: str,
+                 ordinal: str,
+                 use_specific_day: bool,
+                 weekday: int,
                  ):
 
         self.job_id = f'monthjob_{gen_id(18)}'
@@ -733,13 +733,10 @@ class MonthlyJob(db.Model):
         self.use_end_at = use_end_at
         self.canceled = False
 
-        self.sunday = sunday
-        self.monday = monday
-        self.tuesday = tuesday
-        self.wednesday = wednesday
-        self.thursday = thursday
-        self.friday = friday
-        self.saturday = saturday
+        self.use_specific_day = use_specific_day
+        self.ordinal = self._ORDINAL_TO_INT.get(ordinal, 0)
+        self.weekday = weekday
+        self.day = day
 
 
     def save(self):
