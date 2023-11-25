@@ -211,6 +211,116 @@ class Account(db.Model):
         wj.save()
 
 
+    def create_monthly_job_end_at(self, start_date: str, end_date: str,
+                                  cust_id: str, crew_id: str,
+                                  sunday: bool, monday: bool, tuesday: bool,
+                                  wednesday: bool, thursday: bool, friday: bool,
+                                  saturday: bool, n_weeks: int):
+
+        mj = MonthlyJob(
+            cust_id=cust_id,
+            crew_id=crew_id,
+            n_weeks=n_weeks,
+            start_date=start_date,
+            end_date=end_date,
+            use_end_after=False,
+            use_end_at=True,
+            sunday=sunday,
+            monday=monday,
+            tuesday=tuesday,
+            wednesday=wednesday,
+            thursday=thursday,
+            friday=friday,
+            saturday=saturday,
+        )
+
+        mj.save()
+
+
+    def create_monthly_job_end_after(self, start_date: str, end_after: int,
+                                    cust_id: str, crew_id: str,
+                                    sunday: bool, monday: bool, tuesday: bool,
+                                    wednesday: bool, thursday: bool, friday: bool,
+                                    saturday: bool, n_weeks: int):
+
+        mj = MonthlyJob(
+            cust_id=cust_id,
+            crew_id=crew_id,
+            n_weeks=n_weeks,
+            start_date=start_date,
+            end_date='',
+            end_after=end_after,
+            use_end_after=True,
+            use_end_at=False,
+            sunday=sunday,
+            monday=monday,
+            tuesday=tuesday,
+            wednesday=wednesday,
+            thursday=thursday,
+            friday=friday,
+            saturday=saturday,
+        )
+
+        mj.save()
+
+
+    def create_yearly_job_end_at(self, start_date: str, end_date: str,
+                                cust_id: str, notes: str, crew_id: str,
+                                sunday: bool, monday: bool, tuesday: bool,
+                                wednesday: bool, thursday: bool, friday: bool,
+                                saturday: bool):
+
+        yj = YearlyJob(
+            account_id=self.id,
+            cust_id=cust_id,
+            notes=notes,
+            crew_id=crew_id,
+            start_date=start_date,
+            end_after=-1,
+            end_date=end_date,
+            use_end_after=False,
+            use_end_at=True,
+            sunday=sunday,
+            monday=monday,
+            tuesday=tuesday,
+            wednesday=wednesday,
+            thursday=thursday,
+            friday=friday,
+            saturday=saturday,
+        )
+
+        yj.save()
+
+
+
+    def create_yearly_job_end_after(self, start_date: str, end_after: int,
+                                cust_id: str, notes: str, crew_id: str,
+                                sunday: bool, monday: bool, tuesday: bool,
+                                wednesday: bool, thursday: bool, friday: bool,
+                                saturday: bool):
+
+        yj = YearlyJob(
+            account_id=self.id,
+            cust_id=cust_id,
+            notes=notes,
+            crew_id=crew_id,
+            start_date=start_date,
+            end_after=end_after,
+            end_date='',
+            use_end_after=False,
+            use_end_at=True,
+            sunday=sunday,
+            monday=monday,
+            tuesday=tuesday,
+            wednesday=wednesday,
+            thursday=thursday,
+            friday=friday,
+            saturday=saturday,
+        )
+
+        yj.save()
+
+
 class Customer(db.Model):
 
     __tablename__ = 'customers'
