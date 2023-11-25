@@ -610,6 +610,7 @@ class YearlyJob(db.Model):
     __tablename__ = 'yearly_jobs'
 
     id: int = db.Column(db.Integer, primary_key=True)
+    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     job_id: str = db.Column(db.String)
     cust_id: str = db.Column(db.String)
     notes: str = db.Column(db.String)
