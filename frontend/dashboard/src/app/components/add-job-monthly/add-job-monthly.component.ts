@@ -51,6 +51,7 @@ export class AddJobMonthlyComponent {
   @Input()
   crewIDs: string[]
 
+  @Input()
   startDate: string
   endDate: string
   useEndDate: boolean
