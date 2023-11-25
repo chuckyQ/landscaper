@@ -192,6 +192,7 @@ class Account(db.Model):
         wj = WeeklyJob(
             start_date=start_date,
             end_date='',
+            end_after=end_after,
             cust_id=cust_id,
             crew_id=crew_id,
             use_end_after=False,
@@ -540,6 +541,7 @@ class WeeklyJob(db.Model):
                  saturday: bool,
                  start_date: str,
                  end_date: str,
+                 end_after: int,
                  use_end_date: bool,
                  use_end_after: bool,
                  ):
@@ -550,6 +552,7 @@ class WeeklyJob(db.Model):
         self.start_month = start_date
         self.end_month = end_date
         self.canceled = False
+        self.end_after = end_after
         self.use_end_date = use_end_date
         self.use_end_after = use_end_after
 
