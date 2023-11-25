@@ -46,6 +46,7 @@ export class AddJobYearlyComponent {
   every: boolean
   onEvery: boolean
 
+  @Input()
   startDate: string
   endDate: string
   useEndAfter: boolean

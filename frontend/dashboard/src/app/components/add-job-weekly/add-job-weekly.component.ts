@@ -60,6 +60,7 @@ export class AddJobWeeklyComponent {
 
   days: Day[]
 
+  @Input()
   startDate: string
   endDate: string
 
