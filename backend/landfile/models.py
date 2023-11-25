@@ -156,6 +156,32 @@ class Account(db.Model):
         dj.save()
         return dj
 
+
+    def create_weekly_job_end_at(self, start_date: str, end_date: str,
+                                 cust_id: str, crew_id: str,
+                                 sunday: bool, monday: bool, tuesday: bool,
+                                 wednesday: bool, thursday: bool, friday: bool,
+                                 saturday: bool):
+
+        wj = WeeklyJob(
+            start_date=start_date,
+            end_date=end_date,
+            cust_id=cust_id,
+            crew_id=crew_id,
+            use_end_after=False,
+            use_end_date=True,
+            sunday=sunday,
+            monday=monday,
+            tuesday=tuesday,
+            wednesday=wednesday,
+            thursday=thursday,
+            friday=friday,
+            saturday=saturday,
+        )
+
+        wj.save()
+
+
 class Customer(db.Model):
 
     __tablename__ = 'customers'
@@ -487,7 +513,10 @@ class WeeklyJob(db.Model):
                  thursday: bool, friday: bool,
                  saturday: bool,
                  start_date: str,
-                 end_date: str):
+                 end_date: str,
+                 use_end_date: bool,
+                 use_end_after: bool,
+                 ):
 
         self.job_id = f'weekjob_{gen_id(18)}'
 
@@ -495,6 +524,8 @@ class WeeklyJob(db.Model):
         self.start_month = start_date
         self.end_month = end_date
         self.canceled = False
+        self.use_end_date = use_end_date
+        self.use_end_after = use_end_after
 
         self.sunday = sunday
         self.monday = monday
