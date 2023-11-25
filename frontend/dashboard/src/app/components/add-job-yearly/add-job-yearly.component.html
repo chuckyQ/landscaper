@@ -1,117 +1,115 @@
-
-
-<div style="display: flex; gap: 0.5rem; place-items: center; margin-top: 1rem;">
-    <div style="display: flex;">
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <div class="form-check">
-                <input
-                    class="form-check-input"
-                    [(ngModel)]="every"
-                    (click)="toggle()"
-                    type="checkbox"
-                    >
-                <label
-                    class="form-check-label"
-                    for="certainDay">Every</label>
-            </div>
-            <div class="form-check">
-                <select
-                    [disabled]="!every"
-                    #selectedMonth="ngModel"
-                    ngModel
-                    style="width: 12ch;"
-                    name="selectedMonth"
-                    id="yearlyMonth">
-                    <option *ngFor="let month of months; index as i"
-                        [selected]="i === 3"
-                        [value]="i">{{ month }}
+<form #theForm="ngForm">
+    <div style="display: flex; gap: 0.2rem; place-items: center;">
+        <div style="display: flex;">
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        [(ngModel)]="every"
+                        [ngModelOptions]="{standalone: true}"
+                        (click)="toggle()"
+                        type="checkbox"
+                        >
+                    <label
+                        class="form-check-label"
+                        for="certainDay">Every</label>
+                </div>
+                <div class="form-check">
+                    <select
+                        #selectedMonth
+                        [disabled]="!every"
+                        style="width: 12ch;"
+                        name="selectedMonth"
+                        id="yearlyMonth">
+                        <option *ngFor="let month of months; index as i"
+                            [value]="i">{{ month }}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-check">
+                    <select
+                        [disabled]="!every"
+                        name="selectedDay"
+                        #selectedDay
+                        id="endDay">
+                    <option
+                        *ngFor="let d of getMonthDays(+selectedMonth.value)"
+                        [value]="d">
+                        {{ d }}
                     </option>
                 </select>
-            </div>
-            <div class="form-check">
-                <select
-                    [disabled]="!every"
-                    name="selectedDay"
-                    #selectedDay
-                    id="endDay">
-                <option
-                    *ngFor="let d of getMonthDays(+selectedMonth.value)"
-                    [value]="d">
-                    {{ d }}
-                </option>
-            </select>
+                </div>
             </div>
         </div>
     </div>
-
-</div>
-<div style="display: flex; gap: 0.5rem; place-items: center; margin-top: 1rem;">
-    <div style="display: flex;">
-        <div style="display: flex; gap: 1rem; align-items: center;">
-            <div class="form-check">
-                <input
-                    class="form-check-input"
-                    [(ngModel)]="onEvery"
-                    (click)="toggle()"
-                    type="checkbox"
-                    >
-                <label
-                    class="form-check-label"
-                    for="certainDate">On every</label>
-            </div>
-            <div>
-                <select
-                    [disabled]="!onEvery"
-                    #selectedTimeframe="ngModel"
-                    ngModel
-                    style="width: 12ch;"
-                    name="selectedMonth"
-                    id="yearlyMonth">
-                    <option value="1">first</option>
-                    <option value="1">second</option>
-                    <option value="1">third</option>
-                    <option value="1">fourth</option>
-                    <option value="1">last</option>
-                </select>
-            </div>
-            <div class="form-check">
-                <select
-                    [disabled]="!onEvery"
-                    #selectedMonth="ngModel"
-                    ngModel
-                    style="width: 12ch;"
-                    name="selectedMonth"
-                    id="yearlyMonth">
-                    <option *ngFor="let day of days; index as i"
-                        [selected]="i === 0"
-                        [value]="i">{{ day }}
+    <div style="display: flex; gap: 0.2rem; place-items: center;">
+        <div style="display: flex;">
+            <div style="display: flex; gap: 0.25rem; align-items: center;">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        [(ngModel)]="onEvery"
+                        (click)="toggle()"
+                        type="checkbox"
+                        name="onEvery"
+                        >
+                    <label
+                        class="form-check-label"
+                        for="certainDate">On every</label>
+                </div>
+                <div>
+                    <select
+                        [disabled]="!onEvery"
+                        #selectedTimeframe="ngModel"
+                        ngModel
+                        style="width: 12ch;"
+                        name="selectedMonth"
+                        id="yearlyMonth">
+                        <option value="1">first</option>
+                        <option value="1">second</option>
+                        <option value="1">third</option>
+                        <option value="1">fourth</option>
+                        <option value="1">last</option>
+                    </select>
+                </div>
+                <div class="form-check">
+                    <select
+                        [disabled]="!onEvery"
+                        #selectedMonth="ngModel"
+                        ngModel
+                        style="width: 12ch;"
+                        name="selectedMonth"
+                        id="yearlyMonth">
+                        <option *ngFor="let day of days; index as i"
+                            [selected]="i === 0"
+                            [value]="i">{{ day }}
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-check-label"> of </label>
+                </div>
+                <div class="form-check">
+                    <select
+                        [disabled]="!onEvery"
+                        name="selectedDay"
+                        #selectedDay
+                        id="endDay">
+                    <option
+                        *ngFor="let month of months; index as i"
+                        [value]="i">
+                        {{ month }}
                     </option>
                 </select>
-            </div>
-            <div>
-                <label class="form-check-label"> of </label>
-            </div>
-            <div class="form-check">
-                <select
-                    [disabled]="!onEvery"
-                    name="selectedDay"
-                    #selectedDay
-                    id="endDay">
-                <option
-                    *ngFor="let month of months; index as i"
-                    [value]="i">
-                    {{ month }}
-                </option>
-            </select>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div style="display: flex; justify-content: flex-end;">
-    <input
-        type="button"
-        [disabled]="!mainFormIsValid"
-        class="btn btn-primary"
-        value="Create">
-</div>
-
+    <div style="display: flex; justify-content: flex-end;">
+        <input
+            type="button"
+            [disabled]="!mainFormIsValid"
+            class="btn btn-primary"
+            value="Create">
+    </div>
+</form>
