@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { TimeTableModalComponent } from '../time-table-modal/time-table-modal.component';
 import { AddJobModalComponent } from '../add-job-modal/add-job-modal.component';
 
 

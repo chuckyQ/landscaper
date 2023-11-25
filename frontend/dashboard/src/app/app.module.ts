@@ -22,7 +22,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddUserModalComponent } from './components/add-user-modal/add-user-modal.component';
 import { AddCrewModalComponent } from './components/add-crew-modal/add-crew-modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TimeTableModalComponent } from './components/time-table-modal/time-table-modal.component';
 import { CalendarDayComponent } from './components/calendar-day/calendar-day.component';
 import { WorkImagesModalComponent } from './components/work-images-modal/work-images-modal.component';
 import { EditCrewMembersModalComponent } from './components/edit-crew-members-modal/edit-crew-members-modal.component';
@@ -53,7 +52,6 @@ import { RecurringComponent } from './components/recurring/recurring.component';
     AddCustomerModalComponent,
     AddUserModalComponent,
     AddCrewModalComponent,
-    TimeTableModalComponent,
     CalendarDayComponent,
     WorkImagesModalComponent,
     EditCrewMembersModalComponent,
