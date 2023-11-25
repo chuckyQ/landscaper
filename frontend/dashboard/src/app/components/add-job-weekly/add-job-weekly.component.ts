@@ -59,13 +59,15 @@ export class AddJobWeeklyComponent {
   crewIDs: string[]
 
   days: Day[]
-  months: string[]
 
-  startDate: number
-  endDate: number
+  startDate: string
+  endDate: string
 
   useEndDate: boolean
   useEndAfter: boolean
+
+  recurringIsValid: boolean
+  recurrences: number
 
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
@@ -74,31 +76,17 @@ export class AddJobWeeklyComponent {
     this.custName = ""
     this.notes = ""
     this.mainFormIsValid = false
+    this.recurrences = 1
 
     this.useEndDate = true
     this.useEndAfter = false
+    this.recurringIsValid = false
 
-    this.startDate = 0
-    this.endDate = 0
+    this.startDate = ""
+    this.endDate = ""
 
     this.crewIDs = []
 
-
-
-    this.months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ]
 
     this.days = [
       { name: "Sunday", selected: false},
@@ -168,23 +156,8 @@ export class AddJobWeeklyComponent {
     return false
   }
 
-  getWeekRange() {
-
-    let values: number[] = []
-
-    // Just give a max of 10 weeks for recurrence
-    for(let i = 0; i < 10; i++) {
-      values.push(i + 1)
-    }
-
-
-    return values
-
-  }
-
-  toggle() {
-    this.useEndAfter = !this.useEndAfter
-    this.useEndDate = !this.useEndDate
+  setValid(event: boolean) {
+    this.recurringIsValid = event
   }
 
 }
