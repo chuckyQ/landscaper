@@ -28,7 +28,6 @@ export class CustomersComponent implements OnInit {
     this.service.getCustomers().subscribe(
       {
         next: (resp: any) => {
-          console.log(resp)
           this.customers = resp
         }
       }

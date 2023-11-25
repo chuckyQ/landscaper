@@ -36,7 +36,6 @@ export class CustomerComponent implements OnInit {
       this.service.getCustomer(custID).subscribe(
         {
           next: (resp: any) => {
-            console.log(resp)
             this.customer = resp
           }
         }
