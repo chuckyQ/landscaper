@@ -747,6 +747,15 @@ class MonthlyJob(db.Model):
 
 class YearlyJob(db.Model):
 
+    _ORDINAL_TO_INT = {
+        '' : 0,
+        'first' : 1,
+        'second' : 2,
+        'third' : 3,
+        'fourth' : 4,
+        'last' : 5,
+    }
+
     __tablename__ = 'yearly_jobs'
 
     id: int = db.Column(db.Integer, primary_key=True)
@@ -764,7 +773,10 @@ class YearlyJob(db.Model):
 
     use_end_at: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
-
+    use_specific_date: bool = db.Column(db.Boolean)
+    month: int = db.Column(db.Integer)
+    ordinal: int = db.Column(db.Integer)
+    day: int = db.Column(db.Integer)
     canceled: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='yearly_jobs')
@@ -772,7 +784,7 @@ class YearlyJob(db.Model):
     def __init__(self, account_id: int, cust_id: int, notes: str,
                  start_date: str, end_date: str,
                  end_after: int,  use_end_at: bool,
-                 use_end_after: bool,
+                 use_end_after: bool, ordinal: str,
                  ):
 
         self.account_id = account_id
@@ -785,6 +797,7 @@ class YearlyJob(db.Model):
         self.use_end_after = use_end_after
         self.use_end_at = use_end_at
         self.canceled = False
+        self.ordinal = self._ORDINAL_TO_INT.get(ordinal, 0)
 
 
     def save(self):
