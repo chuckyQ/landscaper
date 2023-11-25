@@ -1,1 +1,21 @@
-<p>add-job-single works!</p>
+
+<form #theForm="ngForm">
+    <div>
+        <input
+            type="date"
+            required
+            name="startDate"
+            [(ngModel)]="startDate"
+        >
+    </div>
+    <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
+        <input
+            type="button"
+            (click)="createJob()"
+            class="btn btn-primary"
+            value="Create"
+            [disabled]="!theForm.valid ||
+                        !mainFormIsValid
+            ">
+    </div>
+</form>
