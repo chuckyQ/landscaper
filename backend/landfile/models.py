@@ -127,6 +127,7 @@ class Account(db.Model):
             cust_id=cust_id,
             start_date=start_date,
             end_date=end_date,
+            end_after=-1,
             use_end_date=True,
             use_end_after=False,
             account_id=self.id,
@@ -136,6 +137,24 @@ class Account(db.Model):
         dj.save()
         return dj
 
+
+    def create_daily_job_end_after(self, start_date: str, end_after: int,
+                                   cust_id: str, crew_id: str):
+
+
+        dj = DailyJob(
+            cust_id=cust_id,
+            start_date=start_date,
+            end_date='',
+            end_after=end_after,
+            use_end_date=False,
+            use_end_after=True,
+            account_id=self.id,
+            crew_id=crew_id,
+        )
+
+        dj.save()
+        return dj
 
 class Customer(db.Model):
 
