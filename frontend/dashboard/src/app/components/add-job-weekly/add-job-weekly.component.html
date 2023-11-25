@@ -1,67 +1,46 @@
 
 <form #theForm="ngForm">
-    <div style="display: flex; flex-direction: column; gap: 0.2rem; place-content: center; margin: 0.5rem;">
-        <div class="month-range">
-            <div>
-                <div>
-                    <label
+    <div class="recurring-values">
+        <div class="start-date">
+            <label
+                class="form-check-label"
+                style="padding-top: 0.3rem"
+                for="startDate">
+                Start Date
+            </label>
+            <input
+                type="date"
+                #startDate="ngModel"
+                ngModel
+                name="startDate"
+                required>
+        </div>
+        <div class="end-date-values">
+            <div style="display: flex; gap: 0.25rem; align-items: center; justify-content: flex-start; margin-bottom: 0.25rem;">
+                <input
+                (click)="toggle()"
+                [checked]="useEndDate"
+                type="radio"
+                >
+                <label
                     class="form-check-label"
-                    for="startDate">
-                    Start Date
-                </label>
+                    for="endDate">End Date</label>
                 <input
                     type="date"
-                    #startDate="ngModel"
+                    name="endDate"
+                    #endDate="ngModel"
+                    style="width: 16ch;"
                     ngModel
-                    name="startDate"
+                    [disabled]="useEndAfter"
                     required>
-                </div>
-                <div style="justify-content: center; display: flex; margin-top: 1.5rem;">
-                    <label class="form-check-label">Every</label>
-                    <div>
-                        <select
-                            style="margin-right: 0.5rem; margin-left: 0.5rem;"
-                            name="selectedWeek"
-                            required
-                            >
-                            <option
-                                [selected]="opt === 1"
-                                *ngFor="let opt of getWeekRange()">
-                                {{ opt }}
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="form-check-label">week(s)</label>
-                    </div>
-                </div>
             </div>
             <div>
                 <div class="end-after">
                     <input
-                        (click)="toggle()"
-                        checked
-                        type="radio"
-                        [value]="true"
-                        name="endAfter"
-                        >
-                    <label
-                        class="form-check-label"
-                        for="endDate">End Date</label>
-                    <input
-                        type="date"
-                        name="endDate"
-                        #endDate="ngModel"
-                        style="width: 16ch;"
-                        ngModel
-                        [disabled]="!useEndDate"
-                        required>
-                </div>
-                <div class="end-after">
-                    <input
                         type="radio"
                         (click)="toggle()"
-                        name="endAfter"
+                        [checked]="useEndAfter"
+                        [value]="useEndAfter"
                         >
                     <label
                         class="form-check-label"
@@ -69,33 +48,34 @@
                     </label>
                     <input
                         type="number"
-                        #endDate
+                        #endAfterRecurrences="ngModel"
+                        ngModel
                         [disabled]="useEndDate"
-                        style="width: 14ch;"
+                        style="width: 8ch;"
                         value="1"
                         min="1"
                         max="100"
                         name="endDate"
                         step="1"
                         required>
+                    <label>times</label>
                 </div>
-
+                <div class="alert alert-danger" *ngIf="(endDate.value < startDate.value) && useEndDate">
+                    End date cannot be before start date.
+                </div>
             </div>
         </div>
-        <div class="alert alert-danger" *ngIf="(endDate.value < startDate.value) && useEndDate">
-            End date cannot be before start date.
-        </div>
-        <div class="day-area">
-            <div class="days-of-week">
-                <div *ngFor="let day of days" class="day">
-                    <input
-                        class="form-check-input"
-                        id="seasonalMonthly"
-                        type="checkbox"
-                        [(ngModel)]="day.selected"
-                        [name]="day.name">
-                <label for="seasonalMonthly">{{ day.name }}</label> <br>
-                </div>
+    </div>
+    <div class="day-area">
+        <div class="days-of-week">
+            <div *ngFor="let day of days" class="day">
+                <input
+                    class="form-check-input"
+                    id="seasonalMonthly"
+                    type="checkbox"
+                    [(ngModel)]="day.selected"
+                    [name]="day.name">
+            <label for="seasonalMonthly">{{ day.name }}</label> <br>
             </div>
         </div>
     </div>
@@ -106,7 +86,9 @@
             [disabled]="!mainFormIsValid ||
                         !weekdayIsSelected ||
                         !theForm.valid ||
-                        (endDate.value < startDate.value) && useEndDate"
+                        (endDate.value < startDate.value) && useEndDate ||
+                        (endAfterRecurrences.value < 1) && useEndAfter
+                        "
             class="btn btn-primary"
             (click)="createWeeklyJob(startDate.value, endDate.value)"
             value="Create">
