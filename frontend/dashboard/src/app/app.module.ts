@@ -33,6 +33,7 @@ import { AddJobWeeklyComponent } from './components/add-job-weekly/add-job-weekl
 import { AddJobMonthlyComponent } from './components/add-job-monthly/add-job-monthly.component';
 import { AddJobYearlyComponent } from './components/add-job-yearly/add-job-yearly.component';
 import { AddJobSingleComponent } from './components/add-job-single/add-job-single.component';
+import { RecurringComponent } from './components/recurring/recurring.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AddJobSingleComponent } from './components/add-job-single/add-job-singl
     AddJobMonthlyComponent,
     AddJobYearlyComponent,
     AddJobSingleComponent,
+    RecurringComponent,
   ],
   imports: [
     BrowserModule,

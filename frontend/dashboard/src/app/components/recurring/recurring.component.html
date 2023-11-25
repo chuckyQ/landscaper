@@ -1,0 +1,75 @@
+<div class="recurring-values">
+    <div class="start-date">
+        <label
+            class="form-check-label"
+            style="padding-top: 0.3rem"
+            (change)="valid()"
+            for="startDate">
+            Start:
+        </label>
+        <input
+            type="date"
+            [(ngModel)]="startDate"
+            ngModel
+            (change)="valid()"
+            name="startDate"
+            required>
+    </div>
+    <div class="end-date-values">
+        <div style="display: flex; gap: 0.25rem; align-items: center; justify-content: flex-start; margin-bottom: 0.25rem;">
+            <input
+            (change)="valid()"
+            (click)="toggle()"
+            [checked]="useEndDate"
+            type="radio"
+            >
+            <label
+                class="form-check-label"
+                for="endDate">End by:</label>
+            <input
+                type="date"
+                (change)="valid()"
+                name="endDate"
+                [(ngModel)]="endDate"
+                [ngModelOptions]="{standalone: true}"
+                style="width: 16ch;"
+                ngModel
+                [readonly]="!useEndDate"
+                >
+        </div>
+        <div>
+            <div class="end-after">
+                <input
+                    (change)="valid()"
+                    type="radio"
+                    (click)="toggle()"
+                    [checked]="useEndAfter"
+                    >
+                <label
+                    class="form-check-label"
+                    for="endDate">End after:
+                </label>
+                <input
+                    (change)="valid()"
+                    type="number"
+                    [(ngModel)]="recurrences"
+                    [ngModelOptions]="{standalone: true}"
+                    [readonly]="!useEndAfter"
+                    style="width: 8ch;"
+                    value="1"
+                    min="1"
+                    max="100"
+                    name="endAfter"
+                    step="1"
+                    >
+                <label style="padding-top: 0.35rem;">times</label>
+            </div>
+            <div class="alert alert-danger" *ngIf="(endDate < startDate) && useEndDate">
+                End date cannot be before start date.
+            </div>
+            <div class="alert alert-danger" *ngIf="(recurrences < 1) && useEndAfter">
+                End after cannot be less than one.
+            </div>
+        </div>
+    </div>
+</div>
