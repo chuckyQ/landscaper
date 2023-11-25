@@ -58,7 +58,7 @@
                         name="endDate"
                         step="1"
                         required>
-                    <label>times</label>
+                    <label style="padding-top: 0.35rem;">times</label>
                 </div>
                 <div class="alert alert-danger" *ngIf="(endDate.value < startDate.value) && useEndDate">
                     End date cannot be before start date.
