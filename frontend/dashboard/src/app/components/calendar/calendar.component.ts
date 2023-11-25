@@ -116,13 +116,9 @@ export class CalendarComponent implements OnInit {
 
   }
 
-  openTimeTableModal(dt: string) {
-    let m = this.modal.open(TimeTableModalComponent)
-    m.componentInstance.date = dt
-  }
-
-  openJobModal() {
-    this.modal.open(AddJobModalComponent)
+  openJobModal(dt: string) {
+    let m = this.modal.open(AddJobModalComponent)
+    m.componentInstance.startDate = dt
   }
 
   getJobList(dt: Date) {

@@ -3,7 +3,7 @@
         <input
             type="button"
             class="btn btn-primary"
-            (click)="openJobModal()"
+            (click)="openJobModal('')"
             value="Add Job">
     </div>
     <div class="angle-btns">
@@ -52,7 +52,7 @@
                 </div>
                 <div
                     class="day-date-add"
-                    (click)="openTimeTableModal(day.toISOString().split('T')[0])">
+                    (click)="openJobModal(day.toISOString().split('T')[0])">
                         <span> + </span>
                 </div>
             </div>
