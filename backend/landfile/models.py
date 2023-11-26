@@ -239,7 +239,7 @@ class Account(db.Model):
 
     def create_monthly_job_end_after(self, start_date: str, end_after: int,
                                     cust_id: str, crew_id: str, ordinal: int,
-                                    day: int, use_specific_day: bool,
+                                    day: int, use_specific_day: bool, month: int,
                                     weekday: int):
 
         mj = MonthlyJob(
@@ -253,6 +253,8 @@ class Account(db.Model):
             end_after=end_after,
             use_end_after=True,
             use_end_at=False,
+            weekday=weekday,
+            month=month,
         )
 
         mj.save()
@@ -260,9 +262,8 @@ class Account(db.Model):
 
     def create_yearly_job_end_at(self, start_date: str, end_date: str,
                                 cust_id: str, notes: str, crew_id: str,
-                                sunday: bool, monday: bool, tuesday: bool,
-                                wednesday: bool, thursday: bool, friday: bool,
-                                saturday: bool):
+                                ordinal: str, day: int, month: int, weekday: str,
+                                ):
 
         yj = YearlyJob(
             account_id=self.id,
@@ -274,17 +275,19 @@ class Account(db.Model):
             end_date=end_date,
             use_end_after=False,
             use_end_at=True,
+            ordinal=ordinal,
+            weekday=weekday,
+            day=day,
+            month=month,
         )
 
         yj.save()
 
 
-
     def create_yearly_job_end_after(self, start_date: str, end_after: int,
                                 cust_id: str, notes: str, crew_id: str,
-                                sunday: bool, monday: bool, tuesday: bool,
-                                wednesday: bool, thursday: bool, friday: bool,
-                                saturday: bool):
+                                ordinal: str, day: int, month: int,
+                                ):
 
         yj = YearlyJob(
             account_id=self.id,
@@ -296,13 +299,9 @@ class Account(db.Model):
             end_date='',
             use_end_after=False,
             use_end_at=True,
-            sunday=sunday,
-            monday=monday,
-            tuesday=tuesday,
-            wednesday=wednesday,
-            thursday=thursday,
-            friday=friday,
-            saturday=saturday,
+            ordinal=ordinal,
+            day=day,
+            month=month,
         )
 
         yj.save()
@@ -706,6 +705,7 @@ class MonthlyJob(db.Model):
     ordinal: int = db.Column(db.Boolean)
     use_specific_day: bool = db.Column(db.Boolean)
     weekday: int = db.Column(db.Integer)
+    month: int = db.Column(db.Integer)
 
     use_end_at: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
@@ -721,6 +721,7 @@ class MonthlyJob(db.Model):
                  ordinal: str,
                  use_specific_day: bool,
                  weekday: int,
+                 month: int,
                  ):
 
         self.job_id = f'monthjob_{gen_id(18)}'
@@ -732,6 +733,7 @@ class MonthlyJob(db.Model):
         self.use_end_after = use_end_after
         self.use_end_at = use_end_at
         self.canceled = False
+        self.month = month
 
         self.use_specific_day = use_specific_day
         self.ordinal = self._ORDINAL_TO_INT.get(ordinal, 0)
@@ -782,9 +784,9 @@ class YearlyJob(db.Model):
     account: Account = db.relationship('Account', backref='yearly_jobs')
 
     def __init__(self, account_id: int, cust_id: int, notes: str,
-                 start_date: str, end_date: str,
+                 start_date: str, end_date: str, month: int, day: int,
                  end_after: int,  use_end_at: bool,
-                 use_end_after: bool, ordinal: str,
+                 use_end_after: bool, ordinal: str, weekday: int,
                  ):
 
         self.account_id = account_id
@@ -798,6 +800,9 @@ class YearlyJob(db.Model):
         self.use_end_at = use_end_at
         self.canceled = False
         self.ordinal = self._ORDINAL_TO_INT.get(ordinal, 0)
+        self.month = month
+        self.day = day
+        self.weekday = weekday
 
 
     def save(self):
