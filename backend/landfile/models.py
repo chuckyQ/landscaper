@@ -132,6 +132,7 @@ class Account(db.Model):
             use_end_after=False,
             account_id=self.id,
             crew_id=crew_id,
+            notes=notes,
         )
 
         dj.save()
@@ -151,6 +152,7 @@ class Account(db.Model):
             use_end_after=True,
             account_id=self.id,
             crew_id=crew_id,
+            notes=notes,
         )
 
         dj.save()
@@ -171,6 +173,7 @@ class Account(db.Model):
             n_weeks=n_weeks,
             use_end_after=False,
             use_end_date=True,
+            notes=notes,
             sunday=sunday,
             monday=monday,
             tuesday=tuesday,
@@ -287,7 +290,7 @@ class Account(db.Model):
 
 
     def create_yearly_job_end_after(self, notes: str, start_date: str, end_after: int,
-                                cust_id: str, notes: str, crew_id: str,
+                                cust_id: str, crew_id: str,
                                 ordinal: str, day: int, month: int,
                                 ):
 
