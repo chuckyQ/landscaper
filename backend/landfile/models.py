@@ -774,6 +774,21 @@ class WeeklyJob(db.Model):
         end_date = start_date + timedelta(weeks=weeks)
         return end_date.strftime('%Y-%m-%d')
 
+# Month indices to max days
+MAX_MONTH_DAYS = {
+    1 : 31,
+    2 : 28, # Not counting leap years
+    3 : 31,
+    4 : 30,
+    5 : 31,
+    6 : 30,
+    7 : 31,
+    8 : 31,
+    9 : 30,
+    10 : 31,
+    11 : 30,
+    12 : 31,
+}
 
 class MonthlyJob(db.Model):
 
@@ -804,14 +819,14 @@ class MonthlyJob(db.Model):
     weekday: int = db.Column(db.Integer)
     month: int = db.Column(db.Integer)
 
-    use_end_at: bool = db.Column(db.Boolean)
+    use_end_date: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='monthly_jobs')
 
     def __init__(self, cust_id: int,
                  crew_id: str, day: int,
-                 use_end_at: bool,
+                 use_end_date: bool,
                  use_end_after: bool,
                  start_date: str,
                  end_date: str,
@@ -829,7 +844,7 @@ class MonthlyJob(db.Model):
         self.start_date = start_date
         self.end_date = end_date
         self.use_end_after = use_end_after
-        self.use_end_at = use_end_at
+        self.use_end_date = use_end_date
         self.canceled = False
         self.month = month
         self.notes = notes
@@ -844,6 +859,49 @@ class MonthlyJob(db.Model):
 
         db.session.add(self)
         db.session.commit()
+
+
+    def get_end_date(self):
+
+        if self.use_end_date:
+            return self.end_date
+
+        if self.use_specific_day:
+            return self._get_date_from_specific_day()
+
+
+    def _get_date_from_specific_day(self):
+
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
+        start = datetime(start_date.year, start_date.month, start_date.day)
+        n = self.end_after
+
+        if start_date.day <= self.day:
+            # We can include the start month
+            # in this recurrence
+            n -= 1
+
+        month = start_date.month
+        year = start.year
+        date = datetime(year, month, self.day)
+        for _ in range(n):
+
+            if month > 12:
+                month = 1
+                year += 1
+            else:
+                month += 1
+
+            if year % 4 == 0 and month == 2:
+                # TODO: fix this for every 100 years
+                # and 400 years :-)
+                max_day = 29
+            else:
+                max_day = MAX_MONTH_DAYS[month]
+
+            date = datetime(year, month, min(self.day, max_day))
+
+        return date.strftime('%Y-%m-%d')
 
 
 class YearlyJob(db.Model):
