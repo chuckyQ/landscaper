@@ -83,7 +83,7 @@
                         [(ngModel)]="isSeasonal"
                         type="checkbox"
                         name="isSeasonal">
-                <label for="isSeasonal" class="form-check-label">Seasonal</label>
+                <label for="isSeasonal" class="form-check-label">Recurring</label>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                 type="radio"
                 value="daily"
                 name="seasonalType">
-            <label style="font-size: 10pt;" for="seasonalDaily">Seasonal Daily</label> <br>
+            <label style="font-size: 10pt;" for="seasonalDaily">Daily</label> <br>
 
             <input
                 class="form-check-input"
@@ -110,7 +110,7 @@
                 type="radio"
                 value="weekly"
                 name="seasonalType">
-            <label style="font-size: 10pt;" for="seasonalWeekly">Seasonal Weekly</label> <br>
+            <label style="font-size: 10pt;" for="seasonalWeekly">Weekly</label> <br>
 
             <input
                 class="form-check-input"
@@ -121,7 +121,7 @@
                 type="radio"
                 value="monthly"
                 name="seasonalType">
-            <label style="font-size: 10pt;" for="seasonalMonthly">Seasonal Monthly</label> <br>
+            <label style="font-size: 10pt;" for="seasonalMonthly">Monthly</label> <br>
 
             <input
                 class="form-check-input"
@@ -132,7 +132,7 @@
                 type="radio"
                 value="yearly"
                 name="seasonalType">
-            <label style="font-size: 10pt;" for="seasonalYearly">Seasonal Yearly</label> <br>
+            <label style="font-size: 10pt;" for="seasonalYearly">Yearly</label> <br>
         </div>
     </div>
     <div *ngIf="!isSeasonal">
