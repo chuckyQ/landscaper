@@ -549,7 +549,7 @@ class Job(db.Model):
             'jobID' : self.job_id,
             'name' : self.name,
             'address' : self.address,
-            'workDateTimestamp' : self.work_date_timestamp,
+            'date' : self.date,
             'createdTimestamp' : self.created_timestamp,
             'lastUpdatedTimestamp' : self.last_updated_timestamp,
             'crews' : crews,
