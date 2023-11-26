@@ -869,11 +869,13 @@ class YearlyJob(db.Model):
     month: int = db.Column(db.Integer)
 
     start_date: str = db.Column(db.String)
-    end_date: str = db.Column(db.String)
-    end_after: int = db.Column(db.Integer)
 
-    use_end_at: bool = db.Column(db.Boolean)
+    end_date: str = db.Column(db.String)
+    use_end_date: bool = db.Column(db.Boolean)
+
+    end_after: int = db.Column(db.Integer)
     use_end_after: bool = db.Column(db.Boolean)
+
     use_specific_date: bool = db.Column(db.Boolean)
     month: int = db.Column(db.Integer)
     ordinal: int = db.Column(db.Integer)
