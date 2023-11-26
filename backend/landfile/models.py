@@ -674,13 +674,13 @@ class WeeklyJob(db.Model):
     use_end_after: bool = db.Column(db.Boolean)
     canceled: bool = db.Column(db.Boolean)
 
-    sunday: db.Column(db.Boolean)
-    monday: db.Column(db.Boolean)
-    tuesday: db.Column(db.Boolean)
-    wednesday: db.Column(db.Boolean)
-    thursday: db.Column(db.Boolean)
-    friday: db.Column(db.Boolean)
-    saturday: db.Column(db.Boolean)
+    sunday: bool = db.Column(db.Boolean)
+    monday: bool = db.Column(db.Boolean)
+    tuesday: bool = db.Column(db.Boolean)
+    wednesday: bool = db.Column(db.Boolean)
+    thursday: bool = db.Column(db.Boolean)
+    friday: bool = db.Column(db.Boolean)
+    saturday: bool = db.Column(db.Boolean)
 
     account: 'Account' = db.relationship('Account', backref='weekly_jobs')
 
@@ -728,6 +728,48 @@ class WeeklyJob(db.Model):
 
         db.session.add(self)
         db.session.commit()
+
+
+    def get_end_date(self):
+
+        if self.use_end_date:
+            return self.end_date
+
+        assert self.use_end_after
+
+        if self.end_after == 1:
+            # No actual recurrence
+            return self.start_date
+
+        days = [
+                self.sunday,
+                self.monday,
+                self.tuesday,
+                self.wednesday,
+                self.thursday,
+                self.friday,
+                self.saturday,
+            ]
+
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
+        full_weeks, remaining = divmod(days.count(True), self.end_after)
+
+        if full_weeks == 0:
+            # Closes within a week
+            end_date = start_date + timedelta(weeks=1)
+            return end_date.strftime('%Y-%m-%d')
+
+        if full_weeks == 1 and remaining == 0:
+            # Also closes within a week
+            end_date = start_date + timedelta(weeks=1)
+            return end_date.strftime('%Y-%m-%d')
+
+        weeks = self.n_weeks * full_weeks
+        if remaining > 0:
+            weeks += 1
+
+        end_date = start_date + timedelta(weeks=weeks)
+        return end_date.strftime('%Y-%m-%d')
 
 
 class MonthlyJob(db.Model):
