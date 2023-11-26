@@ -718,7 +718,7 @@ class MonthlyJob(db.Model):
     use_end_at: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
 
-    account: Account = db.relatoinship('Account', backref='monthly_jobs')
+    account: Account = db.relationship('Account', backref='monthly_jobs')
 
     def __init__(self, cust_id: int,
                  crew_id: str, day: int,
