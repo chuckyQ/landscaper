@@ -54,7 +54,7 @@ export class CalendarDayComponent {
 
     this.date = `${this.year}-${this.month}-${this.day}`
 
-    this.service.getJobBetweenTimestamps(this.startTimestamp, this.endTimestamp)
+    this.service.getJobsOnDate(`${year}-${month}-${day}`)
     .subscribe(
       {
         next: (resp: any) => {

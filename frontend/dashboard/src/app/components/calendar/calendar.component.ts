@@ -77,7 +77,8 @@ export class CalendarComponent implements OnInit {
     this.days = generateDates2(today.getFullYear(), today.getMonth())
     this.dragging = false
 
-    this.service.getJobBetweenTimestamps(this.days[0].getTime(), this.days[this.days.length-1].getTime())
+    this.service.getJobBetweenDates(this.days[0].toISOString().split("T")[0],
+                                    this.days[this.days.length-1].toISOString().split("T")[0])
     .subscribe(
       {
         next: (resp: any) => {
