@@ -29,7 +29,12 @@
                 </select>
                 <div style="display: flex; gap: 0.25rem;">
                     <label>every</label>
-                    <select #nMonths="ngModel" required name="nMonths" ngModel>
+                    <select
+                        [disabled]="!certainDay"
+                        #nMonths="ngModel"
+                        required
+                        name="nMonths"
+                        ngModel>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -60,8 +65,7 @@
                         <select
                             [disabled]="!certainDate"
                             name="nDay"
-                            #nDay="ngModel"
-                            ngModel
+                            #nDay
                             >
                             <option selected value="1">first</option>
                             <option value="2">second</option>
@@ -98,11 +102,11 @@
         <input
             type="button"
             [disabled]="!mainFormIsValid ||
-            !theForm.valid ||
-            !recurringIsValid ||
-            (selectedDay.value === '' && certainDay) ||
-            (nDay.value === '' && certainDate)
-            "
+                        !theForm.valid ||
+                        !recurringIsValid ||
+                        (selectedDay.value === '' || nMonths.value === '') && certainDay ||
+                        (nMonths2.value === '') && certainDate
+                        "
             class="btn btn-primary"
             (click)="createMonthlyJob(certainDay, +nDay.value,
                                       +selectedDay.value)"
