@@ -666,12 +666,15 @@ class WeeklyJob(db.Model):
     notes: str = db.Column(db.String)
 
     start_date: str = db.Column(db.String)
+
     end_date: str = db.Column(db.String)
-    end_at_date: bool = db.Column(db.Boolean)
-    end_after: int = db.Column(db.Integer)
-    n_weeks: int = db.Column(db.Integer)
     use_end_date: bool = db.Column(db.Boolean)
+
+    end_after: int = db.Column(db.Integer)
     use_end_after: bool = db.Column(db.Boolean)
+
+    n_weeks: int = db.Column(db.Integer)
+
     canceled: bool = db.Column(db.Boolean)
 
     sunday: bool = db.Column(db.Boolean)
