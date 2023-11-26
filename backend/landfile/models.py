@@ -327,6 +327,24 @@ class Account(db.Model):
         return j
 
 
+    def get_customer(self, cust_id: str):
+
+        return Customer.query.filter(cust_id=cust_id,
+                                     account_id=self.id).first()
+
+
+    def get_job(self, job_id: str):
+
+        return Job.query.filter(job_id=job_id,
+                                account_id=self.id).first()
+
+
+    def get_user(self, user_id: str):
+
+        return User.query.filter(user_id=user_id,
+                                 account_id=self.id).first()
+
+
 class Customer(db.Model):
 
     __tablename__ = 'customers'
