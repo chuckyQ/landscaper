@@ -312,6 +312,21 @@ class Account(db.Model):
         yj.save()
 
 
+    def add_job(self, cust_id: str, date: str, crew_id: str, notes: str):
+
+        j = Job(
+            cust_id=cust_id,
+            date=date,
+            account_id=self.id,
+            notes=notes,
+            crew_id=crew_id,
+        )
+
+        j.save()
+
+        return j
+
+
 class Customer(db.Model):
 
     __tablename__ = 'customers'
@@ -477,15 +492,16 @@ class Job(db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     job_id: str = db.Column(db.String, index=True)
-
+    cust_id: str = db.Column(db.String)
     name: str = db.Column(db.String)
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     created_timestamp: float = db.Column(db.Float)
-    work_date_timestamp: float = db.Column(db.Float)
     last_updated_timestamp: float = db.Column(db.Float)
     address: str = db.Column(db.String)
     notes: str = db.Column(db.String)
     canceled: bool = db.Column(db.Boolean)
+    date: str = db.Column(db.String)
+    crew_id: str = db.Column(db.String)
 
     # Added by the Comment model
     comments: t.List['Comment']
@@ -495,16 +511,16 @@ class Job(db.Model):
     crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
 
 
-    def __init__(self, name: str, account_id: int, address: str, notes: str, work_date_timestamp: float):
+    def __init__(self, cust_id: str, crew_id: str, account_id: int, notes: str, date: str):
 
-        self.name = name
         self.account_id = account_id
-        self.work_date_timestamp = work_date_timestamp
+        self.cust_id = cust_id
+        self.crew_id = crew_id
         now = time() * 1000 # Convert to milliseconds to make working with frontend easier
         self.created_timestamp = now
         self.last_updated_timestamp = now
         self.job_id = 'job_' + gen_id()
-        self.address = address
+        self.date = date
         self.notes = notes
 
 
