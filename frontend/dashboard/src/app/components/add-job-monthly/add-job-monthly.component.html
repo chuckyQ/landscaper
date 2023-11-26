@@ -1,16 +1,4 @@
 <form #theForm="ngForm">
-    <div style="display: flex; place-content: center; gap: 0.5rem">
-        <label>Every</label>
-        <select #nMonths="ngModel" required name="nMonths" ngModel>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-        </select>
-        <label>month(s)</label>
-    </div>
     <recurring
         [(startDate)]="startDate"
         [(endDate)]="endDate"
@@ -18,7 +6,7 @@
         [(recurrences)]="recurrences"
         (valid)="setValid($event)"
     ></recurring>
-    <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
         <!-- Day 1 every 2 months -->
         <div>
             <div class="form-check" style="display: flex; gap: 0.25rem;">
@@ -39,10 +27,22 @@
                         {{ d }}
                     </option>
                 </select>
+                <div style="display: flex; gap: 0.25rem;">
+                    <label>every</label>
+                    <select #nMonths="ngModel" required name="nMonths" ngModel>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    <label>month(s)</label>
+                </div>
             </div>
 
             <!-- Every 'first' 'Sunday' of every 2 months -->
-            <div style="display: flex;">
+            <div style="display: flex; gap: 0.25rem;">
                 <div class="form-check">
                     <input
                         class="form-check-input"
@@ -78,6 +78,18 @@
                             *ngFor="let day of days; index as i"
                             [value]="i">{{ day.name }}</option>
                     </select>
+                </div>
+                <div style="display: flex; gap: 0.25rem;">
+                    <label>every</label>
+                    <select [disabled]="!certainDate" #nMonths2="ngModel" required name="nMonths2" ngModel>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                    <label>month(s)</label>
                 </div>
             </div>
         </div>
