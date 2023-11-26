@@ -1,4 +1,5 @@
 import typing as t
+from datetime import datetime, timedelta
 from time import time
 import string
 import random
@@ -606,6 +607,7 @@ class DailyJob(db.Model):
     notes: str = db.Column(db.String)
     start_date: str = db.Column(db.String)
     end_date: str = db.Column(db.String)
+    end_after: int = db.Column(db.Integer)
     use_end_date: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
     canceled: bool = db.Column(db.Boolean)
@@ -616,7 +618,7 @@ class DailyJob(db.Model):
                  notes: str,
                  crew_id: str,
                  start_date: str,
-                 end_after: bool,
+                 end_after: int,
                  end_date: str,
                  use_end_date: bool,
                  use_end_after: bool,
@@ -641,6 +643,16 @@ class DailyJob(db.Model):
 
         db.session.add(self)
         db.session.commit()
+
+
+    def get_end_date(self):
+
+        if self.use_end_date:
+            return self.end_date
+
+        dt = datetime.strptime(self.start_date, '%Y-%m-%d')
+        end = dt + timedelta(days=self.end_after)
+        return end.strftime('%Y-%m-%d')
 
 
 class WeeklyJob(db.Model):
