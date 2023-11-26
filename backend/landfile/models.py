@@ -81,9 +81,9 @@ class Account(db.Model):
         return c
 
 
-    def add_job(self, name: str, address: str, date_timestamp: float, notes: str):
+    def add_job(self, cust_id: str, date_timestamp: float, notes: str):
 
-        j = Job(name=name, address=address, account_id=self.id,
+        j = Job(cust_id=cust_id, account_id=self.id,
                 notes=notes, work_date_timestamp=date_timestamp)
         j.save()
         return j
@@ -501,7 +501,6 @@ class Job(db.Model):
     notes: str = db.Column(db.String)
     canceled: bool = db.Column(db.Boolean)
     date: str = db.Column(db.String)
-    crew_id: str = db.Column(db.String)
 
     # Added by the Comment model
     comments: t.List['Comment']
@@ -511,11 +510,10 @@ class Job(db.Model):
     crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
 
 
-    def __init__(self, cust_id: str, crew_id: str, account_id: int, notes: str, date: str):
+    def __init__(self, cust_id: str, account_id: int, notes: str, date: str):
 
         self.account_id = account_id
         self.cust_id = cust_id
-        self.crew_id = crew_id
         now = time() * 1000 # Convert to milliseconds to make working with frontend easier
         self.created_timestamp = now
         self.last_updated_timestamp = now
