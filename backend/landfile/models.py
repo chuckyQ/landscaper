@@ -120,7 +120,7 @@ class Account(db.Model):
         return customers
 
 
-    def create_daily_job_end_at(self, notes: str, start_date: str, end_date: str,
+    def add_daily_job_end_at(self, notes: str, start_date: str, end_date: str,
                                 cust_id: str, crew_id: str):
 
         dj = DailyJob(
@@ -139,7 +139,7 @@ class Account(db.Model):
         return dj
 
 
-    def create_daily_job_end_after(self, notes: str, start_date: str, end_after: int,
+    def add_daily_job_end_after(self, notes: str, start_date: str, end_after: int,
                                    cust_id: str, crew_id: str):
 
 
@@ -159,7 +159,7 @@ class Account(db.Model):
         return dj
 
 
-    def create_weekly_job_end_at(self, notes: str, start_date: str, end_date: str,
+    def add_weekly_job_end_at(self, notes: str, start_date: str, end_date: str,
                                  cust_id: str, crew_id: str, n_weeks: int,
                                  sunday: bool, monday: bool, tuesday: bool,
                                  wednesday: bool, thursday: bool, friday: bool,
@@ -186,7 +186,7 @@ class Account(db.Model):
         wj.save()
 
 
-    def create_weekly_job_end_after(self, start_date: str, end_after: int,
+    def add_weekly_job_end_after(self, start_date: str, end_after: int,
                                     cust_id: str, crew_id: str, notes: str,
                                     sunday: bool, monday: bool, tuesday: bool,
                                     wednesday: bool, thursday: bool, friday: bool,
@@ -215,7 +215,7 @@ class Account(db.Model):
         wj.save()
 
 
-    def create_monthly_job_end_at(self, start_date: str, end_date: str,
+    def add_monthly_job_end_at(self, start_date: str, end_date: str,
                                   cust_id: str, notes: str, crew_id: str,
                                   sunday: bool, monday: bool, tuesday: bool,
                                   wednesday: bool, thursday: bool, friday: bool,
@@ -241,7 +241,7 @@ class Account(db.Model):
         mj.save()
 
 
-    def create_monthly_job_end_after(self, notes: str, start_date: str, end_after: int,
+    def add_monthly_job_end_after(self, notes: str, start_date: str, end_after: int,
                                     cust_id: str, crew_id: str, ordinal: int,
                                     day: int, use_specific_day: bool, month: int,
                                     weekday: int):
@@ -265,7 +265,7 @@ class Account(db.Model):
         mj.save()
 
 
-    def create_yearly_job_end_at(self, start_date: str, end_date: str,
+    def add_yearly_job_end_at(self, start_date: str, end_date: str,
                                 cust_id: str, notes: str, crew_id: str,
                                 ordinal: str, day: int, month: int, weekday: str,
                                 ):
@@ -289,7 +289,7 @@ class Account(db.Model):
         yj.save()
 
 
-    def create_yearly_job_end_after(self, notes: str, start_date: str, end_after: int,
+    def add_yearly_job_end_after(self, notes: str, start_date: str, end_after: int,
                                 cust_id: str, crew_id: str,
                                 ordinal: str, day: int, month: int,
                                 ):
