@@ -50,8 +50,20 @@ export class AddJobDailyComponent {
   @Input()
   startDate: string
 
+  endDate: string
+
+  useEndAfter: boolean
+
+  recurrences: number
+
   @Input()
   crewIDs: string[]
+
+  @Input()
+  formIsValid: boolean
+
+  recurringIsValid: boolean
+
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
@@ -61,6 +73,11 @@ export class AddJobDailyComponent {
     this.notes = ""
     this.crewIDs = []
     this.startDate = ""
+    this.endDate = ""
+    this.useEndAfter = false
+    this.recurrences = 1
+    this.formIsValid = false
+    this.recurringIsValid = false
 
   }
 
@@ -108,5 +125,9 @@ export class AddJobDailyComponent {
   )
 
 }
+
+  setValid(event: boolean) {
+    this.formIsValid = event
+  }
 
 }

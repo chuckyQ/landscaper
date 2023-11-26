@@ -1,33 +1,19 @@
 <form #theForm="ngForm">
-    <div class="month-range">
-        <div class="month-select">
-            <label for="startMonth">Start Date</label>
-            <input
-                [(ngModel)]="startDate"
-                name="startDate"
-                type="date">
-        </div>
-        <div class="month-select">
-            <label for="endDate">End Date</label>
-            <input
-                required
-                #endDate="ngModel"
-                ngModel
-                name="endDate"
-                type="date">
-        </div>
-    </div>
-    <div class="alert alert-danger" *ngIf="startDate > endDate.value">
-        Start date cannot be before end date.
-    </div>
+    <recurring
+        [(startDate)]="startDate"
+        [(endDate)]="endDate"
+        [(endAfterRecurrence)]="useEndAfter"
+        [(recurrences)]="recurrences"
+        (valid)="setValid($event)"
+    ></recurring>
     <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
         <input
             type="button"
             class="btn btn-primary"
-            [disabled]="!theForm.valid ||
-                        !mainFormIsValid ||
-                        (startDate > endDate.value)
-            "
+            [disabled]="!mainFormIsValid ||
+                        !theForm.valid ||
+                        !formIsValid
+                        "
             value="Create">
     </div>
 </form>
