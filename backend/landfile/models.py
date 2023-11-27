@@ -790,7 +790,26 @@ MAX_MONTH_DAYS = {
     12 : 31,
 }
 
+
+def _roll_months(year: int, month: int):
+
+    if month <= 12:
+        return year, month
+
+    while month > 12:
+        month -= 12
+        year += 1
+
+    return year, month
+
+
 class MonthlyJob(db.Model):
+
+    FIRST = 1
+    SECOND = 2
+    THIRD = 3
+    FOURTH = 4
+    LAST = 5
 
     _ORDINAL_TO_INT = {
         '' : 0,
@@ -817,7 +836,7 @@ class MonthlyJob(db.Model):
     ordinal: int = db.Column(db.Boolean)
     use_specific_day: bool = db.Column(db.Boolean)
     weekday: int = db.Column(db.Integer)
-    month: int = db.Column(db.Integer)
+    n_months: int = db.Column(db.Integer)
 
     use_end_date: bool = db.Column(db.Boolean)
     use_end_after: bool = db.Column(db.Boolean)
@@ -833,7 +852,7 @@ class MonthlyJob(db.Model):
                  ordinal: str,
                  use_specific_day: bool,
                  weekday: int,
-                 month: int,
+                 n_months: int,
                  notes: str,
                  ):
 
@@ -846,7 +865,7 @@ class MonthlyJob(db.Model):
         self.use_end_after = use_end_after
         self.use_end_date = use_end_date
         self.canceled = False
-        self.month = month
+        self.n_months = n_months
         self.notes = notes
 
         self.use_specific_day = use_specific_day
@@ -868,6 +887,8 @@ class MonthlyJob(db.Model):
 
         if self.use_specific_day:
             return self._get_date_from_specific_day()
+
+        return self._get_end_date_from_ordinal()
 
 
     def _get_date_from_specific_day(self):
@@ -902,6 +923,66 @@ class MonthlyJob(db.Model):
             date = datetime(year, month, min(self.day, max_day))
 
         return date.strftime('%Y-%m-%d')
+
+
+    def _get_end_date_from_ordinal(self):
+
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
+        first_day = datetime(start_date.year, start_date.month, 1)
+
+        weekday = (first_day.weekday() + 1) % 7
+        while weekday != self.weekday:
+            # Find the first instance of the specified weekday
+            first_day += timedelta(days=1)
+            weekday = (first_day.weekday() + 1) % 7
+
+        if self.ordinal < self.LAST:
+            # Multiply by ordinal to have exact
+            # date of the specified ordinal
+            first_occurrence = first_day + timedelta(weeks=(self.ordinal - 1))
+
+        else:
+            year, month = _roll_months(year, start_date.month + 1)
+            new_start = datetime(year, month, 1)
+            weekday = (new_start.weekday() + 1) % 7
+            while weekday != self.weekday:
+                new_start -= timedelta(days=1)
+                weekday = (new_start.weekday() + 1) % 7
+
+            first_occurrence = new_start
+
+        total_months = self.n_months * self.end_after
+        if first_occurrence < start_date:
+            # We cannot include the current
+            # month because the ordinal date is
+            # before the start date
+            total_months += 1
+
+        total = start_date.month + total_months
+
+        year, month = _roll_months(first_occurrence.year, total)
+        end_timeframe = datetime(year, month, 1)
+
+        weekday = (end_timeframe.weekday() + 1) % 7
+        while self.weekday != weekday:
+            end_timeframe += timedelta(days=1)
+            weekday = (end_timeframe.weekday() + 1) % 7
+
+        if self.ordinal < self.LAST:
+            # Multiply by ordinal to have exact
+            # date of the specified ordinal
+            last_occurrence = end_timeframe + timedelta(weeks=(self.ordinal - 1))
+            return last_occurrence.strftime('%Y-%m-%d')
+
+        year, month = _roll_months(end_timeframe.year, end_timeframe.month + 1)
+        end_date = datetime(year, month, 1)
+
+        weekday = (end_date.weekday() + 1) % 7
+        while weekday != self.weekday:
+            end_date -= timedelta(days=1)
+            weekday = (end_date.weekday() + 1) % 7
+
+        return end_date.strftime('%Y-%m-%d')
 
 
 class YearlyJob(db.Model):
