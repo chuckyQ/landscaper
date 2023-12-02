@@ -167,6 +167,7 @@ class Account(db.Model):
                                  saturday: bool):
 
         wj = WeeklyJob(
+            account_id=self.id,
             start_date=start_date,
             end_date=end_date,
             cust_id=cust_id,
@@ -687,7 +688,7 @@ class WeeklyJob(db.Model):
 
     account: 'Account' = db.relationship('Account', backref='weekly_jobs')
 
-    def __init__(self, cust_id: str, notes: str, n_weeks: int,
+    def __init__(self, account_id: int, cust_id: str, notes: str, n_weeks: int,
                  sunday: bool, monday: bool,
                  tuesday: bool, wednesday: bool,
                  thursday: bool, friday: bool,
@@ -700,6 +701,7 @@ class WeeklyJob(db.Model):
                  ):
 
         self.job_id = f'weekjob_{gen_id(18)}'
+        self.account_id = account_id
 
         self.cust_id = cust_id
         self.start_month = start_date
