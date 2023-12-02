@@ -11,6 +11,14 @@ interface Job {
   notes: string
 }
 
+function zfill(n: number) {
+  if(n < 10) {
+    return `0${n}`
+  }
+
+  return `${n}`
+}
+
 @Component({
   selector: 'app-calendar-day',
   templateUrl: './calendar-day.component.html',
@@ -54,7 +62,7 @@ export class CalendarDayComponent {
 
     this.date = `${this.year}-${this.month}-${this.day}`
 
-    this.service.getJobsOnDate(`${year}-${month}-${day}`)
+    this.service.getJobsOnDate(`${year}-${zfill(this.month)}-${zfill(this.day)}`)
     .subscribe(
       {
         next: (resp: any) => {
