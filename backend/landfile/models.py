@@ -272,7 +272,7 @@ class Account(db.Model):
 
 
     def add_monthly_job_end_after(self, notes: str, start_date: str, end_after: int,
-                                    cust_id: str, ordinal: int, day: int,
+                                    cust_id: str, ordinal: int, day: int, n_months: int,
                                     use_specific_day: bool, weekday: int):
 
         mj = MonthlyJob(
@@ -282,6 +282,7 @@ class Account(db.Model):
             use_specific_day=use_specific_day,
             start_date=start_date,
             end_date='',
+            n_months=n_months,
             end_after=end_after,
             use_end_after=True,
             use_end_at=False,
