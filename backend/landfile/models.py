@@ -151,8 +151,7 @@ class Account(db.Model):
         return customers
 
 
-    def add_daily_job_end_at(self, notes: str, start_date: str, end_date: str,
-                                cust_id: str, crew_id: str):
+    def add_daily_job_end_at(self, notes: str, start_date: str, end_date: str, cust_id: str):
 
         dj = DailyJob(
             cust_id=cust_id,
@@ -162,7 +161,6 @@ class Account(db.Model):
             use_end_date=True,
             use_end_after=False,
             account_id=self.id,
-            crew_id=crew_id,
             notes=notes,
         )
 
@@ -654,7 +652,6 @@ class DailyJob(db.Model):
 
     def __init__(self, cust_id: int,
                  notes: str,
-                 crew_id: str,
                  start_date: str,
                  end_after: int,
                  end_date: str,
@@ -669,7 +666,6 @@ class DailyJob(db.Model):
         self.start_date = start_date
         self.end_date = end_date
         self.end_after = end_after
-        self.crew_id = crew_id
         self.use_end_date = use_end_date
         self.use_end_after = use_end_after
         self.canceled = False
