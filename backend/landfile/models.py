@@ -23,6 +23,34 @@ job_table = db.Table(
     db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
 )
 
+daily_jobs_jct = db.Table(
+    'daily_jobs_junction',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
+    db.Column('dailyjob_id', db.Integer, db.ForeignKey('daily_jobs.id')),
+)
+
+weekly_jobs_jct = db.Table(
+    'weekly_jobs_junction',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
+    db.Column('weeklyjob_id', db.Integer, db.ForeignKey('weekly_jobs.id')),
+)
+
+monthly_jobs_jct = db.Table(
+    'monthly_jobs_junction',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
+    db.Column('monthlyjob_id', db.Integer, db.ForeignKey('monthly_jobs.id')),
+)
+
+yearly_jobs_jct = db.Table(
+    'yearly_jobs_junction',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
+    db.Column('yearlyjob_id', db.Integer, db.ForeignKey('yearly_jobs.id')),
+)
+
 def gen_id(size=14, chars=string.ascii_letters + string.digits):
     # https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
     return ''.join(random.choice(chars) for _ in range(size))
@@ -468,6 +496,10 @@ class Crew(db.Model):
     jobs: t.List['Job'] = db.relationship('Job', secondary=job_table, back_populates='crews')
     members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crews')
 
+    daily_jobs: t.List['DailyJob'] = db.relationship('DailyJob', secondary=daily_jobs_jct, back_populates='crews')
+    weekly_jobs: t.List['WeeklyJob'] = db.relationship('WeeklyJob', secondary=weekly_jobs_jct, back_populates='crews')
+    monthly_jobs: t.List['MonthlyJob'] = db.relationship('MonthlyJob', secondary=monthly_jobs_jct, back_populates='crews')
+    yearly_jobs: t.List['MonthlyJob'] = db.relationship('YearlyJob', secondary=yearly_jobs_jct, back_populates='crews')
 
     def __init__(self, name: str, description: str, account_id: int):
 
@@ -620,6 +652,7 @@ class DailyJob(db.Model):
     canceled: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='daily_jobs')
+    crews: t.List['Crew'] = db.relationship('Crew', secondary=daily_jobs_jct, back_populates='daily_jobs')
 
     def __init__(self, cust_id: int,
                  notes: str,
@@ -693,6 +726,7 @@ class WeeklyJob(db.Model):
     saturday: bool = db.Column(db.Boolean)
 
     account: 'Account' = db.relationship('Account', backref='weekly_jobs')
+    crews: t.List['Crew'] = db.relationship('Crew', secondary=weekly_jobs_jct, back_populates='weekly_jobs')
 
     def __init__(self, account_id: int, cust_id: str, notes: str, n_weeks: int,
                  sunday: bool, monday: bool,
@@ -848,6 +882,7 @@ class MonthlyJob(db.Model):
     use_end_after: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='monthly_jobs')
+    crews: t.List['Crew'] = db.relationship('Crew', secondary=monthly_jobs_jct, back_populates='daily_jobs')
 
     def __init__(self, cust_id: int,
                  crew_id: str, day: int,
@@ -1028,6 +1063,7 @@ class YearlyJob(db.Model):
     canceled: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='yearly_jobs')
+    crews: t.List['Crew'] = db.relationship('Crew', secondary=yearly_jobs_jct, back_populates='daily_jobs')
 
     def __init__(self, account_id: int, cust_id: int, notes: str,
                  start_date: str, end_date: str, month: int, day: int,
