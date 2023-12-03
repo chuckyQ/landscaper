@@ -1177,6 +1177,27 @@ class Image(db.Model):
         db.session.commit()
 
 
+class CancelMarker(db.Model):
+    """This model is for holding dates for a recurring
+    job that have been canceled.
+    """
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    job_id: int = db.Column(db.String)
+    date: str = db.Column(db.String)
+
+    def __init__(self, job_id: str, date: str):
+
+        self.job_id = job_id
+        self.date = date
+
+
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
+
+
 def create_account(email: str, password: str):
 
     a = Account(email=email)
