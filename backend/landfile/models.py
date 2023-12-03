@@ -882,7 +882,7 @@ class MonthlyJob(db.Model):
     use_end_after: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='monthly_jobs')
-    crews: t.List['Crew'] = db.relationship('Crew', secondary=monthly_jobs_jct, back_populates='daily_jobs')
+    crews: t.List['Crew'] = db.relationship('Crew', secondary=monthly_jobs_jct, back_populates='monthly_jobs')
 
     def __init__(self, cust_id: int,
                  crew_id: str, day: int,
@@ -1063,7 +1063,7 @@ class YearlyJob(db.Model):
     canceled: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='yearly_jobs')
-    crews: t.List['Crew'] = db.relationship('Crew', secondary=yearly_jobs_jct, back_populates='daily_jobs')
+    crews: t.List['Crew'] = db.relationship('Crew', secondary=yearly_jobs_jct, back_populates='yearly_jobs')
 
     def __init__(self, account_id: int, cust_id: int, notes: str,
                  start_date: str, end_date: str, month: int, day: int,
