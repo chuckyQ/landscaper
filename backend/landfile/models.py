@@ -688,6 +688,15 @@ class DailyJob(db.Model):
         return end.strftime('%Y-%m-%d')
 
 
+    def __repr__(self):
+
+        return f'{self.__class__.__qualname__}(id={self.id}, ' \
+               f'job_id={self.job_id!r}, ' \
+               f'start_date={self.start_date!r}, ' \
+               f'end_date={self.end_date!r}' \
+               f')'
+
+
 class WeeklyJob(db.Model):
 
     __tablename__ = 'weekly_jobs'
