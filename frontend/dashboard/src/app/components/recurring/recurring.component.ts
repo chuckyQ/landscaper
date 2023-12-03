@@ -40,10 +40,21 @@ export class RecurringComponent {
 
   valid() {
 
-      let valid = (this.endDate < this.startDate) && this.useEndDate ||
-                  (this.recurrences < 1 || this.recurrences === null) && this.useEndAfter
+      let validDate = false
+      let matches = this.startDate.match(/\d{4}-\d{2}-\d{2}/)
+      if(matches === null) {
+        validDate = false
+      } else if(matches[0] === '') {
+        validDate = false
+      } else if(matches[0] == this.startDate) {
+        validDate = true
+      }
 
-      this.formIsValid.emit(!valid)
+      let invalid = (this.endDate < this.startDate) && this.useEndDate ||
+                  (this.recurrences < 1 || this.recurrences === null) && this.useEndAfter
+                  || !validDate
+
+      this.formIsValid.emit(!invalid)
       this.startDateChange.emit(this.startDate)
       this.endDateChange.emit(this.endDate)
       this.endAfterRecurrenceChange.emit(this.endAfterRecurrence)
