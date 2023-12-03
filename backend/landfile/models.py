@@ -285,7 +285,7 @@ class Account(db.Model):
             n_months=n_months,
             end_after=end_after,
             use_end_after=True,
-            use_end_at=False,
+            use_end_date=False,
             weekday=weekday,
             notes=notes,
         )
@@ -904,6 +904,7 @@ class MonthlyJob(db.Model):
                  use_end_after: bool,
                  start_date: str,
                  end_date: str,
+                 end_after: int,
                  ordinal: int,
                  use_specific_day: bool,
                  weekday: int,
@@ -918,6 +919,7 @@ class MonthlyJob(db.Model):
         self.end_date = end_date
         self.use_end_after = use_end_after
         self.use_end_date = use_end_date
+        self.end_after = end_after
         self.canceled = False
         self.n_months = n_months
         self.notes = notes
