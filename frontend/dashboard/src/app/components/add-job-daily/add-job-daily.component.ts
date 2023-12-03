@@ -70,7 +70,7 @@ export class AddJobDailyComponent {
       recurringType: "daily",
       startDate: this.startDate.split("T")[0],
       endDate: this.endDate.split("T")[0],
-      endAfter: -1,
+      endAfter: this.recurrences,
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,
