@@ -7,6 +7,8 @@ import random
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from landfile import dateutil
+
 db = SQLAlchemy()
 
 crew_table = db.Table(
@@ -746,35 +748,33 @@ class WeeklyJob(db.Model):
             # No actual recurrence
             return self.start_date
 
-        days = [
-                self.sunday,
-                self.monday,
-                self.tuesday,
-                self.wednesday,
-                self.thursday,
-                self.friday,
-                self.saturday,
-            ]
 
-        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
-        full_weeks, remaining = divmod(days.count(True), self.end_after)
+    def get_job_dates(self):
 
-        if full_weeks == 0:
-            # Closes within a week
-            end_date = start_date + timedelta(weeks=1)
-            return end_date.strftime('%Y-%m-%d')
+        if self.use_end_date:
+            yield from dateutil.gen_weekly_dates_end_date(
+                start_date=self.start_date,
+                end_date=self.end_date,
+                n_weeks=self.n_weeks,
+                sunday=self.sunday, monday=self.monday,
+                tuesday=self.tuesday, wednesday=self.wednesday,
+                thursday=self.thursday, friday=self.friday,
+                saturday=self.saturday,
+            )
+            return
 
-        if full_weeks == 1 and remaining == 0:
-            # Also closes within a week
-            end_date = start_date + timedelta(weeks=1)
-            return end_date.strftime('%Y-%m-%d')
+        assert self.use_end_after
 
-        weeks = self.n_weeks * full_weeks
-        if remaining > 0:
-            weeks += 1
+        yield from dateutil.gen_weekly_dates_end_after(
+            start_date=self.start_date,
+            end_after=self.end_after,
+            n_weeks=self.n_weeks,
+            sunday=self.sunday, monday=self.monday,
+            tuesday=self.tuesday, wednesday=self.wednesday,
+            thursday=self.thursday, friday=self.friday,
+            saturday=self.saturday,
+            )
 
-        end_date = start_date + timedelta(weeks=weeks)
-        return end_date.strftime('%Y-%m-%d')
 
 # Month indices to max days
 MAX_MONTH_DAYS = {
