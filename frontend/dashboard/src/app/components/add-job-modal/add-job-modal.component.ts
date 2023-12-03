@@ -30,7 +30,7 @@ export class AddJobModalComponent {
   custAddress: string
   showSearch: boolean
   seasonalType: string
-  isSeasonal: boolean
+  isRecurring: boolean
   startDate: string // Date of a single job (non-recurring)
 
   constructor(public activeModal: NgbActiveModal, public service: AuthService) {
@@ -40,7 +40,7 @@ export class AddJobModalComponent {
     this.custAddress = ""
     this.showSearch = false
     this.seasonalType = ""
-    this.isSeasonal = false
+    this.isRecurring = false
     this.startDate = ""
 
     this.dayValues = []

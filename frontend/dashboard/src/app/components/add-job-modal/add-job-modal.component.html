@@ -78,17 +78,17 @@
             <div class="centered">
                 <div class="form-check form-switch" style="font-size: 12pt; margin-bottom: 0.5rem;">
                     <input
-                        id="isSeasonal"
+                        id="isRecurring"
                         class="form-check-input"
-                        [(ngModel)]="isSeasonal"
+                        [(ngModel)]="isRecurring"
                         type="checkbox"
-                        name="isSeasonal">
-                <label for="isSeasonal" class="form-check-label">Recurring</label>
+                        name="isRecurring">
+                <label for="isRecurring" class="form-check-label">Recurring</label>
                 </div>
             </div>
         </div>
     </form>
-    <div class="centered" *ngIf="isSeasonal">
+    <div class="centered" *ngIf="isRecurring">
         <div>
             <input
                 class="form-check-input"
@@ -135,7 +135,7 @@
             <label style="font-size: 10pt;" for="seasonalYearly">Yearly</label> <br>
         </div>
     </div>
-    <div *ngIf="!isSeasonal">
+    <div *ngIf="!isRecurring">
         <add-job-single
             [custName]="name.value"
             [address]="address.value"
@@ -146,7 +146,7 @@
         ></add-job-single>
     </div>
 
-    <ng-container *ngIf="isSeasonal">
+    <ng-container *ngIf="isRecurring">
         <div *ngIf="seasonalType == 'daily'">
             <add-job-daily
                 [notes]="notes.value"
