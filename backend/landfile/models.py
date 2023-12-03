@@ -202,6 +202,7 @@ class Account(db.Model):
             end_date=end_date,
             cust_id=cust_id,
             n_weeks=n_weeks,
+            end_after=-1,
             use_end_after=False,
             use_end_date=True,
             notes=notes,
@@ -741,8 +742,8 @@ class WeeklyJob(db.Model):
         self.account_id = account_id
 
         self.cust_id = cust_id
-        self.start_month = start_date
-        self.end_month = end_date
+        self.start_date = start_date
+        self.end_date = end_date
         self.canceled = False
         self.end_after = end_after
         self.use_end_date = use_end_date
