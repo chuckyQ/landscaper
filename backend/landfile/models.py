@@ -887,7 +887,7 @@ class MonthlyJob(db.Model):
     end_after: int = db.Column(db.Integer)
     canceled: bool = db.Column(db.Boolean)
     day: int = db.Column(db.Boolean)
-    ordinal: int = db.Column(db.Boolean)
+    ordinal: int = db.Column(db.Integer)
     use_specific_day: bool = db.Column(db.Boolean)
     weekday: int = db.Column(db.Integer)
     n_months: int = db.Column(db.Integer)
