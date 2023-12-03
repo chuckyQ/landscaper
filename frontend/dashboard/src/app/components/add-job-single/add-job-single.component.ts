@@ -3,8 +3,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 
 interface SingleJob {
-  isSeasonal: boolean // always false
-  seasonalType: string // always an empty string ''
+  isRecurring: boolean // always false
+  recurringType: string // always an empty string ''
   dateTimestamp: number // Unix timestamp
   name: string // Customer name
   address: string

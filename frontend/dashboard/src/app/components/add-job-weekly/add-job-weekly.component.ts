@@ -8,8 +8,8 @@ interface Day {
 }
 
 interface WeeklyJob {
-  isSeasonal: boolean // always true
-  seasonalType: string // always 'weekly'
+  isRecurring: boolean // always true
+  recurringType: string // always 'weekly'
   startMonth: number // index of month (zero-based)
   endMonth: number // index of month (zero-based)
   name: string // Customer name
@@ -111,8 +111,8 @@ export class AddJobWeeklyComponent {
     let [startTimestamp, startMonth] = parseDate(startDate)
     let [endTimestamp, endMonth] = parseDate(endDate)
     let d: WeeklyJob = {
-      isSeasonal: true,
-      seasonalType: "weekly",
+      isRecurring: true,
+      recurringType: "weekly",
 
       startTimestamp: startTimestamp,
       startMonth: startMonth,

@@ -3,8 +3,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 
 interface DailyJob {
-  isSeasonal: boolean // always true
-  seasonalType: string // always 'daily'
+  isRecurring: boolean // always true
+  recurringType: string // always 'daily'
 
   startDate: string // ISO date
   startMonth: number // index of month (zero-based)
@@ -92,8 +92,8 @@ export class AddJobDailyComponent {
     let [endTimestamp, endMonth, endDayOfMonth, endWeekday] = getMonth(endDate)
 
     let d: DailyJob = {
-      isSeasonal: true,
-      seasonalType: "daily",
+      isRecurring: true,
+      recurringType: "daily",
 
       startDate: startDate.split("T")[0],
       startTimestamp: startTimestamp,

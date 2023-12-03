@@ -3,8 +3,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
 
 interface YearlyJob {
-  isSeasonal: boolean // always true
-  seasonalType: string // Always 'yearly'
+  isRecurring: boolean // always true
+  recurringType: string // Always 'yearly'
   month: number // index of month (0-Jan, 1-Feb, etc...)
   day: number // index of weekday (0-Sunday, 1-Monday, etc...)
   name: string // Customer name
@@ -132,8 +132,8 @@ export class AddJobYearlyComponent {
 
 
     let d: YearlyJob = {
-      isSeasonal: true,
-      seasonalType: "yearly",
+      isRecurring: true,
+      recurringType: "yearly",
       month: this.months.indexOf(month),
       day: day,
       name: name,
