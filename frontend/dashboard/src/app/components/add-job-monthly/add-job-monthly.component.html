@@ -63,7 +63,7 @@
                         <select
                             [disabled]="!certainDate"
                             name="nDay"
-                            #nDay
+                            #ordinal
                             >
                             <option selected value="1">first</option>
                             <option value="2">second</option>
@@ -75,7 +75,7 @@
                 <div>
                     <select
                         [disabled]="certainDay"
-                        #selectedDay>
+                        #certainWeekday>
                         <option
                             *ngFor="let day of days; index as i"
                             [value]="i">{{ day }}</option>
@@ -106,8 +106,8 @@
                         (nMonths2.value === '') && certainDate
                         "
             class="btn btn-primary"
-            (click)="createMonthlyJob(!useEndAfter, +nDay.value, +nMonths.value,
-                                      +selectedDay.value, +nMonths2.value, certainDay)"
+            (click)="createMonthlyJob(+selectedDay.value, +nMonths.value,
+                                     +ordinal.value, +certainWeekday.value, +nMonths2.value, certainDay)"
             value="Create">
     </div>
 </form>

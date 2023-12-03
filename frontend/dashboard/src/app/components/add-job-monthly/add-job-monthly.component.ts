@@ -9,7 +9,7 @@ interface MonthlyJob {
   endDate: string // date or empty string
   useEndDate: boolean
   recurrences: number // number of recurrences
-  day: number // index of weekday (0-Sunday, 1-Monday, etc...)
+  day: number // Specific date (1, 2...31)
   custID: string
   crews: string[] // List of crew ids
   notes: string
@@ -18,6 +18,7 @@ interface MonthlyJob {
   // (first -> 1, second -> 2, third -> 3, fourth -> 4, last -> 5)
   ordinal: number
   nMonths: number
+  weekday: number
 }
 
 @Component({
@@ -81,11 +82,12 @@ export class AddJobMonthlyComponent {
 
   }
 
-  createMonthlyJob(useEndDate: boolean, nDay: number, nMonths: number,
-                   day: number, nMonths2: number, certainDate: boolean) {
+  createMonthlyJob(day: number, nMonths: number,
+                   ordinal: number, weekday: number, nMonths2: number,
+                   certainDate: boolean) {
 
     var months = -1
-    if(certainDate) {
+    if(this.certainDay) {
       // Every 1 day every 2 months
       months = nMonths
     } else {
@@ -96,19 +98,23 @@ export class AddJobMonthlyComponent {
     let d: MonthlyJob = {
       isRecurring: true,
       recurringType: "monthly",
-      day: day,
+
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,
-      useEndDate: useEndDate,
+      useEndDate: this.certainDay,
       startDate: this.startDate,
       endDate: this.endDate,
       recurrences: this.recurrences,
+
+      // Day 2 of every N months
+      day: day,
       nMonths: months,
 
-      // The "first" Sunday of every month (not specific date)
+      // Every first Monday of N months
       isSpecificDay: certainDate,
-      ordinal: nDay,
+      ordinal: ordinal,
+      weekday: weekday,
     }
 
   this.service.postJob(d).subscribe(
