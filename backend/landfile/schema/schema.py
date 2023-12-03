@@ -2,6 +2,7 @@ import inspect
 from inspect import Parameter
 import re
 from typing import Union, List
+from functools import partial
 
 def _make_signature(fields: list):
 
@@ -192,3 +193,6 @@ class Schema(metaclass=MetaSchema):
 
         except (ValueError, TypeError):
             return False
+
+
+Date = partial(String, regex='\d{4}-\d{2}-\d{2}')
