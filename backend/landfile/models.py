@@ -246,8 +246,9 @@ class Account(db.Model):
         return wj
 
 
-    def add_monthly_job_end_at(self, start_date: str, end_date: str,
-                                  cust_id: str, notes: str, n_months: int):
+    def add_monthly_job_end_date(self, start_date: str, end_date: str,
+                                  cust_id: str, notes: str, n_months: int,
+                                  use_specific_day: bool, weekday: int, day: int):
 
         mj = MonthlyJob(
             notes=notes,
@@ -256,7 +257,10 @@ class Account(db.Model):
             start_date=start_date,
             end_date=end_date,
             use_end_after=False,
-            use_end_at=True,
+            use_end_date=True,
+            use_specific_day=use_specific_day,
+            weekday=weekday,
+            day=day,
         )
 
         mj.save()
@@ -889,7 +893,7 @@ class MonthlyJob(db.Model):
     crews: t.List['Crew'] = db.relationship('Crew', secondary=monthly_jobs_jct, back_populates='monthly_jobs')
 
     def __init__(self, cust_id: int,
-                 crew_id: str, day: int,
+                 day: int,
                  use_end_date: bool,
                  use_end_after: bool,
                  start_date: str,
@@ -903,7 +907,6 @@ class MonthlyJob(db.Model):
 
         self.job_id = f'monthjob_{gen_id(18)}'
 
-        self.crew_id = crew_id
         self.cust_id = cust_id
         self.start_date = start_date
         self.end_date = end_date
