@@ -812,6 +812,15 @@ class WeeklyJob(db.Model):
             )
 
 
+    def __repr__(self):
+
+        return f'{self.__class__.__qualname__}(id={self.id}, job_id={self.job_id!r}, ' \
+               f'start_date={self.start_date!r}, ' \
+               f'end_date={self.end_date!r}, ' \
+               f'end_after={self.end_after}, ' \
+               f'use_end_after={self.use_end_after}' \
+               f')'
+
 # Month indices to max days
 MAX_MONTH_DAYS = {
     1 : 31,
