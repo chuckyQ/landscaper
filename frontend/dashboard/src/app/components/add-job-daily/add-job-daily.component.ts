@@ -23,12 +23,6 @@ interface DailyJob {
 export class AddJobDailyComponent {
 
   @Input()
-  custName: string
-
-  @Input()
-  address: string
-
-  @Input()
   custID: string
 
   @Input()
@@ -57,8 +51,6 @@ export class AddJobDailyComponent {
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
-    this.address = ""
-    this.custName = ""
     this.mainFormIsValid = false
     this.notes = ""
     this.crewIDs = []

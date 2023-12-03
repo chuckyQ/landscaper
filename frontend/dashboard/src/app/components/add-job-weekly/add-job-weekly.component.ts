@@ -10,17 +10,14 @@ interface Day {
 interface WeeklyJob {
   isRecurring: boolean // always true
   recurringType: string // always 'weekly'
-  startMonth: number // index of month (zero-based)
-  endMonth: number // index of month (zero-based)
-  name: string // Customer name
-  address: string
+  startDate: string // ISO date
+  endDate: string // ISO date
+  useEndDate: boolean
+  endAfter: number
   custID: string
   crews: string[] // List of crew ids
   notes: string
-
-  startTimestamp: number
-
-  endTimestamp: number
+  nWeeks: number
 
   sunday: boolean
   monday: boolean
@@ -39,12 +36,6 @@ interface WeeklyJob {
   styleUrls: ['./add-job-weekly.component.scss']
 })
 export class AddJobWeeklyComponent {
-
-  @Input()
-  custName: string
-
-  @Input()
-  address: string
 
   @Input()
   custID: string
@@ -73,8 +64,6 @@ export class AddJobWeeklyComponent {
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
-    this.address = ""
-    this.custName = ""
     this.notes = ""
     this.mainFormIsValid = false
     this.recurrences = 1
@@ -101,31 +90,20 @@ export class AddJobWeeklyComponent {
 
   }
 
-  createWeeklyJob(startDate: string, endDate: string) {
+  createWeeklyJob(nWeeks: number) {
 
-    function parseDate(dt: string) {
-      let d = new Date(dt)
-      return [d.getTime(), d.getMonth()]
-    }
 
-    let [startTimestamp, startMonth] = parseDate(startDate)
-    let [endTimestamp, endMonth] = parseDate(endDate)
     let d: WeeklyJob = {
       isRecurring: true,
       recurringType: "weekly",
-
-      startTimestamp: startTimestamp,
-      startMonth: startMonth,
-
-      endMonth: endMonth,
-      endTimestamp: endTimestamp,
-
-      name: this.custName,
-      address: this.address,
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,
-
+      startDate: this.startDate,
+      endDate: this.endDate,
+      nWeeks: nWeeks,
+      useEndDate: !this.useEndAfter,
+      endAfter: this.recurrences,
       sunday: this.days[0].selected,
       monday: this.days[1].selected,
       tuesday: this.days[2].selected,

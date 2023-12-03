@@ -23,12 +23,6 @@ interface YearlyJob {
 export class AddJobYearlyComponent {
 
   @Input()
-  custName: string
-
-  @Input()
-  address: string
-
-  @Input()
   custID: string
 
   @Input()
@@ -53,12 +47,8 @@ export class AddJobYearlyComponent {
   recurrences: number
   recurringIsValid: boolean
 
-
-
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
-    this.address = ""
-    this.custName = ""
     this.notes = ""
     this.mainFormIsValid = false
     this.crewIDs = []

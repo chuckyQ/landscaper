@@ -9,8 +9,6 @@ interface MonthlyJob {
   endDate: string // date or empty string
   recurrences: number // number of recurrences
   day: number // index of weekday (0-Sunday, 1-Monday, etc...)
-  name: string // Customer name
-  address: string
   custID: string
   crews: string[] // List of crew ids
   notes: string
@@ -32,12 +30,6 @@ interface Day {
   styleUrls: ['./add-job-monthly.component.scss']
 })
 export class AddJobMonthlyComponent {
-
-  @Input()
-  custName: string
-
-  @Input()
-  address: string
 
   @Input()
   custID: string
@@ -66,8 +58,6 @@ export class AddJobMonthlyComponent {
 
   constructor(public service: AuthService, public activeModal: NgbActiveModal) {
     this.custID = ""
-    this.address = ""
-    this.custName = ""
     this.notes = ""
     this.mainFormIsValid = false
 
@@ -101,8 +91,6 @@ export class AddJobMonthlyComponent {
       isRecurring: true,
       recurringType: "monthly",
       day: day,
-      name: this.custName,
-      address: this.address,
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,

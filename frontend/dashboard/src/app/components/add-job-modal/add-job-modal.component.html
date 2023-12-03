@@ -149,8 +149,6 @@
     <ng-container *ngIf="isSeasonal">
         <div *ngIf="seasonalType == 'daily'">
             <add-job-daily
-                [custName]="name.value"
-                [address]="address.value"
                 [notes]="notes.value"
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
@@ -160,8 +158,6 @@
         </div>
         <div *ngIf="seasonalType == 'weekly'">
             <add-job-weekly
-                [custName]="name.value"
-                [address]="address.value"
                 [notes]="notes.value"
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
@@ -172,8 +168,6 @@
 
         <div *ngIf="seasonalType == 'monthly'">
             <add-job-monthly
-                [custName]="name.value"
-                [address]="address.value"
                 [notes]="notes.value"
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
@@ -183,8 +177,6 @@
         </div>
         <div *ngIf="seasonalType == 'yearly'">
             <add-job-yearly
-                [custName]="name.value"
-                [address]="address.value"
                 [notes]="notes.value"
                 [custID]="custID"
                 [crewIDs]="getSelectedCrews()"
