@@ -168,8 +168,7 @@ class Account(db.Model):
         return dj
 
 
-    def add_daily_job_end_after(self, notes: str, start_date: str, end_after: int,
-                                   cust_id: str, crew_id: str):
+    def add_daily_job_end_after(self, notes: str, start_date: str, end_after: int, cust_id: str):
 
 
         dj = DailyJob(
@@ -180,7 +179,6 @@ class Account(db.Model):
             use_end_date=False,
             use_end_after=True,
             account_id=self.id,
-            crew_id=crew_id,
             notes=notes,
         )
 
