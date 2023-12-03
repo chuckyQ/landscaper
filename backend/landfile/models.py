@@ -191,7 +191,7 @@ class Account(db.Model):
 
 
     def add_weekly_job_end_at(self, notes: str, start_date: str, end_date: str,
-                                 cust_id: str, crew_id: str, n_weeks: int,
+                                 cust_id: str, n_weeks: int,
                                  sunday=False, monday=False, tuesday=False,
                                  wednesday=False, thursday=False, friday=False,
                                  saturday=False):
@@ -201,7 +201,6 @@ class Account(db.Model):
             start_date=start_date,
             end_date=end_date,
             cust_id=cust_id,
-            crew_id=crew_id,
             n_weeks=n_weeks,
             use_end_after=False,
             use_end_date=True,
@@ -221,7 +220,7 @@ class Account(db.Model):
 
 
     def add_weekly_job_end_after(self, start_date: str, end_after: int, n_weeks: int,
-                                    cust_id: str, crew_id: str, notes: str,
+                                    cust_id: str, notes: str,
                                     sunday=False, monday=False, tuesday=False,
                                     wednesday=False, thursday=False, friday=False,
                                     saturday=False,
@@ -232,7 +231,6 @@ class Account(db.Model):
             end_date='',
             end_after=end_after,
             cust_id=cust_id,
-            crew_id=crew_id,
             use_end_after=False,
             use_end_date=True,
             n_weeks=n_weeks,
@@ -252,14 +250,14 @@ class Account(db.Model):
 
 
     def add_monthly_job_end_at(self, start_date: str, end_date: str,
-                                  cust_id: str, notes: str, crew_id: str,
+                                  cust_id: str, notes: str,
                                   sunday: bool, monday: bool, tuesday: bool,
                                   wednesday: bool, thursday: bool, friday: bool,
                                   saturday: bool, n_weeks: int):
 
         mj = MonthlyJob(
+            notes=notes,
             cust_id=cust_id,
-            crew_id=crew_id,
             n_weeks=n_weeks,
             start_date=start_date,
             end_date=end_date,
@@ -278,13 +276,12 @@ class Account(db.Model):
 
 
     def add_monthly_job_end_after(self, notes: str, start_date: str, end_after: int,
-                                    cust_id: str, crew_id: str, ordinal: int,
+                                    cust_id: str, ordinal: int,
                                     day: int, use_specific_day: bool, month: int,
                                     weekday: int):
 
         mj = MonthlyJob(
             cust_id=cust_id,
-            crew_id=crew_id,
             ordinal=ordinal,
             day=day,
             use_specific_day=use_specific_day,
