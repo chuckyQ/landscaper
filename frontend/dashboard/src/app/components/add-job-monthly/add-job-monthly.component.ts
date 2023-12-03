@@ -18,12 +18,6 @@ interface MonthlyJob {
   nDay: number | null
 }
 
-interface Day {
-  name: string
-  selected: boolean
-  index: number
-}
-
 @Component({
   selector: 'add-job-monthly',
   templateUrl: './add-job-monthly.component.html',
@@ -51,7 +45,7 @@ export class AddJobMonthlyComponent {
   recurrences: number
   recurringIsValid: boolean
 
-  days: Day[]
+  days: string[]
 
   certainDay: boolean
   certainDate: boolean
@@ -74,13 +68,13 @@ export class AddJobMonthlyComponent {
     this.crewIDs = []
 
     this.days = [
-      { name: "Sunday", selected: false, index: 0},
-      { name: "Monday", selected: false, index: 1},
-      { name: "Tuesday", selected: false, index: 2},
-      { name: "Wednesday", selected: false, index: 3},
-      { name: "Thursday", selected: false, index: 4},
-      { name: "Friday", selected: false ,index: 5},
-      { name: "Saturday", selected: false, index: 6},
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
     ]
 
   }
