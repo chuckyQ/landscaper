@@ -164,9 +164,9 @@ class Account(db.Model):
 
     def add_weekly_job_end_at(self, notes: str, start_date: str, end_date: str,
                                  cust_id: str, crew_id: str, n_weeks: int,
-                                 sunday: bool, monday: bool, tuesday: bool,
-                                 wednesday: bool, thursday: bool, friday: bool,
-                                 saturday: bool):
+                                 sunday=False, monday=False, tuesday=False,
+                                 wednesday=False, thursday=False, friday=False,
+                                 saturday=False):
 
         wj = WeeklyJob(
             account_id=self.id,
@@ -190,11 +190,11 @@ class Account(db.Model):
         wj.save()
 
 
-    def add_weekly_job_end_after(self, start_date: str, end_after: int,
+    def add_weekly_job_end_after(self, start_date: str, end_after: int, n_weeks: int,
                                     cust_id: str, crew_id: str, notes: str,
-                                    sunday: bool, monday: bool, tuesday: bool,
-                                    wednesday: bool, thursday: bool, friday: bool,
-                                    saturday: bool, n_weeks: int,
+                                    sunday=False, monday=False, tuesday=False,
+                                    wednesday=False, thursday=False, friday=False,
+                                    saturday=False,
                                     ):
 
         wj = WeeklyJob(
