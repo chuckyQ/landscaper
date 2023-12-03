@@ -679,6 +679,7 @@ class DailyJob(db.Model):
 
     def save(self):
 
+        self.end_date = self.get_end_date()
         db.session.add(self)
         db.session.commit()
 
@@ -769,6 +770,8 @@ class WeeklyJob(db.Model):
 
     def save(self):
 
+        self.end_date = self.get_end_date()
+
         db.session.add(self)
         db.session.commit()
 
@@ -783,6 +786,14 @@ class WeeklyJob(db.Model):
         if self.end_after == 1:
             # No actual recurrence
             return self.start_date
+
+        i = None
+        for each in self.get_job_dates():
+            i = each
+
+        assert i is not None
+
+        return i
 
 
     def get_job_dates(self):
@@ -1031,6 +1042,11 @@ class MonthlyJob(db.Model):
             weekday = (end_date.weekday() + 1) % 7
 
         return end_date.strftime('%Y-%m-%d')
+
+
+    def get_jobs(self):
+
+        ...
 
 
 class YearlyJob(db.Model):
