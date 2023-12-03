@@ -268,6 +268,8 @@ class Account(db.Model):
 
         mj.save()
 
+        return mj
+
 
     def add_monthly_job_end_after(self, notes: str, start_date: str, end_after: int,
                                     cust_id: str, ordinal: int, day: int,
@@ -288,6 +290,8 @@ class Account(db.Model):
         )
 
         mj.save()
+
+        return mj
 
 
     def add_yearly_job_end_at(self, start_date: str, end_date: str,
