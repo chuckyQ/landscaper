@@ -35,13 +35,15 @@ def validate(_arg: schema.Descriptor=None, klass: schema.Schema=None, **params):
     """This is a decorator meant for checking `request.json`
     against a defined schema. If it succeeds, then the dispatch
     function executes. If not, a 401 error code is returned.
+    This decorator will pass the arguments in `request.json` to
+    the function provided they are valid.
 
     >>> @app.route('/myroute') #doctest: +SKIP
     ... @validate(
     ...     name = schema.String(),
     ...     description = schema.String()
     ... )
-    ... def upload():
+    ... def upload(name: str, description: str):
     ...     pass
 
     A developer can also define a schema by creating a class
