@@ -138,9 +138,58 @@ def _create_weekly_job(acc: Account, isRecurring: bool, recurringType: str,
     weekly.crews.extend(crews)
     weekly.save()
 
+@validate(
+    isRecurring=schema.Boolean(),
+    recurringType=schema.String(),
+    startDate=schema.Date(),
+    endDate=schema.String(),
+    useEndDate=schema.Boolean(),
+    weekday=schema.Integer(),
+    recurrences=schema.Integer(),
+    day=schema.Integer(),
+    custID=schema.String(),
+    crews=schema.Array(schema.String, minsize=1),
+    notes=schema.String(),
+    isSpecificDay=schema.Boolean(),
+    ordinal=schema.Integer(),
+    nMonths=schema.Integer(),
+)
+def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
+                        custID: str, notes: str, crews: t.List[str], startDate: str,
+                        endDate: str, useEndDate: str, nMonths: int,
+                        isSpecificDay: bool, ordinal: int, weekday: int, day: int,
+                        recurrences: int,
+                        ):
 
-def _create_monthly_job(acc: Account, cust_id: str, notes: str):
-    ...
+
+    assert isRecurring
+    assert recurringType == 'monthly'
+
+    if useEndDate:
+        # Day 1 of every 2 months
+        monthly = acc.add_monthly_job_end_date(start_date=startDate, end_date=endDate,
+                                               cust_id=custID, notes=notes,
+                                               n_months=nMonths, use_specific_day=isSpecificDay,
+                                               weekday=weekday, ordinal=ordinal, day=day,
+                                               )
+
+    else:
+        monthly = acc.add_monthly_job_end_after(start_date=startDate, end_after=recurrences,
+                                                notes=notes, cust_id=custID, ordinal=ordinal,
+                                                use_specific_day=isSpecificDay, n_months=nMonths,
+                                                day=day, weekday=weekday,
+                                                )
+
+    crews_ = []
+    for crew_id in crews:
+        c: Crew = Crew.query.filter(Crew.crew_id == crew_id, Crew.account_id == acc.id).first()
+        if c is None:
+            abort(500)
+        crews_.append(c)
+
+    monthly.crews.extend(crews_)
+    monthly.save()
+
 
 def _create_yearly_job(acc: Account, cust_id: str, notes: str):
     ...
@@ -175,6 +224,10 @@ def create_job():
         return {}
     if recurring_type == 'weekly':
         _create_weekly_job(acc=acc)
+        return {}
+
+    if recurring_type == 'monthly':
+        _create_monthly_job(acc=acc)
         return {}
 
     return {}
