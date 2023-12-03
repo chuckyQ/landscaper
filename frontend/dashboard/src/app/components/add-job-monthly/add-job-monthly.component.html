@@ -20,10 +20,10 @@
                 <label class="form-check-label">Day</label>
                 <select
                     [disabled]="!certainDay"
-                    #selectedDay="ngModel"
+                    #selectedDay
                     name="certainDay"
-                    ngModel>
-                    <option *ngFor="let d of daySelection();">
+                    >
+                    <option [selected]="d === 1" *ngFor="let d of daySelection();">
                         {{ d }}
                     </option>
                 </select>
@@ -31,11 +31,9 @@
                     <label>every</label>
                     <select
                         [disabled]="!certainDay"
-                        #nMonths="ngModel"
-                        required
-                        name="nMonths"
-                        ngModel>
-                        <option value="1">1</option>
+                        #nMonths
+                        name="nMonths">
+                        <option selected value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
@@ -85,8 +83,8 @@
                 </div>
                 <div style="display: flex; gap: 0.25rem;">
                     <label>every</label>
-                    <select [disabled]="!certainDate" #nMonths2="ngModel" required name="nMonths2" ngModel>
-                        <option value="1">1</option>
+                    <select [disabled]="!certainDate" #nMonths2 required name="nMonths2">
+                        <option selected value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
                         <option value="4">4</option>
@@ -108,8 +106,8 @@
                         (nMonths2.value === '') && certainDate
                         "
             class="btn btn-primary"
-            (click)="createMonthlyJob(certainDay, +nDay.value,
-                                      +selectedDay.value)"
+            (click)="createMonthlyJob(!useEndAfter, +nDay.value, +nMonths.value,
+                                      +selectedDay.value, +nMonths2.value, certainDay)"
             value="Create">
     </div>
 </form>
