@@ -1,4 +1,4 @@
-from functools import wraps
+from functools import wraps, partial
 import inspect
 from inspect import Parameter
 
@@ -114,9 +114,12 @@ def validate(_arg: schema.Descriptor=None, klass: schema.Schema=None, **params):
         @wraps(func)
         def decorator(*args, **kwargs):
 
+            nonlocal func
+
             if not klass.validate(request.json):
                 abort(401)
 
+            func = partial(func, *args, **request.json)
             return func(*args, **kwargs)
 
         return decorator
