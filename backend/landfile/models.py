@@ -186,7 +186,7 @@ class Account(db.Model):
         return dj
 
 
-    def add_weekly_job_end_at(self, notes: str, start_date: str, end_date: str,
+    def add_weekly_job_end_date(self, notes: str, start_date: str, end_date: str,
                                  cust_id: str, n_weeks: int,
                                  sunday=False, monday=False, tuesday=False,
                                  wednesday=False, thursday=False, friday=False,
@@ -247,26 +247,16 @@ class Account(db.Model):
 
 
     def add_monthly_job_end_at(self, start_date: str, end_date: str,
-                                  cust_id: str, notes: str,
-                                  sunday: bool, monday: bool, tuesday: bool,
-                                  wednesday: bool, thursday: bool, friday: bool,
-                                  saturday: bool, n_weeks: int):
+                                  cust_id: str, notes: str, n_months: int):
 
         mj = MonthlyJob(
             notes=notes,
             cust_id=cust_id,
-            n_weeks=n_weeks,
+            n_months=n_months,
             start_date=start_date,
             end_date=end_date,
             use_end_after=False,
             use_end_at=True,
-            sunday=sunday,
-            monday=monday,
-            tuesday=tuesday,
-            wednesday=wednesday,
-            thursday=thursday,
-            friday=friday,
-            saturday=saturday,
         )
 
         mj.save()
@@ -693,7 +683,8 @@ class DailyJob(db.Model):
         return f'{self.__class__.__qualname__}(id={self.id}, ' \
                f'job_id={self.job_id!r}, ' \
                f'start_date={self.start_date!r}, ' \
-               f'end_date={self.end_date!r}' \
+               f'end_date={self.end_date!r}, ' \
+               f'use_end_date={self.use_end_date}' \
                f')'
 
 
@@ -832,6 +823,7 @@ class WeeklyJob(db.Model):
                f'start_date={self.start_date!r}, ' \
                f'end_date={self.end_date!r}, ' \
                f'end_after={self.end_after}, ' \
+               f'use_end_date={self.use_end_date}, ' \
                f'use_end_after={self.use_end_after}' \
                f')'
 
@@ -872,15 +864,6 @@ class MonthlyJob(db.Model):
     FOURTH = 4
     LAST = 5
 
-    _ORDINAL_TO_INT = {
-        '' : 0,
-        'first' : 1,
-        'second' : 2,
-        'third' : 3,
-        'fourth' : 4,
-        'last' : 5,
-    }
-
     __tablename__ = 'monthly_jobs'
 
     id: int = db.Column(db.Integer, primary_key=True)
@@ -911,7 +894,7 @@ class MonthlyJob(db.Model):
                  use_end_after: bool,
                  start_date: str,
                  end_date: str,
-                 ordinal: str,
+                 ordinal: int,
                  use_specific_day: bool,
                  weekday: int,
                  n_months: int,
@@ -931,7 +914,7 @@ class MonthlyJob(db.Model):
         self.notes = notes
 
         self.use_specific_day = use_specific_day
-        self.ordinal = self._ORDINAL_TO_INT.get(ordinal, 0)
+        self.ordinal = ordinal
         self.weekday = weekday
         self.day = day
 
