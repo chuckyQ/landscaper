@@ -189,6 +189,8 @@ class Account(db.Model):
 
         wj.save()
 
+        return wj
+
 
     def add_weekly_job_end_after(self, start_date: str, end_after: int, n_weeks: int,
                                     cust_id: str, crew_id: str, notes: str,
@@ -217,6 +219,8 @@ class Account(db.Model):
         )
 
         wj.save()
+
+        return wj
 
 
     def add_monthly_job_end_at(self, start_date: str, end_date: str,
