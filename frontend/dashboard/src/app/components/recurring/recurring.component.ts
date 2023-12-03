@@ -44,6 +44,10 @@ export class RecurringComponent {
                   (this.recurrences < 1 || this.recurrences === null) && this.useEndAfter
 
       this.formIsValid.emit(!valid)
+      this.startDateChange.emit(this.startDate)
+      this.endDateChange.emit(this.endDate)
+      this.endAfterRecurrenceChange.emit(this.endAfterRecurrence)
+      this.recurrencesChange.emit(this.recurrences)
   }
 
   toggle() {
