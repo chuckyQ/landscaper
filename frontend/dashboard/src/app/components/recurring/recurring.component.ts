@@ -64,6 +64,7 @@ export class RecurringComponent {
   toggle() {
     this.useEndAfter = !this.useEndAfter
     this.useEndDate = !this.useEndDate
+    this.endAfterRecurrence = !this.endAfterRecurrence
   }
 
 }
