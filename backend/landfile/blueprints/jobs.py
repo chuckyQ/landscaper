@@ -51,7 +51,7 @@ def get_jobs():
   startDate=schema.String(),
   endDate=schema.String(),
   useEndDate=schema.Boolean(),
-  endAfter=schema.Integer(),
+  recurrences=schema.Integer(),
   custID=schema.String(),
   crews=schema.Array(schema.String, minsize=1),
   notes=schema.String(),
@@ -59,7 +59,7 @@ def get_jobs():
 def _create_daily_job(acc: Account, isRecurring: bool,
                       custID: str, notes: str, startDate: str,
                       endDate: str, useEndDate: bool,
-                      recurringType: str, endAfter: int,
+                      recurringType: str, recurrences: int,
                       crews: t.List[str],
                       ):
 
@@ -80,7 +80,7 @@ def _create_daily_job(acc: Account, isRecurring: bool,
                                             end_date=endDate, cust_id=custID, crew_id=c.crew_id)
         else:
             daily = acc.add_daily_job_end_after(notes=notes, cust_id=custID,
-                                                start_date=startDate, end_after=endAfter,
+                                                start_date=startDate, end_after=recurrences,
                                                 crew_id=c.crew_id)
 
     daily.save()
@@ -95,7 +95,7 @@ def _create_daily_job(acc: Account, isRecurring: bool,
   startDate=schema.String(),
   endDate=schema.String(),
   useEndDate=schema.Boolean(),
-  endAfter=schema.Integer(),
+  recurrences=schema.Integer(),
   nWeeks=schema.Integer(),
   sunday=schema.Boolean(),
   monday=schema.Boolean(),
@@ -108,7 +108,7 @@ def _create_daily_job(acc: Account, isRecurring: bool,
 def _create_weekly_job(acc: Account, isRecurring: bool, recurringType: str,
                        custID: str, notes: str, crews: t.List[str],
                        startDate: str, endDate: str, useEndDate: bool, nWeeks: int,
-                       endAfter: int, sunday: bool, monday: bool, tuesday: bool,
+                       recurrences: int, sunday: bool, monday: bool, tuesday: bool,
                        wednesday: bool, thursday: bool, friday: bool, saturday: bool):
 
     assert isRecurring
@@ -133,7 +133,7 @@ def _create_weekly_job(acc: Account, isRecurring: bool, recurringType: str,
                                                  )
 
         else:
-            weekly = acc.add_weekly_job_end_after(start_date=startDate, end_after=endAfter,
+            weekly = acc.add_weekly_job_end_after(start_date=startDate, end_after=recurrences,
                                                   n_weeks=nWeeks, cust_id=custID,
                                                   notes=notes, sunday=sunday,
                                                   monday=monday, tuesday=tuesday,
