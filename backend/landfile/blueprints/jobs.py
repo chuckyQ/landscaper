@@ -206,7 +206,6 @@ def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
     day=schema.Integer(),
     startDate=schema.Date(),
     endDate=schema.String(),
-    endAfter=schema.Integer(),
     recurrences=schema.Integer(),
     useEndDate=schema.Boolean(),
     custID=schema.String(),
@@ -217,7 +216,7 @@ def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
 )
 def _create_yearly_job(acc: Account, isRecurring: bool, recurringType: str,
                        month: int, day: int, startDate: str, endDate: str,
-                       endAfter: int, recurrences: int, useEndDate: bool,
+                       recurrences: int, useEndDate: bool,
                        custID: str, crews: t.List[str], notes: str,
                        ordinal: int, weekday: int,
                        ):
@@ -242,7 +241,7 @@ def _create_yearly_job(acc: Account, isRecurring: bool, recurringType: str,
         else:
             yearly = acc.add_yearly_job_end_after(start_date=startDate, end_after=recurrences,
                                          cust_id=custID, crew_id=c.crew_id, notes=notes,
-                                         ordinal=ordinal, day=day, month=month, end_after=endAfter,
+                                         ordinal=ordinal, day=day, month=month,
                                          )
         yearly.save()
 
