@@ -187,7 +187,6 @@ def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
                                                 cust_id=custID, notes=notes, crew_id=c.crew_id,
                                                 n_months=nMonths, use_specific_day=isSpecificDay,
                                                 weekday=weekday, ordinal=ordinal, day=day,
-                                                crew_id=c.crew_id,
                                                 )
 
         else:
