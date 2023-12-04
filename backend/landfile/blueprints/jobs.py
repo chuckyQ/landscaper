@@ -80,7 +80,7 @@ def _create_daily_job(acc: Account, isRecurring: bool,
                                             end_date=endDate, cust_id=custID, crew_id=c.crew_id)
         else:
             daily = acc.add_daily_job_end_after(notes=notes, cust_id=custID,
-                                                start_date=startDate, end_after=recurrences,
+                                                start_date=startDate, recurrences=recurrences,
                                                 crew_id=c.crew_id)
 
     daily.save()
@@ -133,7 +133,7 @@ def _create_weekly_job(acc: Account, isRecurring: bool, recurringType: str,
                                                  )
 
         else:
-            weekly = acc.add_weekly_job_end_after(start_date=startDate, end_after=recurrences,
+            weekly = acc.add_weekly_job_end_after(start_date=startDate, recurrences=recurrences,
                                                   n_weeks=nWeeks, cust_id=custID,
                                                   notes=notes, sunday=sunday,
                                                   monday=monday, tuesday=tuesday,
@@ -191,7 +191,7 @@ def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
 
         else:
             # First Wednesday of every March
-            monthly = acc.add_monthly_job_end_after(start_date=startDate, end_after=recurrences,
+            monthly = acc.add_monthly_job_end_after(start_date=startDate, recurrences=recurrences,
                                                     notes=notes, cust_id=custID, ordinal=ordinal,
                                                     use_specific_day=isSpecificDay, n_months=nMonths,
                                                     day=day, weekday=weekday, crew_id=c.crew_id,
@@ -239,7 +239,7 @@ def _create_yearly_job(acc: Account, isRecurring: bool, recurringType: str,
                                       ordinal=ordinal, day=day, month=month, weekday=weekday,
                                       )
         else:
-            yearly = acc.add_yearly_job_end_after(start_date=startDate, end_after=recurrences,
+            yearly = acc.add_yearly_job_end_after(start_date=startDate, recurrences=recurrences,
                                          cust_id=custID, crew_id=c.crew_id, notes=notes,
                                          ordinal=ordinal, day=day, month=month,
                                          )
