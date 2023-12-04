@@ -17,12 +17,6 @@ crew_table = db.Table(
     db.Column('crew_id', db.Integer, db.ForeignKey('crews.id')),
 )
 
-job_table = db.Table(
-    'crew_jobs',
-    db.Column('crew_id', db.Integer(), db.ForeignKey('crews.id')),
-    db.Column('job_id', db.Integer(), db.ForeignKey('jobs.id')),
-)
-
 
 def gen_id(size=14, chars=string.ascii_letters + string.digits):
     # https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
@@ -281,7 +275,7 @@ class Account(db.Model):
             start_date=start_date,
             end_after=-1,
             end_date=end_date,
-            use_end_at=True,
+            use_end_date=True,
             ordinal=ordinal,
             weekday=weekday,
             day=day,
@@ -306,7 +300,7 @@ class Account(db.Model):
             start_date=start_date,
             end_after=end_after,
             end_date='',
-            use_end_at=True,
+            use_end_date=False,
             ordinal=ordinal,
             day=day,
             month=month,
@@ -462,7 +456,6 @@ class Crew(db.Model):
     deleted: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='crews')
-    jobs: t.List['Job'] = db.relationship('Job', secondary=job_table, back_populates='crews')
     members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crews')
 
     daily_jobs: t.List['DailyJob']
@@ -707,7 +700,7 @@ class WeeklyJob(db.Model):
     crew_id: str = db.Column(db.Integer, db.ForeignKey('crews.id'))
 
     account: 'Account' = db.relationship('Account', backref='weekly_jobs')
-    crew: Crew = db.relationship('Crew', back_populates='weekly_jobs')
+    crew: Crew = db.relationship('Crew', backref='weekly_jobs')
 
     def __init__(self, account_id: int, cust_id: str, notes: str, n_weeks: int,
                  sunday: bool, monday: bool,
