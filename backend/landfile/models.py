@@ -514,7 +514,7 @@ class Job(db.Model):
     job_id: str = db.Column(db.String, index=True)
     cust_id: str = db.Column(db.String)
     name: str = db.Column(db.String)
-    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+
     created_timestamp: float = db.Column(db.Float)
     last_updated_timestamp: float = db.Column(db.Float)
     address: str = db.Column(db.String)
@@ -525,9 +525,11 @@ class Job(db.Model):
     # Added by the Comment model
     comments: t.List['Comment']
 
+    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     account = db.relationship('Account', backref='jobs')
 
-    crews: t.List['Crew'] = db.relationship('Crew', secondary=job_table, back_populates='jobs')
+    crew_id: int = db.Column(db.Integer, db.ForeignKey('crews.id'))
+    crew: Crew = db.relationship('Crew', backref='jobs')
 
 
     def __init__(self, cust_id: str, account_id: int, notes: str, date: str):
