@@ -118,7 +118,7 @@ class Account(db.Model):
         return customers
 
 
-    def add_daily_job_end_at(self, notes: str, start_date: str, end_date: str, cust_id: str, crew_id: str):
+    def add_daily_job_end_date(self, notes: str, start_date: str, end_date: str, cust_id: str, crew_id: str):
 
         dj = DailyJob(
             cust_id=cust_id,
