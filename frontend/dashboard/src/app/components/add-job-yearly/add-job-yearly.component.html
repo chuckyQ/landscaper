@@ -67,25 +67,23 @@
                 <div>
                     <select
                         [disabled]="!onEvery"
-                        #selectedTimeframe="ngModel"
-                        ngModel
+                        #ordinal
                         style="width: 12ch;"
-                        name="selectedMonth"
+                        name="ordinal"
                         id="yearlyMonth">
-                        <option value="1">first</option>
-                        <option value="1">second</option>
-                        <option value="1">third</option>
-                        <option value="1">fourth</option>
-                        <option value="1">last</option>
+                        <option selected value="1">first</option>
+                        <option value="2">second</option>
+                        <option value="3">third</option>
+                        <option value="4">fourth</option>
+                        <option value="5">last</option>
                     </select>
                 </div>
                 <div class="form-check">
                     <select
                         [disabled]="!onEvery"
-                        #selectedMonth2="ngModel"
-                        ngModel
+                        #weekday
                         style="width: 12ch;"
-                        name="selectedMonth2"
+                        name="weekday"
                         id="yearlyMonth">
                         <option *ngFor="let day of days; index as i"
                             [selected]="i === 0"
@@ -116,13 +114,10 @@
         <input
             type="button"
             [disabled]="!mainFormIsValid ||
-                        !recurringIsValid ||
-                        (selectedMonth.value === '' ||
-                         selectedDay.value === '') && every ||
-                        (selectedMonth2.value === '' ||
-                         selectedDay2.value === '') && onEvery
+                        !recurringIsValid
             "
             class="btn btn-primary"
+            (click)="createYearlyJob(+selectedMonth.value, +selectedDay.value, +ordinal.value, +weekday.value)"
             value="Create">
     </div>
 </form>
