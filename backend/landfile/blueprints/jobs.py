@@ -66,9 +66,6 @@ def _create_daily_job(acc: Account, isRecurring: bool,
     assert isRecurring
     assert recurringType == 'daily'
 
-    # print(request.json)
-    # return {}
-
     if useEndDate:
         daily = acc.add_daily_job_end_at(notes=notes, start_date=startDate,
                                          end_date=endDate, cust_id=custID)
@@ -115,28 +112,35 @@ def _create_weekly_job(acc: Account, isRecurring: bool, recurringType: str,
     assert isRecurring
     assert recurringType == 'weekly'
 
-    if useEndDate:
-        weekly = acc.add_weekly_job_end_date(notes=notes, start_date=startDate, end_date=endDate,
-                                          cust_id=custID, n_weeks=nWeeks,
-                                          sunday=sunday, monday=monday, tuesday=tuesday,
-                                          wednesday=wednesday, thursday=thursday, friday=friday, saturday=saturday,
-                                          )
-
-    else:
-        weekly = acc.add_weekly_job_end_after(start_date=startDate, end_after=endAfter, n_weeks=nWeeks,
-                                             cust_id=custID, notes=notes, sunday=sunday, monday=monday,
-                                             tuesday=tuesday, wednesday=wednesday, thursday=thursday,
-                                             friday=friday, saturday=saturday)
-
-    crews = []
+    crews_: t.List[Crew] = []
     for crew_id in crews:
         c: Crew = Crew.query.filter(Crew.crew_id == crew_id, Crew.account_id == acc.id).first()
         if c is None:
             abort(500)
-        crews.append(c)
+        crews_.append(c)
 
-    weekly.crews.extend(crews)
-    weekly.save()
+    for c in crews_:
+
+        if useEndDate:
+            weekly = acc.add_weekly_job_end_date(notes=notes, start_date=startDate,
+                                                 end_date=endDate, cust_id=custID,
+                                                 n_weeks=nWeeks, sunday=sunday,
+                                                 monday=monday, tuesday=tuesday,
+                                                 wednesday=wednesday, thursday=thursday,
+                                                 friday=friday, saturday=saturday,
+                                                 )
+
+        else:
+            weekly = acc.add_weekly_job_end_after(start_date=startDate, end_after=endAfter,
+                                                  n_weeks=nWeeks, cust_id=custID,
+                                                  notes=notes, sunday=sunday,
+                                                  monday=monday, tuesday=tuesday,
+                                                  wednesday=wednesday, thursday=thursday,
+                                                  friday=friday, saturday=saturday,
+                                                  )
+
+        weekly.save()
+
 
 @validate(
     isRecurring=schema.Boolean(),
@@ -165,29 +169,31 @@ def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
     assert isRecurring
     assert recurringType == 'monthly'
 
-    if useEndDate:
-        # Day 1 of every 2 months
-        monthly = acc.add_monthly_job_end_date(start_date=startDate, end_date=endDate,
-                                               cust_id=custID, notes=notes,
-                                               n_months=nMonths, use_specific_day=isSpecificDay,
-                                               weekday=weekday, ordinal=ordinal, day=day,
-                                               )
-
-    else:
-        monthly = acc.add_monthly_job_end_after(start_date=startDate, end_after=recurrences,
-                                                notes=notes, cust_id=custID, ordinal=ordinal,
-                                                use_specific_day=isSpecificDay, n_months=nMonths,
-                                                day=day, weekday=weekday,
-                                                )
-
-    crews_ = []
+    crews_: t.List[Crew] = []
     for crew_id in crews:
         c: Crew = Crew.query.filter(Crew.crew_id == crew_id, Crew.account_id == acc.id).first()
         if c is None:
             abort(500)
         crews_.append(c)
 
-    monthly.crews.extend(crews_)
+    for c in crews_:
+
+        if useEndDate:
+            # Day 1 of every 2 months
+            monthly = acc.add_monthly_job_end_date(start_date=startDate, end_date=endDate,
+                                                cust_id=custID, notes=notes,
+                                                n_months=nMonths, use_specific_day=isSpecificDay,
+                                                weekday=weekday, ordinal=ordinal, day=day,
+                                                crew_id=c.crew_id,
+                                                )
+
+        else:
+            monthly = acc.add_monthly_job_end_after(start_date=startDate, end_after=recurrences,
+                                                    notes=notes, cust_id=custID, ordinal=ordinal,
+                                                    use_specific_day=isSpecificDay, n_months=nMonths,
+                                                    day=day, weekday=weekday, crew_id=c.crew_id,
+                                                    )
+
     monthly.save()
 
 
