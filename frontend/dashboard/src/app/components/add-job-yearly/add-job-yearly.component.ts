@@ -9,7 +9,6 @@ interface YearlyJob {
   day: number // Day of month (1-31)
   startDate: string
   endDate: string
-  endAfter: number
   recurrences: number
   useEndDate: boolean
   custID: string
@@ -138,7 +137,6 @@ export class AddJobYearlyComponent {
       recurrences: this.recurrences,
       startDate: this.startDate,
       endDate: this.endDate,
-      endAfter: this.recurrences,
       useEndDate: !this.useEndAfter,
     }
 
