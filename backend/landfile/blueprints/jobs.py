@@ -163,7 +163,7 @@ def _create_weekly_job(acc: Account, isRecurring: bool, recurringType: str,
 )
 def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
                         custID: str, notes: str, crews: t.List[str], startDate: str,
-                        endDate: str, useEndDate: str, nMonths: int,
+                        endDate: str, useEndDate: bool, nMonths: int,
                         isSpecificDay: bool, ordinal: int, weekday: int, day: int,
                         recurrences: int,
                         ):
