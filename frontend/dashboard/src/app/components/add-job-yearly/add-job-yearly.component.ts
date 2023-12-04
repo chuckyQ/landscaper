@@ -7,6 +7,7 @@ interface YearlyJob {
   recurringType: string // Always 'yearly'
   month: number // index of month (0-Jan, 1-Feb, etc...)
   day: number // Day of month (1-31)
+  startDate: string
   endDate: string
   endAfter: number
   recurrences: number
@@ -136,6 +137,7 @@ export class AddJobYearlyComponent {
       weekday: weekday,
       ordinal: ordinal,
       recurrences: this.recurrences,
+      startDate: this.startDate,
       endDate: this.endDate,
       endAfter: this.recurrences,
       useEndAfter: this.useEndAfter,
