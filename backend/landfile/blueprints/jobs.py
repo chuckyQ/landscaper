@@ -188,6 +188,7 @@ def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
                                                 )
 
         else:
+            # First Wednesday of every March
             monthly = acc.add_monthly_job_end_after(start_date=startDate, end_after=recurrences,
                                                     notes=notes, cust_id=custID, ordinal=ordinal,
                                                     use_specific_day=isSpecificDay, n_months=nMonths,
