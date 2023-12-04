@@ -226,6 +226,7 @@ class Account(db.Model):
             start_date=start_date,
             end_date=end_date,
             use_end_date=True,
+            end_after=-1,
             use_specific_day=use_specific_day,
             weekday=weekday,
             day=day,
