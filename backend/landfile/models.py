@@ -132,7 +132,6 @@ class Account(db.Model):
             end_date=end_date,
             end_after=-1,
             use_end_date=True,
-            use_end_after=False,
             account_id=self.id,
             notes=notes,
             crew_id=crew_id,
@@ -151,7 +150,6 @@ class Account(db.Model):
             end_date='',
             end_after=end_after,
             use_end_date=False,
-            use_end_after=True,
             account_id=self.id,
             notes=notes,
             crew_id=crew_id,
@@ -174,7 +172,6 @@ class Account(db.Model):
             cust_id=cust_id,
             n_weeks=n_weeks,
             end_after=-1,
-            use_end_after=False,
             use_end_date=True,
             notes=notes,
             crew_id=crew_id,
@@ -204,7 +201,6 @@ class Account(db.Model):
             end_date='',
             end_after=end_after,
             cust_id=cust_id,
-            use_end_after=False,
             use_end_date=True,
             n_weeks=n_weeks,
             crew_id=crew_id,
@@ -235,7 +231,6 @@ class Account(db.Model):
             n_months=n_months,
             start_date=start_date,
             end_date=end_date,
-            use_end_after=False,
             use_end_date=True,
             use_specific_day=use_specific_day,
             weekday=weekday,
@@ -262,7 +257,6 @@ class Account(db.Model):
             end_date='',
             n_months=n_months,
             end_after=end_after,
-            use_end_after=True,
             use_end_date=False,
             weekday=weekday,
             notes=notes,
@@ -287,7 +281,6 @@ class Account(db.Model):
             start_date=start_date,
             end_after=-1,
             end_date=end_date,
-            use_end_after=False,
             use_end_at=True,
             ordinal=ordinal,
             weekday=weekday,
@@ -313,7 +306,6 @@ class Account(db.Model):
             start_date=start_date,
             end_after=end_after,
             end_date='',
-            use_end_after=False,
             use_end_at=True,
             ordinal=ordinal,
             day=day,
@@ -625,7 +617,6 @@ class DailyJob(db.Model):
     end_date: str = db.Column(db.String)
     end_after: int = db.Column(db.Integer)
     use_end_date: bool = db.Column(db.Boolean)
-    use_end_after: bool = db.Column(db.Boolean)
     canceled: bool = db.Column(db.Boolean)
 
     crew_id: str = db.Column(db.String, db.ForeignKey('crews.crew_id'))
@@ -639,7 +630,6 @@ class DailyJob(db.Model):
                  end_after: int,
                  end_date: str,
                  use_end_date: bool,
-                 use_end_after: bool,
                  account_id: int,
                  crew_id: str,
                  ):
@@ -651,7 +641,6 @@ class DailyJob(db.Model):
         self.end_date = end_date
         self.end_after = end_after
         self.use_end_date = use_end_date
-        self.use_end_after = use_end_after
         self.canceled = False
         self.account_id = account_id
         self.notes = notes
@@ -685,6 +674,10 @@ class DailyJob(db.Model):
                f')'
 
 
+    def use_end_after(self):
+        return not self.use_end_date
+
+
 class WeeklyJob(db.Model):
 
     __tablename__ = 'weekly_jobs'
@@ -699,12 +692,8 @@ class WeeklyJob(db.Model):
 
     end_date: str = db.Column(db.String)
     use_end_date: bool = db.Column(db.Boolean)
-
     end_after: int = db.Column(db.Integer)
-    use_end_after: bool = db.Column(db.Boolean)
-
     n_weeks: int = db.Column(db.Integer)
-
     canceled: bool = db.Column(db.Boolean)
 
     sunday: bool = db.Column(db.Boolean)
@@ -729,7 +718,6 @@ class WeeklyJob(db.Model):
                  end_date: str,
                  end_after: int,
                  use_end_date: bool,
-                 use_end_after: bool,
                  crew_id: str,
                  ):
 
@@ -742,7 +730,6 @@ class WeeklyJob(db.Model):
         self.canceled = False
         self.end_after = end_after
         self.use_end_date = use_end_date
-        self.use_end_after = use_end_after
         self.n_weeks = n_weeks
         self.notes = notes
 
@@ -824,9 +811,13 @@ class WeeklyJob(db.Model):
                f'start_date={self.start_date!r}, ' \
                f'end_date={self.end_date!r}, ' \
                f'end_after={self.end_after}, ' \
-               f'use_end_date={self.use_end_date}, ' \
-               f'use_end_after={self.use_end_after}' \
+               f'use_end_date={self.use_end_date}' \
                f')'
+
+    @property
+    def use_end_after(self):
+        return not self.use_end_date
+
 
 # Month indices to max days
 MAX_MONTH_DAYS = {
@@ -884,7 +875,6 @@ class MonthlyJob(db.Model):
     n_months: int = db.Column(db.Integer)
 
     use_end_date: bool = db.Column(db.Boolean)
-    use_end_after: bool = db.Column(db.Boolean)
 
     crew_id: str = db.Column(db.Integer, db.ForeignKey('crews.id'))
 
@@ -894,7 +884,6 @@ class MonthlyJob(db.Model):
     def __init__(self, cust_id: int,
                  day: int,
                  use_end_date: bool,
-                 use_end_after: bool,
                  start_date: str,
                  end_date: str,
                  end_after: int,
@@ -911,7 +900,6 @@ class MonthlyJob(db.Model):
         self.cust_id = cust_id
         self.start_date = start_date
         self.end_date = end_date
-        self.use_end_after = use_end_after
         self.use_end_date = use_end_date
         self.end_after = end_after
         self.canceled = False
@@ -1058,9 +1046,7 @@ class YearlyJob(db.Model):
 
     end_date: str = db.Column(db.String)
     use_end_date: bool = db.Column(db.Boolean)
-
     end_after: int = db.Column(db.Integer)
-    use_end_after: bool = db.Column(db.Boolean)
 
     use_specific_date: bool = db.Column(db.Boolean)
     month: int = db.Column(db.Integer)
@@ -1075,8 +1061,8 @@ class YearlyJob(db.Model):
 
     def __init__(self, account_id: int, cust_id: int, notes: str,
                  start_date: str, end_date: str, month: int, day: int,
-                 end_after: int,  use_end_at: bool,
-                 use_end_after: bool, ordinal: int, weekday: int, crew_id: str,
+                 end_after: int,  use_end_date: bool, ordinal: int,
+                 weekday: int, crew_id: str,
                  ):
 
         self.account_id = account_id
@@ -1086,10 +1072,9 @@ class YearlyJob(db.Model):
         self.start_date = start_date
         self.end_date = end_date
         self.end_after = end_after
-        self.use_end_after = use_end_after
-        self.use_end_at = use_end_at
+        self.use_end_date = use_end_date
         self.canceled = False
-        self.ordinal = self._ORDINAL_TO_INT.get(ordinal, 0)
+        self.ordinal = ordinal
         self.month = month
         self.day = day
         self.weekday = weekday
@@ -1100,6 +1085,10 @@ class YearlyJob(db.Model):
 
         db.session.add(self)
         db.session.commit()
+
+    @property
+    def use_end_after(self):
+        return not self.use_end_date
 
 
 class Comment(db.Model):
