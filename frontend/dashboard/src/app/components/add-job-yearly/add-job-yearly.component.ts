@@ -12,7 +12,6 @@ interface YearlyJob {
   endAfter: number
   recurrences: number
   useEndDate: boolean
-  useEndAfter: boolean
   custID: string
   crews: string[] // List of crew ids
   notes: string
@@ -140,7 +139,6 @@ export class AddJobYearlyComponent {
       startDate: this.startDate,
       endDate: this.endDate,
       endAfter: this.recurrences,
-      useEndAfter: this.useEndAfter,
       useEndDate: !this.useEndAfter,
     }
 
