@@ -124,7 +124,7 @@ class Account(db.Model):
             cust_id=cust_id,
             start_date=start_date,
             end_date=end_date,
-            end_after=-1,
+            recurrences=-1,
             use_end_date=True,
             account_id=self.id,
             notes=notes,
@@ -135,14 +135,14 @@ class Account(db.Model):
         return dj
 
 
-    def add_daily_job_end_after(self, notes: str, start_date: str, end_after: int, cust_id: str, crew_id: str):
+    def add_daily_job_end_after(self, notes: str, start_date: str, recurrences: int, cust_id: str, crew_id: str):
 
 
         dj = DailyJob(
             cust_id=cust_id,
             start_date=start_date,
             end_date='',
-            end_after=end_after,
+            recurrences=recurrences,
             use_end_date=False,
             account_id=self.id,
             notes=notes,
@@ -165,7 +165,7 @@ class Account(db.Model):
             end_date=end_date,
             cust_id=cust_id,
             n_weeks=n_weeks,
-            end_after=-1,
+            recurrences=-1,
             use_end_date=True,
             notes=notes,
             crew_id=crew_id,
@@ -183,7 +183,7 @@ class Account(db.Model):
         return wj
 
 
-    def add_weekly_job_end_after(self, start_date: str, end_after: int, n_weeks: int,
+    def add_weekly_job_end_after(self, start_date: str, recurrences: int, n_weeks: int,
                                     cust_id: str, notes: str, crew_id: str,
                                     sunday=False, monday=False, tuesday=False,
                                     wednesday=False, thursday=False, friday=False,
@@ -193,7 +193,7 @@ class Account(db.Model):
         wj = WeeklyJob(
             start_date=start_date,
             end_date='',
-            end_after=end_after,
+            recurrences=recurrences,
             cust_id=cust_id,
             use_end_date=True,
             n_weeks=n_weeks,
@@ -226,7 +226,7 @@ class Account(db.Model):
             start_date=start_date,
             end_date=end_date,
             use_end_date=True,
-            end_after=-1,
+            recurrences=-1,
             use_specific_day=use_specific_day,
             weekday=weekday,
             day=day,
@@ -239,7 +239,7 @@ class Account(db.Model):
         return mj
 
 
-    def add_monthly_job_end_after(self, notes: str, start_date: str, end_after: int,
+    def add_monthly_job_end_after(self, notes: str, start_date: str, recurrences: int,
                                     cust_id: str, ordinal: int, day: int, n_months: int,
                                     use_specific_day: bool, weekday: int, crew_id: str):
 
@@ -251,7 +251,7 @@ class Account(db.Model):
             start_date=start_date,
             end_date='',
             n_months=n_months,
-            end_after=end_after,
+            recurrences=recurrences,
             use_end_date=False,
             weekday=weekday,
             notes=notes,
@@ -274,7 +274,7 @@ class Account(db.Model):
             notes=notes,
             crew_id=crew_id,
             start_date=start_date,
-            end_after=-1,
+            recurrences=-1,
             end_date=end_date,
             use_end_date=True,
             ordinal=ordinal,
@@ -288,7 +288,7 @@ class Account(db.Model):
         return yj
 
 
-    def add_yearly_job_end_after(self, notes: str, start_date: str, end_after: int,
+    def add_yearly_job_end_after(self, notes: str, start_date: str, recurrences: int,
                                 cust_id: str, crew_id: str,
                                 ordinal: str, day: int, month: int,
                                 ):
@@ -299,7 +299,7 @@ class Account(db.Model):
             notes=notes,
             crew_id=crew_id,
             start_date=start_date,
-            end_after=end_after,
+            recurrences=recurrences,
             end_date='',
             use_end_date=False,
             ordinal=ordinal,
@@ -611,7 +611,7 @@ class DailyJob(db.Model):
     notes: str = db.Column(db.String)
     start_date: str = db.Column(db.String)
     end_date: str = db.Column(db.String)
-    end_after: int = db.Column(db.Integer)
+    recurrences: int = db.Column(db.Integer)
     use_end_date: bool = db.Column(db.Boolean)
     canceled: bool = db.Column(db.Boolean)
 
@@ -623,7 +623,7 @@ class DailyJob(db.Model):
     def __init__(self, cust_id: int,
                  notes: str,
                  start_date: str,
-                 end_after: int,
+                 recurrences: int,
                  end_date: str,
                  use_end_date: bool,
                  account_id: int,
@@ -635,7 +635,7 @@ class DailyJob(db.Model):
         self.cust_id = cust_id
         self.start_date = start_date
         self.end_date = end_date
-        self.end_after = end_after
+        self.recurrences = recurrences
         self.use_end_date = use_end_date
         self.canceled = False
         self.account_id = account_id
@@ -656,7 +656,7 @@ class DailyJob(db.Model):
             return self.end_date
 
         dt = datetime.strptime(self.start_date, '%Y-%m-%d')
-        end = dt + timedelta(days=self.end_after)
+        end = dt + timedelta(days=self.recurrences)
         return end.strftime('%Y-%m-%d')
 
 
@@ -688,7 +688,7 @@ class WeeklyJob(db.Model):
 
     end_date: str = db.Column(db.String)
     use_end_date: bool = db.Column(db.Boolean)
-    end_after: int = db.Column(db.Integer)
+    recurrences: int = db.Column(db.Integer)
     n_weeks: int = db.Column(db.Integer)
     canceled: bool = db.Column(db.Boolean)
 
@@ -712,7 +712,7 @@ class WeeklyJob(db.Model):
                  saturday: bool,
                  start_date: str,
                  end_date: str,
-                 end_after: int,
+                 recurrences: int,
                  use_end_date: bool,
                  crew_id: str,
                  ):
@@ -724,7 +724,7 @@ class WeeklyJob(db.Model):
         self.start_date = start_date
         self.end_date = end_date
         self.canceled = False
-        self.end_after = end_after
+        self.recurrences = recurrences
         self.use_end_date = use_end_date
         self.n_weeks = n_weeks
         self.notes = notes
@@ -761,7 +761,7 @@ class WeeklyJob(db.Model):
 
         assert self.use_end_after
 
-        if self.end_after == 1:
+        if self.recurrences == 1:
             # No actual recurrence
             return self.start_date
 
@@ -792,7 +792,7 @@ class WeeklyJob(db.Model):
 
         yield from dateutil.gen_weekly_dates_end_after(
             start_date=self.start_date,
-            end_after=self.end_after,
+            end_after=self.recurrences,
             n_weeks=self.n_weeks,
             sunday=self.sunday, monday=self.monday,
             tuesday=self.tuesday, wednesday=self.wednesday,
@@ -806,7 +806,7 @@ class WeeklyJob(db.Model):
         return f'{self.__class__.__qualname__}(id={self.id}, job_id={self.job_id!r}, ' \
                f'start_date={self.start_date!r}, ' \
                f'end_date={self.end_date!r}, ' \
-               f'end_after={self.end_after}, ' \
+               f'recurrences={self.recurrences}, ' \
                f'use_end_date={self.use_end_date}' \
                f')'
 
@@ -862,7 +862,7 @@ class MonthlyJob(db.Model):
 
     start_date: str = db.Column(db.String)
     end_date: str = db.Column(db.String)
-    end_after: int = db.Column(db.Integer)
+    recurrences: int = db.Column(db.Integer)
     canceled: bool = db.Column(db.Boolean)
     day: int = db.Column(db.Boolean)
     ordinal: int = db.Column(db.Integer)
@@ -882,7 +882,7 @@ class MonthlyJob(db.Model):
                  use_end_date: bool,
                  start_date: str,
                  end_date: str,
-                 end_after: int,
+                 recurrences: int,
                  ordinal: int,
                  use_specific_day: bool,
                  weekday: int,
@@ -897,7 +897,7 @@ class MonthlyJob(db.Model):
         self.start_date = start_date
         self.end_date = end_date
         self.use_end_date = use_end_date
-        self.end_after = end_after
+        self.recurrences = recurrences
         self.canceled = False
         self.n_months = n_months
         self.notes = notes
@@ -930,7 +930,7 @@ class MonthlyJob(db.Model):
 
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
         start = datetime(start_date.year, start_date.month, start_date.day)
-        n = self.end_after
+        n = self.recurrences
 
         if start_date.day <= self.day:
             # We can include the start month
@@ -986,7 +986,7 @@ class MonthlyJob(db.Model):
 
             first_occurrence = new_start
 
-        total_months = self.n_months * self.end_after
+        total_months = self.n_months * self.recurrences
         if first_occurrence < start_date:
             # We cannot include the current
             # month because the ordinal date is
@@ -1042,7 +1042,7 @@ class YearlyJob(db.Model):
 
     end_date: str = db.Column(db.String)
     use_end_date: bool = db.Column(db.Boolean)
-    end_after: int = db.Column(db.Integer)
+    recurrences: int = db.Column(db.Integer)
 
     use_specific_date: bool = db.Column(db.Boolean)
     month: int = db.Column(db.Integer)
@@ -1057,7 +1057,7 @@ class YearlyJob(db.Model):
 
     def __init__(self, account_id: int, cust_id: int, notes: str,
                  start_date: str, end_date: str, month: int, day: int,
-                 end_after: int,  use_end_date: bool, ordinal: int,
+                 recurrences: int,  use_end_date: bool, ordinal: int,
                  weekday: int, crew_id: str,
                  ):
 
@@ -1067,7 +1067,7 @@ class YearlyJob(db.Model):
         self.notes = notes
         self.start_date = start_date
         self.end_date = end_date
-        self.end_after = end_after
+        self.recurrences = recurrences
         self.use_end_date = use_end_date
         self.canceled = False
         self.ordinal = ordinal
