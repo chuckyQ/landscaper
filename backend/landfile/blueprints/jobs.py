@@ -242,7 +242,7 @@ def _create_yearly_job(acc: Account, isRecurring: bool, recurringType: str,
         else:
             yearly = acc.add_yearly_job_end_after(start_date=startDate, end_after=recurrences,
                                          cust_id=custID, crew_id=c.crew_id, notes=notes,
-                                         ordinal=ordinal, day=day, month=month,
+                                         ordinal=ordinal, day=day, month=month, end_after=endAfter,
                                          )
         yearly.save()
 
