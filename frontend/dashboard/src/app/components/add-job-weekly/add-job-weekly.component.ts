@@ -13,7 +13,7 @@ interface WeeklyJob {
   startDate: string // ISO date
   endDate: string // ISO date
   useEndDate: boolean
-  endAfter: number
+  recurrences: number
   custID: string
   crews: string[] // List of crew ids
   notes: string
@@ -103,7 +103,7 @@ export class AddJobWeeklyComponent {
       endDate: this.endDate,
       nWeeks: nWeeks,
       useEndDate: !this.useEndAfter,
-      endAfter: this.recurrences,
+      recurrences: this.recurrences,
       sunday: this.days[0].selected,
       monday: this.days[1].selected,
       tuesday: this.days[2].selected,
