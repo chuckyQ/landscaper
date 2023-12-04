@@ -66,21 +66,23 @@ def _create_daily_job(acc: Account, isRecurring: bool,
     assert isRecurring
     assert recurringType == 'daily'
 
-    if useEndDate:
-        daily = acc.add_daily_job_end_at(notes=notes, start_date=startDate,
-                                         end_date=endDate, cust_id=custID)
-    else:
-        daily = acc.add_daily_job_end_after(notes=notes, cust_id=custID,
-                                            start_date=startDate, end_after=endAfter)
-
-    crews = []
+    crews_ = []
     for crew_id in crews:
         c: Crew = Crew.query.filter(Crew.crew_id == crew_id, Crew.account_id == acc.id).first()
         if c is None:
             abort(500)
-        crews.append(c)
+        crews_.append(c)
 
-    daily.crews.extend(crews)
+    for c in crews_:
+
+        if useEndDate:
+            daily = acc.add_daily_job_end_date(notes=notes, start_date=startDate,
+                                            end_date=endDate, cust_id=custID, crew_id=c.crew_id)
+        else:
+            daily = acc.add_daily_job_end_after(notes=notes, cust_id=custID,
+                                                start_date=startDate, end_after=endAfter,
+                                                crew_id=c.crew_id)
+
     daily.save()
 
 
@@ -195,11 +197,54 @@ def _create_monthly_job(acc: Account, isRecurring: bool, recurringType: str,
                                                     day=day, weekday=weekday, crew_id=c.crew_id,
                                                     )
 
-    monthly.save()
+        monthly.save()
 
+@validate(
+    isRecurring=schema.Boolean(),
+    recurringType=schema.String(),
+    month=schema.Integer(),
+    day=schema.Integer(),
+    startDate=schema.Date(),
+    endDate=schema.String(),
+    endAfter=schema.Integer(),
+    recurrences=schema.Integer(),
+    useEndDate=schema.Boolean(),
+    custID=schema.String(),
+    crews=schema.Array(schema.String, minsize=1),
+    notes=schema.String(),
+    ordinal=schema.Integer(),
+    weekday=schema.Integer(),
+)
+def _create_yearly_job(acc: Account, isRecurring: bool, recurringType: str,
+                       month: int, day: int, startDate: str, endDate: str,
+                       endAfter: int, recurrences: int, useEndDate: bool,
+                       custID: str, crews: t.List[str], notes: str,
+                       ordinal: int, weekday: int,
+                       ):
 
-def _create_yearly_job(acc: Account, cust_id: str, notes: str):
-    ...
+    assert isRecurring
+    assert recurringType == 'yearly'
+
+    crews_: t.List[Crew] = []
+    for crew_id in crews:
+        c: Crew = Crew.query.filter(Crew.crew_id == crew_id, Crew.account_id == acc.id).first()
+        if c is None:
+            abort(500)
+        crews_.append(c)
+
+    for c in crews_:
+
+        if useEndDate:
+            yearly = acc.add_yearly_job_end_at(start_date=startDate, end_date=endDate,
+                                      cust_id=custID, notes=notes, crew_id=c.crew_id,
+                                      ordinal=ordinal, day=day, month=month, weekday=weekday,
+                                      )
+        else:
+            yearly = acc.add_yearly_job_end_after(start_date=startDate, end_after=recurrences,
+                                         cust_id=custID, crew_id=c.crew_id, notes=notes,
+                                         ordinal=ordinal, day=day, month=month,
+                                         )
+        yearly.save()
 
 
 def _create_single_job(acc: Account, cust_id: str, notes: str):
@@ -229,6 +274,7 @@ def create_job():
     if recurring_type == 'daily':
         _create_daily_job(acc=acc)
         return {}
+
     if recurring_type == 'weekly':
         _create_weekly_job(acc=acc)
         return {}
@@ -237,4 +283,8 @@ def create_job():
         _create_monthly_job(acc=acc)
         return {}
 
-    return {}
+    if recurring_type == 'yearly':
+        _create_yearly_job(acc=acc)
+        return {}
+
+    abort(500)
