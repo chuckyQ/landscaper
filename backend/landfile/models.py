@@ -297,6 +297,8 @@ class Account(db.Model):
 
         yj.save()
 
+        return yj
+
 
     def add_yearly_job_end_after(self, notes: str, start_date: str, end_after: int,
                                 cust_id: str, crew_id: str,
@@ -319,6 +321,8 @@ class Account(db.Model):
         )
 
         yj.save()
+
+        return yj
 
 
     def add_job(self, cust_id: str, date: str, crew_id: str, notes: str):
