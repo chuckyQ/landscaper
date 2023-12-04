@@ -9,7 +9,7 @@ interface DailyJob {
   startDate: string // ISO date
   endDate: string // ISO date
   useEndDate: boolean
-  endAfter: number
+  recurrences: number
   custID: string
   crews: string[] // List of crew ids
   notes: string
@@ -70,7 +70,7 @@ export class AddJobDailyComponent {
       recurringType: "daily",
       startDate: this.startDate.split("T")[0],
       endDate: this.endDate.split("T")[0],
-      endAfter: this.recurrences,
+      recurrences: this.recurrences,
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,
