@@ -102,7 +102,7 @@ export class AddJobMonthlyComponent {
       custID: this.custID,
       notes: this.notes,
       crews: this.crewIDs,
-      useEndDate: this.certainDay,
+      useEndDate: !this.useEndAfter,
       startDate: this.startDate,
       endDate: this.endDate,
       recurrences: this.recurrences,
