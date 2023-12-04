@@ -6,7 +6,12 @@ interface YearlyJob {
   isRecurring: boolean // always true
   recurringType: string // Always 'yearly'
   month: number // index of month (0-Jan, 1-Feb, etc...)
-  day: number // index of weekday (0-Sunday, 1-Monday, etc...)
+  day: number // Day of month (1-31)
+  endDate: string
+  endAfter: number
+  recurrences: number
+  useEndDate: boolean
+  useEndAfter: boolean
   custID: string
   crews: string[] // List of crew ids
   notes: string
@@ -120,7 +125,6 @@ export class AddJobYearlyComponent {
 
   createYearlyJob(month: number, day: number, ordinal: number, weekday: number) {
 
-
     let d: YearlyJob = {
       isRecurring: true,
       recurringType: "yearly",
@@ -131,6 +135,11 @@ export class AddJobYearlyComponent {
       custID: this.custID,
       weekday: weekday,
       ordinal: ordinal,
+      recurrences: this.recurrences,
+      endDate: this.endDate,
+      endAfter: this.recurrences,
+      useEndAfter: this.useEndAfter,
+      useEndDate: !this.useEndAfter,
     }
 
     this.service.postJob(d).subscribe(
