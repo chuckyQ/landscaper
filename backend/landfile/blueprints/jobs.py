@@ -246,8 +246,29 @@ def _create_yearly_job(acc: Account, isRecurring: bool, recurringType: str,
         yearly.save()
 
 
-def _create_single_job(acc: Account, cust_id: str, notes: str):
-    ...
+@validate(
+    isRecurring=schema.Boolean(),
+    recurringType=schema.String(),
+    date=schema.Date(),
+    custID=schema.String(),
+    crews=schema.Array(schema.String, minsize=1),
+    notes=schema.String(),
+)
+def _create_single_job(acc: Account, isRecurring: bool, recurringType: str,
+                       date: str, custID: str, crews: t.List[str], notes: str):
+
+    assert not isRecurring
+
+    crews_ = []
+    for crew_id in crews:
+        c: Crew = Crew.query.filter(Crew.crew_id == crew_id, Crew.account_id == acc.id).first()
+        if c is None:
+            abort(500)
+        crews_.append(c)
+
+    for c in crews_:
+        _ = acc.add_job(cust_id=custID, crew_id=crew_id, date=date, notes=notes)
+
 
 @jobs.route('', methods=['POST'])
 def create_job():
@@ -262,11 +283,7 @@ def create_job():
     js = request.json
 
     if not js.get('isRecurring', False):
-        _create_single_job(acc=acc,
-                           cust_id=js['custID'],
-                           name=js['name'],
-                           address=js['address'],
-                           )
+        _create_single_job(acc=acc)
         return {}
 
     recurring_type = js.get('recurringType')
