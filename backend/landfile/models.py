@@ -79,14 +79,6 @@ class Account(db.Model):
         return c
 
 
-    def add_job(self, cust_id: str, date_timestamp: float, notes: str):
-
-        j = Job(cust_id=cust_id, account_id=self.id,
-                notes=notes, work_date_timestamp=date_timestamp)
-        j.save()
-        return j
-
-
     def save(self):
 
         db.session.add(self)
@@ -314,13 +306,12 @@ class Account(db.Model):
 
     def add_job(self, cust_id: str, date: str, crew_id: str, notes: str):
 
-        j = Job(
-            cust_id=cust_id,
-            date=date,
-            account_id=self.id,
-            notes=notes,
-            crew_id=crew_id,
-        )
+        j = SingleJob(account_id=self.id,
+                      cust_id=cust_id,
+                      crew_id=crew_id,
+                      date=date,
+                      notes=notes,
+                      )
 
         j.save()
 
@@ -618,15 +609,15 @@ class SingleJob(db.Model):
     canceled: bool = db.Column(db.Boolean)
 
     def __init__(self, account_id: int, cust_id: str,
-                 crew_id: str, notes: str, start_date: str):
+                 crew_id: str, notes: str, date: str):
 
         self.job_id = f'sing_{gen_id()}'
         self.account_id = account_id
         self.cust_id = cust_id
         self.crew_id = crew_id
         self.notes = notes
-        self.start_date = start_date
-        self.end_date = start_date
+        self.start_date = date
+        self.end_date = date
         self.canceled = False
 
 
