@@ -5,9 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 interface SingleJob {
   isRecurring: boolean // always false
   recurringType: string // always an empty string ''
-  dateTimestamp: number // Unix timestamp
-  name: string // Customer name
-  address: string
+  date: string
   custID: string
   crews: string[] // List of crew ids
   notes: string
@@ -51,7 +49,24 @@ export class AddJobSingleComponent {
     this.startDate = ""
   }
 
-  createJob() {
+  createJob(date: string) {
+
+    let d: SingleJob = {
+      date: date,
+      crews: this.crewIDs,
+      isRecurring: false,
+      recurringType: "",
+      custID: this.custID,
+      notes: this.notes,
+    }
+
+    this.service.postJob(d).subscribe(
+      {
+        next: (resp: any) => {
+          alert("Job created!")
+        }
+      }
+    )
 
   }
 

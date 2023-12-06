@@ -4,14 +4,14 @@
         <input
             type="date"
             required
+            #date
             name="startDate"
-            [(ngModel)]="startDate"
         >
     </div>
     <div style="margin-top: 0.5rem; display: flex; justify-content: flex-end;">
         <input
             type="button"
-            (click)="createJob()"
+            (click)="createJob(date.value)"
             class="btn btn-primary"
             value="Create"
             [disabled]="!theForm.valid ||

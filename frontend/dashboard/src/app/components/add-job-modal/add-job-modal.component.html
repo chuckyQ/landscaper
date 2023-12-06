@@ -137,9 +137,8 @@
     </div>
     <div *ngIf="!isRecurring">
         <add-job-single
-            [custName]="name.value"
-            [address]="address.value"
             [notes]="notes.value"
+            [crewIDs]="getSelectedCrews()"
             [custID]="custID"
             [mainFormIsValid]="theForm.valid"
             [startDate]="startDate"
