@@ -621,6 +621,12 @@ class SingleJob(db.Model):
         self.canceled = False
 
 
+    def save(self):
+
+        db.session.add(self)
+        db.session.commit()
+
+
 class DailyJob(db.Model):
 
     __tablename__ = 'daily_jobs'
