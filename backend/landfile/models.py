@@ -599,6 +599,37 @@ class Job(db.Model):
         db.session.commit()
 
 
+class SingleJob(db.Model):
+
+    __tablename__ = 'single_jobs'
+
+    id: int = db.Column(db.Integer, primary_key=True)
+    account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    job_id: str = db.Column(db.String)
+    cust_id: str = db.Column(db.Integer)
+    crew_id: str = db.Column(db.Integer)
+    notes: str = db.Column(db.String)
+
+    # These are always equal, but we want to keep
+    # symmetry between all different types of jobs.
+    start_date: str = db.Column(db.String)
+    end_date: str = db.Column(db.String)
+
+    canceled: bool = db.Column(db.Boolean)
+
+    def __init__(self, account_id: int, cust_id: str,
+                 crew_id: str, notes: str, start_date: str):
+
+        self.job_id = f'sing_{gen_id()}'
+        self.account_id = account_id
+        self.cust_id = cust_id
+        self.crew_id = crew_id
+        self.notes = notes
+        self.start_date = start_date
+        self.end_date = start_date
+        self.canceled = False
+
+
 class DailyJob(db.Model):
 
     __tablename__ = 'daily_jobs'
