@@ -804,13 +804,16 @@ class WeeklyJob(db.Model):
             # No actual recurrence
             return self.start_date
 
-        i = None
-        for each in self.get_job_dates():
-            i = each
+        gen = dateutil.gen_weekly_dates(self.start_date, self.n_weeks,
+                                        sunday=self.sunday, monday=self.monday,
+                                        tuesday=self.tuesday, wednesday=self.wednesday,
+                                        thursday=self.thursday, friday=self.friday,
+                                        saturday=self.saturday)
+        dt = next(gen)
+        for each in gen:
+            dt = each
 
-        assert i is not None
-
-        return i
+        return dt
 
 
     def gen_dates(self):
