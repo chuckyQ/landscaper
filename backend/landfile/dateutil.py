@@ -203,7 +203,7 @@ def gen_daily_dates_end_after(start_date: str, end_after: int):
         yield start.strftime('%Y-%m-%d')
 
 
-def _gen_weekly_dates(start_date: str, n_weeks: int,
+def gen_weekly_dates(start_date: str, n_weeks: int,
                       sunday=False, monday=False,
                       tuesday=False, wednesday=False,
                       thursday=False, friday=False,
@@ -256,7 +256,7 @@ def gen_weekly_dates_end_date(start_date: str, end_date: str, n_weeks: int,
 
     _ = datetime.strptime(end_date, '%Y-%m-%d') # Just verification
 
-    for d in _gen_weekly_dates(start_date=start_date, n_weeks=n_weeks,
+    for d in gen_weekly_dates(start_date=start_date, n_weeks=n_weeks,
                                sunday=sunday, monday=monday,
                                tuesday=tuesday, wednesday=wednesday,
                                thursday=thursday, friday=friday,
@@ -280,7 +280,7 @@ def gen_weekly_dates_end_after(start_date: str, end_after: int, n_weeks: int,
 
     n = 0
 
-    for d in _gen_weekly_dates(start_date=start_date, n_weeks=n_weeks,
+    for d in gen_weekly_dates(start_date=start_date, n_weeks=n_weeks,
                                sunday=sunday, monday=monday,
                                tuesday=tuesday, wednesday=wednesday,
                                thursday=thursday, friday=friday,
