@@ -936,7 +936,7 @@ class MonthlyJob(db.Model):
         if self.use_end_date:
             return self.end_date
 
-        gen = dateutil.gen_ordinal_dates(self.start_date, self.end_date, self.ordinal, self.day)
+        gen = dateutil.gen_monthly_ordinal_dates(self.start_date, self.end_date, self.ordinal, self.day)
         dt = next(gen)
         for each in gen:
             dt = each
