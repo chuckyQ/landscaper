@@ -702,6 +702,17 @@ class DailyJob(db.Model):
         return not self.use_end_date
 
 
+    def gen_dates(self):
+
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
+        end_date = datetime.strptime(self.end_date, '%Y-%m-%d')
+
+        start = start_date
+        while start <= end_date:
+            yield start.strftime('%Y-%m-%d')
+            start += timedelta(days=1)
+
+
 class WeeklyJob(db.Model):
 
     __tablename__ = 'weekly_jobs'
@@ -802,7 +813,7 @@ class WeeklyJob(db.Model):
         return i
 
 
-    def get_job_dates(self):
+    def gen_dates(self):
 
         if self.use_end_date:
             yield from dateutil.gen_weekly_dates_end_date(
@@ -843,23 +854,6 @@ class WeeklyJob(db.Model):
         return not self.use_end_date
 
 
-# Month indices to max days
-MAX_MONTH_DAYS = {
-    1 : 31,
-    2 : 28, # Not counting leap years
-    3 : 31,
-    4 : 30,
-    5 : 31,
-    6 : 30,
-    7 : 31,
-    8 : 31,
-    9 : 30,
-    10 : 31,
-    11 : 30,
-    12 : 31,
-}
-
-
 def _roll_months(year: int, month: int):
 
     if month <= 12:
@@ -873,12 +867,6 @@ def _roll_months(year: int, month: int):
 
 
 class MonthlyJob(db.Model):
-
-    FIRST = 1
-    SECOND = 2
-    THIRD = 3
-    FOURTH = 4
-    LAST = 5
 
     __tablename__ = 'monthly_jobs'
 
@@ -948,109 +936,18 @@ class MonthlyJob(db.Model):
         if self.use_end_date:
             return self.end_date
 
-        if self.use_specific_day:
-            return self._get_date_from_specific_day()
+        gen = dateutil.gen_ordinal_dates(self.start_date, self.end_date, self.ordinal, self.day)
+        dt = next(gen)
+        for each in gen:
+            dt = each
 
-        return self._get_end_date_from_ordinal()
-
-
-    def _get_date_from_specific_day(self):
-
-        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
-        start = datetime(start_date.year, start_date.month, start_date.day)
-        n = self.recurrences
-
-        if start_date.day <= self.day:
-            # We can include the start month
-            # in this recurrence
-            n -= 1
-
-        month = start_date.month
-        year = start.year
-        date = datetime(year, month, self.day)
-        for _ in range(n):
-
-            if month > 12:
-                month = 1
-                year += 1
-            else:
-                month += 1
-
-            if year % 4 == 0 and month == 2:
-                # TODO: fix this for every 100 years
-                # and 400 years :-)
-                max_day = 29
-            else:
-                max_day = MAX_MONTH_DAYS[month]
-
-            date = datetime(year, month, min(self.day, max_day))
-
-        return date.strftime('%Y-%m-%d')
+        return dt
 
 
-    def _get_end_date_from_ordinal(self):
+    def gen_dates(self):
 
-        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
-        first_day = datetime(start_date.year, start_date.month, 1)
-
-        weekday = (first_day.weekday() + 1) % 7
-        while weekday != self.weekday:
-            # Find the first instance of the specified weekday
-            first_day += timedelta(days=1)
-            weekday = (first_day.weekday() + 1) % 7
-
-        if self.ordinal < self.LAST:
-            # Multiply by ordinal to have exact
-            # date of the specified ordinal
-            first_occurrence = first_day + timedelta(weeks=(self.ordinal - 1))
-
-        else:
-            year, month = _roll_months(year, start_date.month + 1)
-            new_start = datetime(year, month, 1)
-            weekday = (new_start.weekday() + 1) % 7
-            while weekday != self.weekday:
-                new_start -= timedelta(days=1)
-                weekday = (new_start.weekday() + 1) % 7
-
-            first_occurrence = new_start
-
-        total_months = self.n_months * self.recurrences
-        if first_occurrence < start_date:
-            # We cannot include the current
-            # month because the ordinal date is
-            # before the start date
-            total_months += 1
-
-        total = start_date.month + total_months
-
-        year, month = _roll_months(first_occurrence.year, total)
-        end_timeframe = datetime(year, month, 1)
-
-        weekday = (end_timeframe.weekday() + 1) % 7
-        while self.weekday != weekday:
-            end_timeframe += timedelta(days=1)
-            weekday = (end_timeframe.weekday() + 1) % 7
-
-        if self.ordinal < self.LAST:
-            # Multiply by ordinal to have exact
-            # date of the specified ordinal
-            last_occurrence = end_timeframe + timedelta(weeks=(self.ordinal - 1))
-            return last_occurrence.strftime('%Y-%m-%d')
-
-        year, month = _roll_months(end_timeframe.year, end_timeframe.month + 1)
-        end_date = datetime(year, month, 1)
-
-        weekday = (end_date.weekday() + 1) % 7
-        while weekday != self.weekday:
-            end_date -= timedelta(days=1)
-            weekday = (end_date.weekday() + 1) % 7
-
-        return end_date.strftime('%Y-%m-%d')
-
-
-    def get_jobs(self):
-
-        ...
+        yield from dateutil.gen_monthly_ordinal_dates(self.start_date, self.end_date,
+                                                      self.ordinal, self.weekday)
 
 
 class YearlyJob(db.Model):

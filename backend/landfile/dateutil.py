@@ -66,6 +66,22 @@ MONTHS = {
     DECEMBER,
 }
 
+# Month indices to max days
+MAX_MONTH_DAYS = {
+    1 : 31,
+    2 : 28, # Not counting leap years
+    3 : 31,
+    4 : 30,
+    5 : 31,
+    6 : 30,
+    7 : 31,
+    8 : 31,
+    9 : 30,
+    10 : 31,
+    11 : 30,
+    12 : 31,
+}
+
 
 def get_ordinal_date(year: int, month: int, ordinal: int, weekday: int):
     """Function for calculating dates based on ordinals
@@ -83,9 +99,9 @@ def get_ordinal_date(year: int, month: int, ordinal: int, weekday: int):
         raise ValueError(f'Invalid month {month!r}')
 
     if ordinal == LAST:
-        return _get_last_ordinal_date(year, month, weekday)
+        return get_last_ordinal_date(year, month, weekday)
 
-    start_date = date(year, month, 1)
+    start_date = datetime(year, month, 1)
     day = start_date.weekday()
     day = (day + 1) % 7
     n = 0
@@ -105,7 +121,7 @@ def get_ordinal_date(year: int, month: int, ordinal: int, weekday: int):
     return start_date + timedelta(days=7*ordinal)
 
 
-def _get_last_ordinal_date(year: int, month: int, weekday: int):
+def get_last_ordinal_date(year: int, month: int, weekday: int):
 
     month += 1
     if month > 12:
@@ -274,4 +290,84 @@ def gen_weekly_dates_end_after(start_date: str, end_after: int, n_weeks: int,
         n += 1
 
         if n == end_after:
+            break
+
+
+def gen_monthly_ordinal_dates(start_date: str, end_date: str, ordinal: int, day: int):
+
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+
+    if end < start:
+        raise ValueError('End date cannot be before start date.')
+
+    year = start.year
+    month = start.month
+    dt = get_ordinal_date(year, month, ordinal, day)
+    while True:
+
+        if dt < start:
+            month += 1
+            if month > 12:
+                month = 1
+                year += 1
+            dt = get_ordinal_date(year, month, day)
+            continue
+
+        yield dt.strftime('%Y-%m-%d')
+        dt = get_ordinal_date(year, month, day)
+
+        if dt > end:
+            break
+
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+
+
+def gen_monthly_day_dates(start_date: str, end_date: str, day: int):
+    """
+    Generate a series of dates for a specific day
+    >>> for each in gen_monthly_day_dates('2023-12-06', '2024-02-06', day=12): # doctest: +SKIP
+    ...     print(each) # Prints '2023-12-12', '2024-01-12', '2024-02-12'
+    """
+
+    def _max_day(yr: int, mn: int, d: int):
+
+        if mn == 2 and yr % 4 == 0:
+            # TODO: fix this for 100 years and 400 years :-P
+            return min(d, 29)
+
+        return min(d, MAX_MONTH_DAYS[mn])
+
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+
+    if end < start:
+        raise ValueError('End date cannot be before start date.')
+
+    year = start.year
+    month = start.month
+
+    dt = datetime(year, month, day)
+    while True:
+
+        if dt < start:
+            month += 1
+            if month > 12:
+                month = 1
+                year += 1
+            dt = date(year, month, _max_day(year, month, day))
+            continue
+
+        yield dt.strftime('%Y-%m-%d')
+
+        month += 1
+        if month > 12:
+            month = 1
+            year += 1
+        dt = datetime(year, month, _max_day(year, month, day))
+
+        if dt > end:
             break
