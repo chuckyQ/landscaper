@@ -128,7 +128,7 @@ def get_last_ordinal_date(year: int, month: int, weekday: int):
         years, month = divmod(month, 12)
         year += years
 
-    next_start = date(year, month, 1)
+    next_start = datetime(year, month, 1)
 
     day = (next_start.weekday() + 1) % 7
     delta = timedelta(days=1)
