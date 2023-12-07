@@ -194,8 +194,6 @@ def gen_daily_dates_end_after(start_date: str, end_after: int):
         raise ValueError("'end_after' must be >= 1.")
 
     start = datetime.strptime(start_date, '%Y-%m-%d')
-
-    n = 0
     delta = timedelta(days=1)
     for _ in range(end_after):
         yield start.strftime('%Y-%m-%d')
