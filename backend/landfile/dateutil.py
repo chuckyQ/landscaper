@@ -197,10 +197,9 @@ def gen_daily_dates_end_after(start_date: str, end_after: int):
 
     n = 0
     delta = timedelta(days=1)
-    while n < end_after:
-        start += delta
-        n += 1
+    for _ in range(end_after):
         yield start.strftime('%Y-%m-%d')
+        start += delta
 
 
 def gen_weekly_dates(start_date: str, n_weeks: int,
