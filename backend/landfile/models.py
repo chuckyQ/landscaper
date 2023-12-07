@@ -948,7 +948,6 @@ class YearlyJob(db.Model):
     cust_id: str = db.Column(db.String)
     notes: str = db.Column(db.String)
 
-    # Indices of months (0-Jan, 1-Feb, etc...)
     month: int = db.Column(db.Integer)
 
     start_date: str = db.Column(db.String)
