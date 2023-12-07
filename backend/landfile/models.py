@@ -854,18 +854,6 @@ class WeeklyJob(db.Model):
         return not self.use_end_date
 
 
-def _roll_months(year: int, month: int):
-
-    if month <= 12:
-        return year, month
-
-    while month > 12:
-        month -= 12
-        year += 1
-
-    return year, month
-
-
 class MonthlyJob(db.Model):
 
     __tablename__ = 'monthly_jobs'
