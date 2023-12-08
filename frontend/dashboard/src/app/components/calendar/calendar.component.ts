@@ -76,6 +76,11 @@ export class CalendarComponent implements OnInit {
     this.days = generateDates2(today.getFullYear(), today.getMonth())
     this.dragging = false
 
+    this._getJobs()
+
+  }
+
+  _getJobs() {
     this.service.getJobBetweenDates(this.days[0].toISOString().split("T")[0],
                                     this.days[this.days.length-1].toISOString().split("T")[0])
     .subscribe(
@@ -283,13 +288,15 @@ export class CalendarComponent implements OnInit {
     this.currentYear = d.getFullYear()
     this.displayedMonth = d
 
+    this._getJobs()
+
   }
 
   shiftForward() {
     this.currentMonth += 1
 
     if(this.currentMonth > 11) {
-      this.currentMonth = 1
+      this.currentMonth = 0
       this.currentYear += 1
     }
 
@@ -297,6 +304,9 @@ export class CalendarComponent implements OnInit {
     let d = this.days[15]
     this.currentYear = d.getFullYear()
     this.displayedMonth = d
+
+    this._getJobs()
+
   }
 
   goToDay(dt: Date) {
