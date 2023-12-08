@@ -406,16 +406,17 @@ def gen_yearly_dates_ordinal(start_date: str, end_date: str, month: int, ordinal
     end = datetime.strptime(end_date, '%Y-%m-%d')
 
     year = start.year
-    dt = get_ordinal_date(start.year, month, ordinal=ordinal, weekday=weekday)
+    dt = get_ordinal_date(year, month, ordinal=ordinal, weekday=weekday)
     while True:
 
         if dt < start:
             year += 1
-            dt = get_ordinal_date(start.year, month, ordinal=ordinal, weekday=weekday)
+            dt = get_ordinal_date(year, month, ordinal=ordinal, weekday=weekday)
             continue
 
         if dt > end:
             return
 
         yield dt.strftime('%Y-%m-%d')
-        dt = get_ordinal_date(start.year, month, ordinal=ordinal, weekday=weekday)
+        dt = get_ordinal_date(year, month, ordinal=ordinal, weekday=weekday)
+        year += 1
