@@ -318,10 +318,10 @@ class Account(db.Model):
         return j
 
 
-    def get_customer(self, cust_id: str):
+    def get_customer(self, cust_id: str) -> 'Customer':
 
-        return Customer.query.filter(cust_id=cust_id,
-                                     account_id=self.id).first()
+        return Customer.query.filter(Customer.cust_id==cust_id,
+                                     Customer.account_id==self.id).first()
 
 
     def get_job(self, job_id: str):
@@ -334,6 +334,12 @@ class Account(db.Model):
 
         return User.query.filter(user_id=user_id,
                                  account_id=self.id).first()
+
+
+    def get_crew(self, crew_id: str) -> 'Crew':
+
+        return Crew.query.filter(Crew.crew_id == crew_id,
+                                 Crew.account_id == self.id).first()
 
 
 class Customer(db.Model):
@@ -446,6 +452,8 @@ class Crew(db.Model):
     account_id: int = db.Column(db.Integer, db.ForeignKey('accounts.id'))
     description: str = db.Column(db.String)
     deleted: bool = db.Column(db.Boolean)
+    color: str = db.Column(db.String)
+    use_black_text: bool = db.Column(db.Boolean)
 
     account: Account = db.relationship('Account', backref='crews')
     members: t.List['User'] = db.relationship('User', secondary=crew_table, back_populates='crews')
@@ -455,13 +463,15 @@ class Crew(db.Model):
     monthly_jobs: t.List['MonthlyJob']
     yearly_jobs: t.List['MonthlyJob']
 
-    def __init__(self, name: str, description: str, account_id: int):
+    def __init__(self, name: str, description: str, account_id: int, color: str, use_black_text: bool):
 
         self.name = name
         self.account_id = account_id
         self.description = description
         self.crew_id = 'crew_' + gen_id()
         self.deleted = False
+        self.color = color
+        self.use_black_text = use_black_text
 
 
     def save(self):
@@ -632,6 +642,15 @@ class SingleJob(db.Model):
         return [self.start_date]
 
 
+    def json(self):
+
+        return {
+            'id' : self.job_id,
+            'custID' : self.cust_id,
+            'crewID' : self.crew_id,
+        }
+
+
 class DailyJob(db.Model):
 
     __tablename__ = 'daily_jobs'
@@ -717,6 +736,14 @@ class DailyJob(db.Model):
             yield start.strftime('%Y-%m-%d')
             start += timedelta(days=1)
 
+
+    def json(self):
+
+        return {
+            'id' : self.job_id,
+            'custID' : self.cust_id,
+            'crewID' : self.crew_id,
+        }
 
 class WeeklyJob(db.Model):
 
@@ -862,6 +889,15 @@ class WeeklyJob(db.Model):
         return not self.use_end_date
 
 
+    def json(self):
+
+        return {
+            'id' : self.job_id,
+            'custID' : self.cust_id,
+            'crewID' : self.crew_id,
+        }
+
+
 class MonthlyJob(db.Model):
 
     __tablename__ = 'monthly_jobs'
@@ -946,6 +982,15 @@ class MonthlyJob(db.Model):
                                                       self.ordinal, self.weekday)
 
 
+    def json(self):
+
+        return {
+            'id' : self.job_id,
+            'custID' : self.cust_id,
+            'crewID' : self.crew_id,
+        }
+
+
 class YearlyJob(db.Model):
 
     __tablename__ = 'yearly_jobs'
@@ -1015,7 +1060,17 @@ class YearlyJob(db.Model):
                                                      self.month, self.day)
             return
 
-        yield from dateutil.gen_yearly_dates_ordinal(self.start_date, self.end_date, self.ordinal, self.weekday)
+        yield from dateutil.gen_yearly_dates_ordinal(self.start_date, self.end_date,
+                                                     self.month + 1, self.ordinal, self.weekday)
+
+
+    def json(self):
+
+        return {
+            'id' : self.job_id,
+            'custID' : self.cust_id,
+            'crewID' : self.crew_id,
+        }
 
 
 class Comment(db.Model):
