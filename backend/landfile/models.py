@@ -72,9 +72,10 @@ class Account(db.Model):
         return u
 
 
-    def add_crew(self, name: str, description: str):
+    def add_crew(self, name: str, description: str, color: str, use_black_text: bool):
 
-        c = Crew(name=name, description=description, account_id=self.id)
+        c = Crew(name=name, description=description, account_id=self.id,
+                 color=color, use_black_text=use_black_text)
         c.save()
         return c
 
