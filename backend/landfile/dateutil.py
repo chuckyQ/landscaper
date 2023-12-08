@@ -368,3 +368,54 @@ def gen_monthly_day_dates(start_date: str, end_date: str, day: int):
 
         if dt > end:
             break
+
+
+def gen_yearly_dates_day(start_date: str, end_date: str, month: int, day: int):
+
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+
+    def _max_day(yr: int, mn: int, d: int):
+
+        if mn == 2 and yr % 4 == 0:
+            # TODO: fix this for 100 years and 400 years :-P
+            return min(d, 29)
+
+        return min(d, MAX_MONTH_DAYS[mn])
+
+    year = start.year
+    while True:
+
+        _day = _max_day(year, month, day)
+        dt = datetime(year, month, _day)
+
+        if dt < start:
+            year += 1
+            dt = datetime(year, month, _day)
+            continue
+
+        if dt > end:
+            break
+
+        yield dt.strftime('%Y-%m-%d')
+
+
+def gen_yearly_dates_ordinal(start_date: str, end_date: str, month: int, ordinal: int, weekday: int):
+
+    start = datetime.strptime(start_date, '%Y-%m-%d')
+    end = datetime.strptime(end_date, '%Y-%m-%d')
+
+    year = start.year
+    dt = get_ordinal_date(start.year, month, ordinal=ordinal, weekday=weekday)
+    while True:
+
+        if dt < start:
+            year += 1
+            dt = get_ordinal_date(start.year, month, ordinal=ordinal, weekday=weekday)
+            continue
+
+        if dt > end:
+            return
+
+        yield dt.strftime('%Y-%m-%d')
+        dt = get_ordinal_date(start.year, month, ordinal=ordinal, weekday=weekday)
