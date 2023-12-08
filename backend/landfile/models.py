@@ -627,6 +627,11 @@ class SingleJob(db.Model):
         db.session.commit()
 
 
+    def gen_dates(self):
+
+        return [self.start_date]
+
+
 class DailyJob(db.Model):
 
     __tablename__ = 'daily_jobs'
@@ -966,6 +971,7 @@ class YearlyJob(db.Model):
     canceled: bool = db.Column(db.Boolean)
 
     crew_id: str = db.Column(db.String, db.ForeignKey('crews.crew_id'))
+    weekday: int = db.Column(db.Integer)
 
     account: Account = db.relationship('Account', backref='yearly_jobs')
     crew: Crew = db.relationship('Crew', backref='yearly_jobs')
@@ -1000,6 +1006,16 @@ class YearlyJob(db.Model):
     @property
     def use_end_after(self):
         return not self.use_end_date
+
+
+    def gen_dates(self):
+
+        if self.use_specific_date:
+            yield from dateutil.gen_yearly_dates_day(self.start_date, self.end_date,
+                                                     self.month, self.day)
+            return
+
+        yield from dateutil.gen_yearly_dates_ordinal(self.start_date, self.end_date, self.ordinal, self.weekday)
 
 
 class Comment(db.Model):
