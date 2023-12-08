@@ -1,9 +1,22 @@
 import typing as t
+from itertools import chain
+import re
 from flask import Blueprint, request, abort, jsonify
+from collections import defaultdict
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from landfile.models import User, Job, Crew, Account
+from landfile.models import (User,
+                             Job,
+                             Crew,
+                             Account,
+                             SingleJob,
+                             DailyJob,
+                             WeeklyJob,
+                             MonthlyJob,
+                             YearlyJob,
+                            )
+
 from landfile.schema import schema
 from landfile.schema.api import validate
 
@@ -24,6 +37,31 @@ def get_user():
 
     return u
 
+def _get_jobs(account_id: int, start_date: str, end_date: str) -> t.Tuple[t.List[SingleJob], t.List[DailyJob],
+                                                           t.List[WeeklyJob], t.List[MonthlyJob],
+                                                           t.List[YearlyJob],
+                                                           ]:
+    def _get(cls):
+        return cls.query.filter(cls.account_id==account_id,
+                                # Remember, we are looking for overlap so
+                                # recurring jobs may start before. Anything
+                                # ending before the provided start date will
+                                # not show on the calendar.
+                                cls.canceled==False,
+                                cls.start_date<=end_date,
+                                cls.end_date>=start_date).all()
+
+    _single_jobs: t.List[SingleJob] = _get(SingleJob)
+    _daily_jobs: t.List[DailyJob] = _get(DailyJob)
+    _weekly_jobs: t.List[WeeklyJob] = _get(WeeklyJob)
+    _monthly_jobs: t.List[MonthlyJob] = _get(MonthlyJob)
+    _yearly_jobs: t.List[YearlyJob] = _get(YearlyJob)
+
+    return (_single_jobs, _daily_jobs,
+            _weekly_jobs, _monthly_jobs,
+            _yearly_jobs
+    )
+
 
 @jobs.route('', methods=['GET'])
 # @jwt_required
@@ -39,11 +77,25 @@ def get_jobs():
 
     start_date = js.get('startDate')
     end_date = js.get('endDate')
-    if start_date is not None and end_date is not None:
-        jobs = Job.query.filter(Job.date >= start_date, Job.date <= end_date).all()
-        return jsonify([j.json() for j in jobs])
+    start_date = request.args.get('startDate')
+    end_date = request.args.get('endDate')
 
-    return jsonify([j.json() for j in u.account.jobs])
+    if start_date is None or end_date is None:
+        abort(500)
+
+    for dt in [start_date, end_date]:
+        if not re.match('\d{4}-\d{2}-\d{2}', dt):
+            abort(500)
+
+
+    _jobs = defaultdict(list)
+
+    for job in chain(*_get_jobs(account_id=u.account.id, start_date=start_date, end_date=end_date)):
+        for date in job.gen_dates():
+            _jobs[date].append(job.job_id)
+
+    return _jobs
+
 
 @validate(
   isRecurring=schema.Boolean(),
