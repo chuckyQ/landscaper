@@ -29,9 +29,8 @@ function generateDates2(startYear: number, startMonth: number) {
 }
 
 interface Job {
-  jobID: string
-  address: string
-  workDateTimestamp: number
+  id: string
+  date: string
 }
 
 
@@ -82,30 +81,18 @@ export class CalendarComponent implements OnInit {
     .subscribe(
       {
         next: (resp: any) => {
-          this.jobs = resp as Job[]
-
-          for(let i = 0; i < this.jobs.length; i++) {
-            let job = this.jobs[i]
-            let dt = new Date(job.workDateTimestamp)
-            let date = dt.toISOString().split("T")[0]
-
-            if(!this.jobMap.has(date)) {
-              this.jobMap.set(date, [])
+          this.jobMap = new Map(Object.entries(resp))
+          this.jobMap.forEach((jobIDs: string[], date: string) => {
+            for(let i = 0; i < jobIDs.length; i++) {
+              let j = jobIDs[i]
+              let _job: Job = {
+                id: j,
+                date: date,
+              }
+              this.jobIDs.set(j, _job)
             }
-
-            let list = this.jobMap.get(date)
-
-            if(list === undefined) {
-              list = []
-            }
-
-            list.push(job.jobID)
-            this.jobMap.set(date, list)
-            this.jobIDs.set(job.jobID, job)
-
-          }
-
-        }
+          })
+        },
       }
     )
 
