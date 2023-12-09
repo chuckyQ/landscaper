@@ -20,6 +20,14 @@
                     </div>
             </div>
             <div class="field">
+                <label>Color</label>
+                <input
+                    #color
+                    required
+                    type="color"
+                    >
+            </div>
+            <div class="field">
                 <label>Description</label>
                 <textarea
                     #description="ngModel"
@@ -56,7 +64,7 @@
         </div>
         <div class="modal-create-btn">
             <input type="button"
-            (click)="addCrew(name.value, description.value)"
+            (click)="addCrew(name.value, description.value, color.value)"
             class="btn btn-primary"
             [disabled]="!theForm.valid"
             value="Create">
