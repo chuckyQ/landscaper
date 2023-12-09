@@ -5,6 +5,8 @@ from flask import Blueprint, request, abort, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from landfile.models import User, Crew
+from landfile.schema.api import validate
+from landfile.schema import schema
 
 crew = Blueprint('crew', 'crew', url_prefix='/crews/<string:id>')
 
@@ -22,8 +24,8 @@ def _get_crew(id: str) -> t.Tuple[User, Crew]:
 
     assert isinstance(c, Crew)
 
-    if u not in c.members:
-        abort(403)
+    # if u not in c.members:
+    #     abort(403)
 
     return u, c
 
@@ -39,14 +41,40 @@ def get_crew(id: str):
 
 @crew.route('', methods=['POST'])
 # @jwt_required
-def post_crew(id: str):
+# @jwt_required
+@validate(
+    name=schema.String(),
+    description=schema.String(),
+    members=schema.Array(schema.String, minsize=0),
+    color=schema.String(),
+    useBlackText=schema.Boolean(),
+    crewID=schema.String(),
+)
+def post_crew(id: str, crewID: str, name: str, description: str, members: list, color: str, useBlackText: bool):
 
-    user, crew_ = _get_crew(id)
+    _, crew_ = _get_crew(id)
 
-    for key, val in request.json.items():
-        setattr(crew_, key, val)
+    crew_.name = name
+    crew_.description = description
+    crew_.color = color
+    crew_.use_black_text = useBlackText
+
+    acc = user.account
+
+    _members = []
+    for member in members:
+        user = acc.get_user(member)
+        if user is None:
+            abort(500)
+
+        _members.append(user)
+
+    crew_.members.clear()
+    crew_.members.extend(_members)
+
     crew_.save()
     return {}
+
 
 @crew.route('', methods=['DELETE'])
 def delete_crew(id: str):
