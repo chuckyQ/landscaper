@@ -16,7 +16,21 @@ interface Crew {
   name: string
   members: Member[]
   description: string
+  color: string
+  useBlackText: boolean
 }
+
+/**
+ *Good info about black/white text color:
+* https://graphicdesign.stackexchange.com/questions/62368/automatically-select-a-foreground-color-based-on-a-background-color
+*/
+function useBlack(r: number, g: number, b: number) {
+  let gamma = 2.2
+  return (0.2126 * Math.pow(r / 255, gamma) +
+          0.7152 * Math.pow(g / 255, gamma) +
+          0.0722 * Math.pow(b / 255, gamma) ) > Math.pow(0.5, gamma)
+}
+
 
 @Component({
   selector: 'app-crew',
@@ -35,6 +49,8 @@ export class CrewComponent implements OnInit {
       description: "",
       members: [],
       crewID: "",
+      color: "#000000",
+      useBlackText: false,
     }
     this.service.getCrew(this.crewID).subscribe(
       {
@@ -55,9 +71,15 @@ export class CrewComponent implements OnInit {
   }
 
   save() {
-    let d = {
+    let d: Crew = {
       name: this.crew.name,
       description: this.crew.description,
+      members: [], // Members are edited separately
+      color: this.crew.color,
+      useBlackText: this.useBlackText(this.crew.color),
+      crewID: this.crew.crewID,
+
+
     }
     this.service.editCrew(this.crewID, d).subscribe(
       {
@@ -85,6 +107,14 @@ export class CrewComponent implements OnInit {
       }
     )
 
+  }
+
+  useBlackText(rgb: string) {
+    let rgbStr = rgb.substring(1) // Trim off the #
+    let r = Number(`0x${rgbStr.substring(0, 2)}`)
+    let g = Number(`0x${rgbStr.substring(2, 4)}`)
+    let b = Number(`0x${rgbStr.substring(4, 6)}`)
+    return useBlack(r, g, b)
   }
 
 }
