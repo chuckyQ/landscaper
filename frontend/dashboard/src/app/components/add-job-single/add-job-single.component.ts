@@ -64,6 +64,8 @@ export class AddJobSingleComponent {
       {
         next: (resp: any) => {
           alert("Job created!")
+          this.activeModal.close()
+          window.location.reload()
         }
       }
     )
