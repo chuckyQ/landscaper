@@ -30,7 +30,39 @@ function generateDates2(startYear: number, startMonth: number) {
 
 interface Job {
   id: string
-  date: string
+  custID: string
+  crewID: string
+}
+
+interface Crew {
+  crewID: string
+  name: string
+  color: string
+  useBlackText: boolean
+}
+
+interface Customer {
+  custID: string
+  name: string
+  address: string
+  phoneNumber: string
+}
+
+interface JobInfo {
+  job: Job
+  crew: Crew
+  customer: Customer
+}
+
+
+function buildJobBlob(job: Job, customer: Customer, crew: Crew) {
+  let j: JobInfo = {
+    job: job,
+    customer: customer,
+    crew: crew,
+  }
+
+  return j
 }
 
 
@@ -45,6 +77,9 @@ export class CalendarComponent implements OnInit {
 
   jobMap: Map<string, string[]> // Maps dates to a list of job ids
   jobIDs: Map<string, Job>
+  crewInfo: Map<string, Crew>
+  custInfo: Map<string, Customer>
+  jobBlob: Map<string, JobInfo>
 
   clickedJobID: string | null
   clickedDate: string | null
@@ -52,7 +87,6 @@ export class CalendarComponent implements OnInit {
   destinationDate: string | null
   days: Date[]
   displayedMonth: Date
-  jobs: Job[]
 
   currentMonth: number
   currentYear: number
@@ -62,7 +96,9 @@ export class CalendarComponent implements OnInit {
 
     this.jobMap = new Map<string, string[]>;
     this.jobIDs = new Map<string, Job>;
-    this.jobs = []
+    this.crewInfo = new Map<string, Crew>
+    this.custInfo = new Map<string, Customer>
+    this.jobBlob = new Map<string, JobInfo>
 
     this.clickedJobID = null
     this.clickedDate = null
@@ -86,21 +122,44 @@ export class CalendarComponent implements OnInit {
     .subscribe(
       {
         next: (resp: any) => {
-          this.jobMap = new Map(Object.entries(resp))
-          this.jobMap.forEach((jobIDs: string[], date: string) => {
+          this.jobMap = new Map(Object.entries(resp.jobs))
+          this.jobIDs = new Map(Object.entries(resp.jobIDs))
+          this.crewInfo = new Map(Object.entries(resp.crewInfo))
+          this.custInfo = new Map(Object.entries(resp.custInfo))
+
+          this.jobMap.forEach((jobIDs: string[], key: string) => {
             for(let i = 0; i < jobIDs.length; i++) {
-              let j = jobIDs[i]
-              let _job: Job = {
-                id: j,
-                date: date,
+              let jobID = jobIDs[i]
+
+              let job = this.jobIDs.get(jobID)
+              if(job === undefined) {
+                continue
               }
-              this.jobIDs.set(j, _job)
+
+              let custID = job.custID
+              let cust = this.custInfo.get(custID)
+
+              if(cust === undefined) {
+                continue
+              }
+
+              let crewID = job.crewID
+              let crew = this.crewInfo.get(crewID)
+              if(crew === undefined) {
+                continue
+              }
+
+              let jobInfo: JobInfo = {
+                job: job,
+                customer: cust,
+                crew: crew
+              }
+
+              this.jobBlob.set(jobID, jobInfo)
             }
           })
         },
-      }
-    )
-
+      })
   }
 
 

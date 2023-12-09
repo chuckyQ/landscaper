@@ -61,9 +61,10 @@
                     draggable="true"
                     [attr.date]="day.toISOString().split('T')[0]"
                     [attr.jobID]="job"
-                    class="example-box"
+                    [style]="{'background-color' : jobBlob.get(job)!.crew.color}"
+                    [ngStyle]="{'color': jobBlob.get(job)!.crew.useBlackText ? 'black' : 'white'}"
                     >
-                    {{ jobIDs.get(job)!.id  }}
+                    {{ jobBlob.get(job)!.customer.address  }}
                 </div>
         </ng-container>
         </div>
