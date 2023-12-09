@@ -331,7 +331,7 @@ class Account(db.Model):
                                 account_id=self.id).first()
 
 
-    def get_user(self, email: str):
+    def get_user(self, email: str) -> 'User':
 
         return User.query.filter(email=email,
                                  account_id=self.id).first()
@@ -499,6 +499,8 @@ class Crew(db.Model):
             'description' : self.description,
             'members' : members,
             'jobs' : jobs,
+            'color' : self.color,
+            'useBlackText' : self.use_black_text,
         }
 
 
