@@ -1,17 +1,17 @@
-from flask import Blueprint, request, abort
+from flask import Blueprint, abort
 
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 
 from landfile.models import User
+from landfile.schema import schema
+from landfile.schema.api import validate
 
 crews = Blueprint('crews', 'crews', url_prefix='/crews')
 
 
 def get_user():
 
-    email = get_jwt_identity()
-
-    u: User = User.query.filter_by(email=email).first()
+    u: User = User.query.all()[0]
 
     if u is None:
         abort(500)
@@ -22,23 +22,37 @@ def get_user():
 
 
 @crews.route('', methods=['GET'])
-@jwt_required
+# @jwt_required
 def get_crews():
 
     u = get_user()
-    return [u.crews + u.crew_leads]
+    return [c.json() for c in u.account.crews]
 
 
 @crews.route('', methods=['POST'])
-@jwt_required
-def create_crew():
+@validate(
+  name=schema.String(),
+  description=schema.String(),
+  color=schema.String(),
+  useBlackText=schema.Boolean(),
+  members=schema.Array(schema.String, minsize=0)
+)
+def create_crew(name: str, description: str, color: str, useBlackText: str, members: list):
 
     u = get_user()
+    account = u.account
+    crew = account.add_crew(name=name, description=description,
+                            color=color, use_black_text=useBlackText)
 
-    js = request.json
+    users_ = []
+    for email in members:
 
-    crew = u.account.add_crew(name=js['name'])
-    crew.members.append(u)
-    crew.leads.append(u)
+        u = account.get_user(email)
+        if u is None:
+            abort(500)
+        users_.append(u)
 
+    crew.members.clear()
+    crew.members.extend(users_)
     crew.save()
+    return {}
