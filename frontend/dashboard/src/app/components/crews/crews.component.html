@@ -10,7 +10,10 @@
         <th>Description</th>
     </thead>
     <tr [routerLink]="['/crews/' + crew.crewID]" class="crew" *ngFor="let crew of crews">
-        <td>{{ crew.name }}</td>
+        <td [style.background-color]="crew.color"
+            [ngStyle]="{'color': crew.useBlackText ? 'black' : 'white' }"
+        >{{ crew.name }}
+        </td>
         <td>{{ crew.description }}</td>
     </tr>
 </table>
