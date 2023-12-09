@@ -15,6 +15,8 @@ interface Crew {
   name: string
   members: Member[]
   description: string
+  color: string
+  useBlackText: boolean
 }
 
 @Component({
