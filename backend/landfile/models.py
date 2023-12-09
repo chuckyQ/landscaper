@@ -331,9 +331,9 @@ class Account(db.Model):
                                 account_id=self.id).first()
 
 
-    def get_user(self, user_id: str):
+    def get_user(self, email: str):
 
-        return User.query.filter(user_id=user_id,
+        return User.query.filter(email=email,
                                  account_id=self.id).first()
 
 
