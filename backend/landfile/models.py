@@ -184,6 +184,7 @@ class Account(db.Model):
                                     ):
 
         wj = WeeklyJob(
+            account_id=self.id,
             start_date=start_date,
             end_date='',
             recurrences=recurrences,
