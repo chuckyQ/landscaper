@@ -308,14 +308,14 @@ def gen_monthly_ordinal_dates(start_date: str, end_date: str, ordinal: int, day:
             if month > 12:
                 month = 1
                 year += 1
-            dt = get_ordinal_date(year, month, day)
+            dt = get_ordinal_date(year, month, ordinal, day)
             continue
 
+        dt = get_ordinal_date(year, month, ordinal, day)
         yield dt.strftime('%Y-%m-%d')
-        dt = get_ordinal_date(year, month, day)
 
         if dt > end:
-            break
+            return
 
         month += 1
         if month > 12:

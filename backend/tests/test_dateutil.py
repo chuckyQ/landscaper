@@ -32,3 +32,32 @@ def test_weekly_date():
         _dates.append(each)
 
     assert expected == _dates
+
+
+def test_monthly_date_day():
+
+    expected = [
+        '2023-12-11',
+        '2024-01-11',
+    ]
+
+    got = []
+    for each in dateutil.gen_monthly_day_dates(start_date='2023-12-11', end_date='2024-01-12', day=11):
+        got.append(each)
+
+    assert expected == got
+
+
+def test_monthly_date_ordinal():
+
+    expected = [
+        '2023-12-17',
+        '2024-01-21',
+    ]
+
+    got = []
+    for each in dateutil.gen_monthly_ordinal_dates(start_date='2023-12-11', end_date='2024-01-12',
+                                                   ordinal=dateutil.THIRD, day=dateutil.SUNDAY):
+        got.append(each)
+
+    assert expected == got
