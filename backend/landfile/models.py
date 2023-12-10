@@ -845,8 +845,10 @@ class WeeklyJob(db.Model):
                                         tuesday=self.tuesday, wednesday=self.wednesday,
                                         thursday=self.thursday, friday=self.friday,
                                         saturday=self.saturday)
-        dt = next(gen)
-        for each in gen:
+
+        for i, each in enumerate(gen, start=1):
+            if i > self.recurrences:
+                break
             dt = each
 
         return dt
